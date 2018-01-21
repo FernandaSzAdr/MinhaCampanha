@@ -7,8 +7,8 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 
+import br.ufrpe.minhacampanha.domain.ProdutoREF;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
-import br.ufrpe.minhacapanha.domain.ProdutoREF;
 
 public class ProdutoREFDAO {
 

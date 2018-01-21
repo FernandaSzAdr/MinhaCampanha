@@ -8,8 +8,8 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 
+import br.ufrpe.minhacampanha.domain.Atividade;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
-import br.ufrpe.minhacapanha.domain.Atividade;
 
 public class AtividadeDAO {
 
