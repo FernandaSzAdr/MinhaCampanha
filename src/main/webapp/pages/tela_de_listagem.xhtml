@@ -10,12 +10,20 @@
 </h:head>
 <h:body>
 	<h:form>
-		<p:panel header="Estados - Listagem">
+		<p:panel header="Produto - Listagem">
 			<p:dataTable emptyMessage="Nenhum registro encontrado."
 				paginator="true">
 				<f:facet name="header">
-					<p:commandButton value="Novo" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
 				</f:facet>
+
+				<!-- <f:facet name="footer">
+					<p:commandButton value="Novo" />
+				</f:facet> -->
+
+				<!-- sortBy ordenar e filterBy pesquisa -->
+				<!-- <p:column headerText="Nome" sortBy="" filterBy="">
+				</p:column> -->
 
 				<p:column headerText="Nome">
 				</p:column>
@@ -28,5 +36,24 @@
 			</p:dataTable>
 		</p:panel>
 	</h:form>
+
+
+	<p:dialog header="Produto - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="30" />
+
+				<p:outputLabel value="Sigla:" />
+				<p:inputText maxlength="2" size="10" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>

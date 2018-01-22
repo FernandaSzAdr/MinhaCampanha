@@ -32,11 +32,11 @@
 	</build>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+		<!-- PrimeFaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.1</version>
+			<version>5.2</version>
 		</dependency>
 
 		<!-- MySQL Connector -->
@@ -74,11 +74,12 @@
 			<version>2.4</version>
 		</dependency>
 		
-		<!-- OmniFaces -->
+		<!-- Omnifaces -->
 		<dependency>
-			<groupId>org.omnifaces</groupId>
-			<artifactId>omnifaces</artifactId>
-			<version>1.11</version>
+		    <groupId>org.omnifaces</groupId>
+		    <artifactId>omnifaces</artifactId>
+		    <version>1.12.1</version>
 		</dependency>
+		
 	</dependencies>	
 </project>

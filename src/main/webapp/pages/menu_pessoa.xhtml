@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Menu</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:panel header="Doações">
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				paginator="true" widgetVar="doacoesTable">
+				
+				<f:facet name="header">
+					<p:commandButton value="Efetuar Nova Doação" oncomplete="" />
+				</f:facet>
+				
+				<p:column headerText="Campanha" filterBy="#{pf.camanha}" filterMatchMode="exact">
+					<f:facet name="filter">
+		                <p:selectOneMenu onchange="PF('doacoesTable').filter()" >
+		                    <f:selectItem itemLabel="Selecione Uma Campanha" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItems value="#{pf_campanha.brands}" />
+		                </p:selectOneMenu>
+		            </f:facet>
+		            <h:outputText value="#{pf.brand}" />
+				</p:column>
+
+				<p:column headerText="Instituicao Receptora" filterBy="" filterMatchMode="exact">
+				</p:column>
+
+				<p:column headerText="Data da Doação" filterBy="" filterMatchMode="contains">
+				</p:column>
+				
+				<p:column headerText="Produtos Doados" filterBy="#{pf.produto_doado}" filterMatchMode="in">
+					<f:facet name="filter">
+		                <p:selectCheckboxMenu label="Selecione os Produtos Doados de Sua Escolha" onchange="PF('doacoesTable').filter()" panelStyle="width:125px" scrollHeight="150">
+		                    <f:selectItems value="" />
+		                </p:selectCheckboxMenu>
+		            </f:facet>
+		            <h:outputText value="#{pf.produto_doado}" />
+				</p:column>
+				
+				<p:column headerText="Valor Doado" filterBy="#{pf.valor_doado}" filterMatchMode="#{dtFilterView.filterByPrice}">
+					<h:outputText value="#{pf.valor_doado}">
+		                <f:convertNumber currencySymbol="R$" type="currency"/>
+		            </h:outputText>
+				</p:column>
+				
+				<p:column headerText="Status da Doação" filterBy="#{pf.doacoes}" filterMatchMode="equals">
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('doacoesTable').filter()">
+		                    <f:converter converterId="javax.faces.Boolean" />
+		                    <f:selectItem itemLabel="Todas" itemValue="" />
+		                    <f:selectItem itemLabel="Em Analise" itemValue="true"/>
+		                    <f:selectItem itemLabel="Confirmada" itemValue="false" />
+		                </p:selectOneButton>
+					</f:facet>
+					<h:outputText value=""/>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
