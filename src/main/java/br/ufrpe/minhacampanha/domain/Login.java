@@ -2,9 +2,11 @@ package br.ufrpe.minhacampanha.domain;
 
 public class Login extends GenericDomain {
 	private String login;
-	private int senha;
+	private String senha;
 	
-	public Login(String login, int senha) {
+	public Login(){}
+	
+	public Login(String login, String senha) {
 		this.login = login;
 		this.senha = senha;
 	}
@@ -13,11 +15,11 @@ public class Login extends GenericDomain {
 		return login;
 	}
 
-	public int getSenha() {
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(int senha) {
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 	

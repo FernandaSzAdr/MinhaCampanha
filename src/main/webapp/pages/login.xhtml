@@ -12,19 +12,21 @@
 <h:body>
 	<p:growl id="mensagem" />
 	
-	<h:form>
-		<h:panelGrid columns="2">
+	<h:form id="formLogin">
+		<h:panelGrid id="panelLogin" columns="2">
 			<p:outputLabel value="Usuario: *" />
-			<p:inputText label="Usuario" maxlength="50" size="10" required="true"/>
+			<p:inputText label="Usuario" value="#{loginBean.login.login}" maxlength="30" size="10" required="true"/>
 
 			<p:outputLabel value="Senha: *" />
-			<p:password label="Senha" maxlength="20" size="10" required="true"/>
-		</h:panelGrid>
+			<p:password label="Senha" value="#{loginBean.login.senha}" maxlength="16" size="10" required="true"/>
+		</h:panelGrid>	
+	</h:form>
 		
+	<h:form>
 		<h:panelGrid columns="4">
 			<!-- BUTÃO DE SALVAR -->
 			<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}"
-				update=":mensagem"/>
+				update="formLogin:panelLogin" />
 	
 			<!-- BUTÃO DE CRIAÇÃO DE CONTA -->
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar conta" actionListener="#{loginBean.criarConta}"
