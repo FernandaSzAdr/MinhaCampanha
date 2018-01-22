@@ -1,45 +1,38 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class Atividade extends GenericDomain {
 	private String descricao, tipo;
-	private LocalDateTime duracao;
+	private Time duracaoMedia;
+	private long codigoCampanha;
 	public String getDescricao() {
 		return descricao;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public LocalDateTime getDuracao() {
-		return duracao;
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	public String getTipo() {
+		return tipo;
+	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public void setDuracao(LocalDateTime duracao) {
-		this.duracao = duracao;
+	public Time getDuracaoMedia() {
+		return duracaoMedia;
+	}
+	public void setDuracaoMedia(Time duracao) {
+		this.duracaoMedia = duracao;
 	}
 	public long getCodigoCampanha() {
-		// TODO Auto-generated method stub
-		return 0;
+		return codigoCampanha;
 	}
-	public Date getDuracaoMedia() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setCodigoCampanha(long codigoCampanha) {
+		this.codigoCampanha = codigoCampanha;
 	}
-	public void setCodigoCampanha(long long1) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void setDuracaoMedia(Date date) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 }

@@ -22,7 +22,7 @@ public class AtividadeDAO {
 			stmt.setLong(2, atividade.getCodigoCampanha());
 			stmt.setString(3, atividade.getTipo());
 			stmt.setString(4, atividade.getDescricao());
-			stmt.setDate(5, atividade.getDuracaoMedia());
+			stmt.setTime(5, atividade.getDuracaoMedia());
 			
 			stmt.executeUpdate();
 			
@@ -56,7 +56,7 @@ public class AtividadeDAO {
 				atividade.setCodigoCampanha(resultSet.getLong("id_campanha"));
 				atividade.setDescricao(resultSet.getString("descricao"));
 				atividade.setTipo(resultSet.getString("tipo"));
-				atividade.setDuracaoMedia(resultSet.getDate("duracao_media"));
+				atividade.setDuracaoMedia(resultSet.getTime("duracao_media"));
 				
 				
 				atividades.add(atividade);
