@@ -35,19 +35,4 @@ public class LoginBean {
 		
 	}
 	
-	public void criarContaInstituicao(){
-		/**
-		 * TODO quando clicar nesse botão vai levar pra tela de criarLogin:
-		 */
-		novo();
-		
-	}
-	
-	public void criarContaPessoa(){
-		/**
-		 * TODO quando clicar nesse botão vai levar pra tela de criarLogin:
-		 */
-		novo();
-		
-	}
 }
