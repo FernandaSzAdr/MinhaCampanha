@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloLogin.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formCriacao">
+			<h:panelGrid id="paneLogin" columns="2" cellpadding="5">
+				<p:outputLabel value="CPF: *"/>
+				<p:inputMask id="cpf" value="#{usuarioBean.pessoa.cpf}" maxlength="12" size="20" required="true" mask="999.999.999-99"/>
+				
+				<p:outputLabel value="Primeiro Nome: *"/>
+				<p:inputText label="Nome" value="#{usuarioBean.pessoa.primeiro_nome}" maxlength="50" size="40" required="true"/>
+					
+				<p:outputLabel value="Nome do meio: *"/>
+				<p:inputText label="Nome" value="#{usuarioBean.pessoa.medio_nome}" maxlength="1" size="40" required="true"/>
+					
+				<p:outputLabel value="Ultimo Nome: *"/>
+				<p:inputText label="Nome" value="#{usuarioBean.pessoa.ultimo_nome}" maxlength="50" size="40" required="true"/>
+				
+				<p:outputLabel value="Data de Nascimento: *"/>
+				<p:inputMask id="Nascimento" value="{usuarioBean.pessoa.nascimento} " size="20" mask="99/99/9999" required="true"/>
+				
+				<p:outputLabel value="Telefone Celular: "/>
+				<p:inputMask maxlength="11" mask="(99)99999-9999" size="20"/>
+				
+				<p:outputLabel value="Telefone Fixo: "/>
+				<p:inputMask maxlength="10" mask="(99)9999-9999" size="20"/>
+			</h:panelGrid>
+			
+			<p:spacer height="5"/>
+			<p:separator/>
+			
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Usuario: *"/>
+				<p:inputText label="Usuario" value="#{usuarioBean.login.login}" maxlength="30" size="10" required="true"/>
+				
+				<p:outputLabel value="Senha: *"/>
+				<p:password id="senha1" label="Senha" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true" match="senha2"/>
+				
+				<h:outputLabel value="Repita a senha: *"/>
+				<p:password id="senha2" label="Senha2" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true"/>
+				
+				<p:outputLabel value="Email: *"/>
+				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true" match="email2"/>	
+				
+				<h:outputLabel value="Repita o email: *"/>
+				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true"/>
+			</h:panelGrid>
+			
+			<p:spacer height="5"/>
+			<p:separator/>
+			
+			<h:panelGrid columns="1">
+				<p:commandButton icon="ui-icon-plus" value="Vincular uma instituição" oncomplete="PF('dialogo').show();"/>
+				<p:commandButton icon="ui-icon-plus" value="Criar" actionListener="#{usuarioBean.criarUsuario}"/>
+			</h:panelGrid>
+			
+		</h:form>
+		
+		<p:dialog header="Vincular uma instituição" widgetVar="dialogo" draggable="false"
+		resizable="false" modal="true" closable="false">
+			<h:form>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="CNPJ: *" />
+					<p:inputMask maxlength="18" size="20" mask="99.999.999/9999-99"/>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:commandButton icon="ui-icon-check" value="Salvar" oncomplete="" actionListener="#{usuarioBean.salvarInstituicao}" update="mensagem"/>
+					<p:commandButton icon="ui-icon-close" value="Sair" oncomplete="PF('dialogo').hide();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+	</ui:define>
+	
+</ui:composition>

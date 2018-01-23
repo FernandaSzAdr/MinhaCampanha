@@ -11,6 +11,8 @@ public class PessoaFisica extends GenericDomain{
 	private boolean anonimato = false;
 	private Long endereco;
 	
+	public PessoaFisica(){}
+	
 	public PessoaFisica(String primeiro_nome, String medio_nome, String ultimo_nome, String cpf, LocalDate nascimento,
 			String telefone1, String telefone2, Long endereco) {
 		this.primeiro_nome = primeiro_nome;

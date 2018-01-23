@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Login</title>
-</h:head>
-
-<h:body>
-	<p:growl id="mensagem" />
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloLogin.xhtml">
 	
+	<ui:define name="conteudo">
 	<h:form id="formLogin">
 		<h:panelGrid id="panelLogin" columns="2">
 			<p:outputLabel value="Usuario: *" />
@@ -23,16 +19,19 @@
 	</h:form>
 		
 	<h:form>
-		<h:panelGrid columns="4">
-			<!-- BUTÃO DE SALVAR -->
-			<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}"
-				update="formLogin:panelLogin" />
-	
+		<!-- BUTÃO DE SALVAR -->
+		<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}"
+			update="formLogin:panelLogin" />
+		<h:panelGrid columns="3">		
 			<!-- BUTÃO DE CRIAÇÃO DE CONTA -->
-			<p:commandButton icon="ui-icon-circle-plus" value="Criar conta" actionListener="#{loginBean.criarConta}"
-				update=":mensagem"/>	
+			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de instituição" 
+				actionListener="#{loginBean.criarContaInstituicao}"/>	
+				
+			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de pessoa" 
+				actionListener="#{loginBean.criarContaPessoa}"/>	
 		</h:panelGrid>
 	
 	</h:form>
-</h:body>
-</html>
+	
+	</ui:define>
+</ui:composition>

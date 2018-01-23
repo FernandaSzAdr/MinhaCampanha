@@ -3,32 +3,29 @@ package br.ufrpe.minhacampanha.domain;
 import java.time.LocalDate;
 
 public abstract class Usuario extends GenericDomain {
-	private static int id = 0;
 	private String email;
 	private Login login;
 	private LocalDate data_criacao;
-	private Instituicao instituicao_vinculada;
+	private Long instituicao_vinculada;
 	private LocalDate data_vl_inicio, data_vl_fim;
-
+	
+	public Usuario(){}
+	
 	public Usuario(String email, Login login) {
 		this.email = email;
 		this.login = login;
 		this.data_criacao = LocalDate.now();
 	}
 	
-	public Usuario(String email, Login login, Instituicao instituicao_vinculada) {
+	public Usuario(String email, Login login, Long instituicao_vinculada) {
 		this.email = email;
 		this.login = login;
 		this.data_criacao = LocalDate.now();
 		this.instituicao_vinculada = instituicao_vinculada;
 	}
 
-	public Instituicao getInstituicao_vinculada() {
+	public Long getInstituicao_vinculada() {
 		return instituicao_vinculada;
-	}
-
-	public static int getId() {
-		return id;
 	}
 
 	public String getEmail() {

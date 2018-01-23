@@ -25,15 +25,29 @@ public class LoginBean {
 	}
 	
 	public void logar(){
+		/**
+		 * TODO quando clicar nesse botao vai levar para a tela referente
+		 * ao tipo de usuario:
+		 */
 		novo();
 		
 		Messages.addGlobalInfo("Login realizado com sucesso!");
 		
 	}
 	
-	public void criarConta(){
+	public void criarContaInstituicao(){
+		/**
+		 * TODO quando clicar nesse botão vai levar pra tela de criarLogin:
+		 */
 		novo();
 		
-		Messages.addGlobalInfo("Conta criada com sucesso!");
+	}
+	
+	public void criarContaPessoa(){
+		/**
+		 * TODO quando clicar nesse botão vai levar pra tela de criarLogin:
+		 */
+		novo();
+		
 	}
 }
