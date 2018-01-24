@@ -8,8 +8,8 @@
 	template="/templates/modeloLogin.xhtml">
 
 	<ui:define name="conteudo">
-		<h:form>
-			<p:panelGrid columns="2" cellpadding="5">
+		<h:form id="formCadastro">
+			<p:panelGrid columns="2" cellpadding="5" id="panelInst1">
 				<p:outputLabel value="CNPJ: *"/>
 				<p:inputMask value="#{usuarioBean.instituicao.cnpj}" maxlength="14" size="20" mask="99.999.999/9999-99" required="true"/>
 				
@@ -29,7 +29,7 @@
 			<p:spacer height="5"/>
 			<p:separator/>
 			
-			<p:panelGrid columns="2">
+			<p:panelGrid columns="2" id="panelInst2">
 				<p:outputLabel value="Email para contato: *"/>
 				<p:inputText value="#{usuarioBean.instituicao.email_geral_instituicao}" maxlength="100" size="30"/>
 				
@@ -43,25 +43,29 @@
 			<p:spacer height="5"/>
 			<p:separator/>
 			
-			<p:panelGrid columns="2">
+			<p:panelGrid columns="2" id="panelInst3">
 				<p:outputLabel value="Usuario: *"/>
-				<p:inputText label="Usuario" value="#{usuarioBean.login.login}" maxlength="30" size="10" required="true"/>
+				<p:inputText label="Usuario" value="#{usuarioBean.loginInstituicao.login}" maxlength="30" size="10" required="true"/>
 				
 				<p:outputLabel value="Senha: *"/>
-				<p:password id="senha1" label="Senha" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true" match="senha2"/>
+				<p:password id="senha1" label="Senha" value="#{usuarioBean.loginInstituicao.senha}" maxlength="16" size="10" required="true" match="senha2"/>
 				
 				<h:outputLabel value="Repita a senha: *"/>
-				<p:password id="senha2" label="Senha2" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true"/>
+				<p:password id="senha2" label="Senha2" value="#{usuarioBean.loginInstituicao.senha}" maxlength="16" size="10" required="true"/>
 				
 				<p:outputLabel value="Email: *"/>
-				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true" match="email2"/>	
+				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuarioInst.email}" maxlength="100" size="20" required="true" match="email2"/>	
 				
 				<h:outputLabel value="Repita o email: *"/>
-				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true"/>
+				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuarioInst.email}" maxlength="100" size="20" required="true"/>
 			</p:panelGrid>
-			
-			<h:panelGrid columns="1">
-				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioInstituicao}"/>
+		</h:form>
+		
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioInstituicao}"
+				update=":formCadastro"/>
+				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w"  action="login.xhtml"/>
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

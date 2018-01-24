@@ -8,30 +8,38 @@
 	template="/templates/modeloLogin.xhtml">
 	
 	<ui:define name="conteudo">
-	<h:form id="formLogin">
-		<h:panelGrid id="panelLogin" columns="2">
-			<p:outputLabel value="Usuário: *" />
-			<p:inputText label="Usuario" value="#{loginBean.login.login}" maxlength="30" size="10" required="true"/>
-
-			<p:outputLabel value="Senha: *" />
-			<p:password label="Senha" value="#{loginBean.login.senha}" maxlength="16" size="10" required="true"/>
-		</h:panelGrid>	
-	</h:form>
-		
+	
 	<h:form>
-		<!-- BUTÃO DE SALVAR -->
-		<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}"
-			update="formLogin:panelLogin" />
-		<h:panelGrid columns="3">		
-			<!-- BUTÃO DE CRIAÇÃO DE CONTA -->
+		<h:panelGrid columns="1">
+			<p:commandButton value="Entrar no sistema" icon="ui-icon-circle-check" oncomplete="PF('dialogoLogar').show()" actionListener="#{loginBean.novoLoginExistente}"/>
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de instituição" 
-				action="cadastroUsuarioInstituicao.xhtml"/>	
+				action="cadastroUsuarioInstituicao.xhtml" actionListener="#{usuarioBean.novoInstituicao}"/>	
 				
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de pessoa" 
-				action="cadastroUsuarioPessoa.xhtml"/>	
+				action="cadastroUsuarioPessoa.xhtml" actionListener="#{usuarioBean.novoPessoa}"/>	
 		</h:panelGrid>
-	
 	</h:form>
+	
+	<p:dialog header="Logar no sistema" widgetVar="dialogoLogar" draggable="false"
+		resizable="false" modal="true" closable="false">
+		<h:form id="formLogin">
+			<h:panelGrid id="panelLogin" columns="2">
+				<p:outputLabel value="Usuário: *" />
+				<p:inputText label="Usuario" value="#{loginBean.loginExistente.login}" maxlength="30" size="10" required="true"/>
+	
+				<p:outputLabel value="Senha: *" />
+				<p:password label="Senha" value="#{loginBean.loginExistente.senha}" maxlength="16" size="10" required="true"/>
+			</h:panelGrid>	
+		</h:form>
+		
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}" oncomplete="PF('dialogoLogar').hide();"
+					update="formLogin:panelLogin" />
+				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" oncomplete="PF('dialogoLogar').hide();" update="formLogin:panelLogin"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
 	
 	</ui:define>
 </ui:composition>

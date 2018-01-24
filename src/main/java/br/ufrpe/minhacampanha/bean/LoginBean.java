@@ -1,5 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -9,28 +11,28 @@ import br.ufrpe.minhacampanha.domain.Login;
 
 @ManagedBean 
 @ViewScoped
-public class LoginBean {
-	private Login login;
+public class LoginBean implements Serializable{
+	private Login loginExistente;
 	
-	public Login getLogin() {
-		return login;
+	public Login getLoginExistente() {
+		return loginExistente;
 	}
 	
-	public void setLogin(Login login) {
-		this.login = login;
+	
+	public void setLoginExistente(Login loginExistente) {
+		this.loginExistente = loginExistente;
 	}
 	
-	public void novo(){
-		login = new Login();
+	public void novoLoginExistente(){
+		loginExistente = new Login();
 	}
+	
 	
 	public void logar(){
 		/**
 		 * TODO quando clicar nesse botao vai levar para a tela referente
 		 * ao tipo de usuario:
-		 */
-		novo();
-		
+		 */		
 		Messages.addGlobalInfo("Login realizado com sucesso!");
 		
 	}

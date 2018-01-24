@@ -1,7 +1,9 @@
 package br.ufrpe.minhacampanha.bean;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
@@ -9,19 +11,36 @@ import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
 
 @ManagedBean
-@ViewScoped
-public class UsuarioBean {
-	private Login login;
-	private Usuario usuario;
+@SessionScoped
+public class UsuarioBean implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	private Login loginInstituicao;
+	private Login loginPessoa;
+	private Usuario usuarioPessoa;
+	private Usuario usuarioInst;
+	private Instituicao instituicaoPesquisa;
 	private Instituicao instituicao;
 	private PessoaFisica pessoa;
 	
-	public Login getLogin() {
-		return login;
+	public Login getLoginInstituicao() {
+		return loginInstituicao;
 	}
 	
-	public Usuario getUsuario() {
-		return usuario;
+	public Login getLoginPessoa() {
+		return loginPessoa;
+	}
+	
+	public Usuario getUsuarioInst() {
+		return usuarioInst;
+	}
+	
+	public Usuario getUsuarioPessoa() {
+		return usuarioPessoa;
+	}
+	
+	public Instituicao getInstituicaoPesquisa() {
+		return instituicaoPesquisa;
 	}
 	
 	public Instituicao getInstituicao() {
@@ -32,40 +51,72 @@ public class UsuarioBean {
 		return pessoa;
 	}
 	
-	public void setLogin(Login login) {
-		this.login = login;
+	public void setLoginInstituicao(Login loginInstituicao) {
+		this.loginInstituicao = loginInstituicao;
 	}
 	
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setLoginPessoa(Login loginPessoa) {
+		this.loginPessoa = loginPessoa;
+	}
+	
+	public void setUsuarioInst(Usuario usuarioInst) {
+		this.usuarioInst = usuarioInst;
+	}
+	
+	public void setUsuarioPessoa(Usuario usuarioPessoa) {
+		this.usuarioPessoa = usuarioPessoa;
 	}
 	
 	public void setInstituicao(Instituicao instituicao) {
 		this.instituicao = instituicao;
 	}
 	
+	public void setInstituicaoPesquisa(Instituicao instituicaoPesquisa) {
+		this.instituicaoPesquisa = instituicaoPesquisa;
+	}
+	
 	public void setPessoa(PessoaFisica pessoa) {
 		this.pessoa = pessoa;
 	}
 	
-	public void novoLogin(){
-		login = new Login();
+	public void novoLoginInstituicao(){
+		loginInstituicao = new Login();
 	}
 	
+	public void novoLoginPessoa(){
+		loginPessoa = new Login();
+	}
+	
+	
 	/**
-	 * TODO resolver esse erro maluco .-.
+	 * TODO RESOLVER ESSE ERRO MALUCO!!!
 	 */
-	public void novoUsuario(){
-		usuario = new Usuario() {
+	public void novoUsuarioPessoa(){
+		usuarioPessoa = new Usuario() {
 		};
+	}
+	
+	public void novoUsuariInst(){
+		usuarioInst = new Usuario() {
+		};
+	}
+	
+	public void novoInstituicaoPesquisa(){
+		instituicaoPesquisa = new Instituicao();
 	}
 	
 	public void novoInstituicao(){
 		instituicao = new Instituicao();
+		
+		novoLoginInstituicao();
+		novoUsuariInst();
 	}
 	
 	public void novoPessoa(){
 		pessoa = new PessoaFisica();
+		
+		novoLoginPessoa();
+		novoUsuarioPessoa();
 	}
 	
 	public void pegarInstituicao(){
@@ -76,18 +127,23 @@ public class UsuarioBean {
 		 */
 	}
 	
+	/**
+	 * TODO para fazer esses dois metodos olhar esse negocio aqui
+	 * https://stackoverflow.com/questions/32843135/redirect-login-page-to-another-page-in-jsf
+	 */
+	
 	public void criarUsuarioInstituicao(){
 		/**
 		 * TODO pegar informações de pessoa, usuario, instituicao, login...
 		 */
-		novoInstituicao();
 	}
 	
-	public void criarUsuarioPessoa(){
+	public String criarUsuarioPessoa(){
 		/**
 		 * TODO pegar informações de pessoa, usuario, instituicao, login...
 		 */
-		novoPessoa();
+		
+		return "pages/menu_pessoa.xhtml?faces-redirect=true";
 	}
 	
 }

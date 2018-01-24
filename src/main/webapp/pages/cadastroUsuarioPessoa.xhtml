@@ -8,8 +8,8 @@
 	template="/templates/modeloLogin.xhtml">
 
 	<ui:define name="conteudo">
-		<h:form id="formCriacao">
-			<p:panelGrid id="paneLogin" columns="2" cellpadding="5">
+		<h:form id="formCriacao" >
+			<p:panelGrid id="paneLogin1" columns="2" cellpadding="5">
 				<p:outputLabel value="CPF: *"/>
 				<p:inputMask id="cpf" value="#{usuarioBean.pessoa.cpf}" maxlength="12" size="20" required="true" mask="999.999.999-99"/>
 				
@@ -35,39 +35,43 @@
 			<p:spacer height="5"/>
 			<p:separator/>
 			
-			<p:panelGrid columns="2">
+			<p:panelGrid id="panelLogin2" columns="2">
 				<p:outputLabel value="Usuario: *"/>
-				<p:inputText label="Usuario" value="#{usuarioBean.login.login}" maxlength="30" size="10" required="true"/>
+				<p:inputText label="Usuario" value="#{usuarioBean.loginPessoa.login}" maxlength="30" size="10" required="true"/>
 				
 				<p:outputLabel value="Senha: *"/>
-				<p:password id="senha1" label="Senha" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true" match="senha2"/>
+				<p:password id="senha1" label="Senha" value="#{usuarioBean.loginPessoa.senha}" maxlength="16" size="10" required="true" match="senha2"/>
 				
 				<h:outputLabel value="Repita a senha: *"/>
-				<p:password id="senha2" label="Senha2" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true"/>
+				<p:password id="senha2" label="Senha2" value="#{usuarioBean.loginPessoa.senha}" maxlength="16" size="10" required="true"/>
 				
 				<p:outputLabel value="Email: *"/>
-				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true" match="email2"/>	
+				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuarioPessoa.email}" maxlength="100" size="20" required="true" match="email2"/>	
 				
 				<h:outputLabel value="Repita o email: *"/>
-				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true"/>
+				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuarioPessoa.email}" maxlength="100" size="20" required="true"/>
 			</p:panelGrid>
 			
 			<p:spacer height="5"/>
-			<p:separator/>
-			
-			<h:panelGrid columns="1">
-				<p:commandButton icon="ui-icon-plus" value="Vincular uma instituição" oncomplete="PF('dialogo').show();"/>
-				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioPessoa}"/>
+			<p:separator/>			
+		</h:form>
+		
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:commandButton icon="ui-icon-plus" value="Vincular uma instituição" actionListener="#{usuarioBean.novoInstituicaoPesquisa}" 
+				oncomplete="PF('dialogo').show();" update=":formInst:panelInst"/>
+				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioPessoa}"
+				update=":formCriacao"/>
+				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" action="login.xhtml"/>
 			</h:panelGrid>
-			
 		</h:form>
 		
 		<p:dialog header="Vincular uma instituição" widgetVar="dialogo" draggable="false"
 		resizable="false" modal="true" closable="false">
-			<h:form>
-				<h:panelGrid columns="2">
+			<h:form id="formInst">
+				<h:panelGrid columns="2" id="panelInst">
 					<p:outputLabel value="CNPJ: *" />
-					<p:inputMask maxlength="18" size="20" mask="99.999.999/9999-99"/>
+					<p:inputMask value="#usuarioBean.instituicaoPesquisa.cnpj" maxlength="18" size="20" mask="99.999.999/9999-99"/>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">
