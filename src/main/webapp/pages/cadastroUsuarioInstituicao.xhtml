@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Teste PrimeFaces</title>
-</h:head>
-<h:body>
-	<p:editor />
-</h:body>
-</html>
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloLogin.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="CNPJ: *"/>
+				<p:inputMask value="#{usuarioBean.instituicao.cnpj}" maxlength="14" size="20" mask="99.999.999/9999-99" required="true"/>
+				
+				<p:outputLabel value="Nome Fantasia: *"/>
+				<p:inputText value="#{usuarioBean.instituicao.nome_fantasia}" maxlength="255" size="50" required="true"/>
+				
+				<p:outputLabel value="Razão Social: *"/>
+				<p:inputText value="#{usuarioBean.instituicao.razao_social}" maxlength="255" size="50" required="true"/>
+				
+				<p:outputLabel value="Ramo Atuação: *"/>
+				<p:inputText value="#{usuarioBean.instituicao.ramo_atuacao}" maxlength="255" size="50" required="true"/>
+				
+				<p:outputLabel value="Pessoa Responsável: *"/>
+				<p:inputText value="#{usuarioBean.instituicao.nome_contato}" maxlength="255" size="50" required="true"/>
+			</p:panelGrid>
+			
+			<p:spacer height="5"/>
+			<p:separator/>
+			
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Email para contato: *"/>
+				<p:inputText value="#{usuarioBean.instituicao.email_geral_instituicao}" maxlength="100" size="30"/>
+				
+				<p:outputLabel value="Telefone Fixo: *"/>
+				<p:inputMask value="#{usuarioBean.instituicao.telefone1}" maxlength="10" mask="(99)9999-9999" required="true" size="30"/>
+			
+				<p:outputLabel value="Telefone Celular: "/>
+				<p:inputMask value="#{usuarioBean.instituicao.telefone2}" mask="(99)99999-9999"/>
+			</p:panelGrid>
+			
+			<p:spacer height="5"/>
+			<p:separator/>
+			
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Usuario: *"/>
+				<p:inputText label="Usuario" value="#{usuarioBean.login.login}" maxlength="30" size="10" required="true"/>
+				
+				<p:outputLabel value="Senha: *"/>
+				<p:password id="senha1" label="Senha" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true" match="senha2"/>
+				
+				<h:outputLabel value="Repita a senha: *"/>
+				<p:password id="senha2" label="Senha2" value="#{usuarioBean.login.senha}" maxlength="16" size="10" required="true"/>
+				
+				<p:outputLabel value="Email: *"/>
+				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true" match="email2"/>	
+				
+				<h:outputLabel value="Repita o email: *"/>
+				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true"/>
+			</p:panelGrid>
+			
+			<h:panelGrid columns="1">
+				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioInstituicao}"/>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition> 

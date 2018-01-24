@@ -9,7 +9,7 @@
 
 	<ui:define name="conteudo">
 		<h:form id="formCriacao">
-			<h:panelGrid id="paneLogin" columns="2" cellpadding="5">
+			<p:panelGrid id="paneLogin" columns="2" cellpadding="5">
 				<p:outputLabel value="CPF: *"/>
 				<p:inputMask id="cpf" value="#{usuarioBean.pessoa.cpf}" maxlength="12" size="20" required="true" mask="999.999.999-99"/>
 				
@@ -30,12 +30,12 @@
 				
 				<p:outputLabel value="Telefone Fixo: "/>
 				<p:inputMask maxlength="10" mask="(99)9999-9999" size="20"/>
-			</h:panelGrid>
+			</p:panelGrid>
 			
 			<p:spacer height="5"/>
 			<p:separator/>
 			
-			<h:panelGrid columns="2">
+			<p:panelGrid columns="2">
 				<p:outputLabel value="Usuario: *"/>
 				<p:inputText label="Usuario" value="#{usuarioBean.login.login}" maxlength="30" size="10" required="true"/>
 				
@@ -50,14 +50,14 @@
 				
 				<h:outputLabel value="Repita o email: *"/>
 				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuario.email}" maxlength="100" size="20" required="true"/>
-			</h:panelGrid>
+			</p:panelGrid>
 			
 			<p:spacer height="5"/>
 			<p:separator/>
 			
 			<h:panelGrid columns="1">
 				<p:commandButton icon="ui-icon-plus" value="Vincular uma instituição" oncomplete="PF('dialogo').show();"/>
-				<p:commandButton icon="ui-icon-plus" value="Criar"  actionListener="#{usuarioBean.criarUsuario}"/>
+				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioPessoa}"/>
 			</h:panelGrid>
 			
 		</h:form>
@@ -71,7 +71,7 @@
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">
-					<p:commandButton icon="ui-icon-check" value="Salvar" actionListener="#{usuarioBean.salvarInstituicao}" update="mensagem"/>
+					<p:commandButton icon="ui-icon-check" value="Salvar" actionListener="#{usuarioBean.pegarInstituicao}" update="mensagem"/>
 					<p:commandButton icon="ui-icon-close" value="Sair" oncomplete="PF('dialogo').hide();"/>
 				</h:panelGrid>
 			</h:form>

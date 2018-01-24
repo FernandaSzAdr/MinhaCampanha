@@ -68,7 +68,7 @@ public class UsuarioBean {
 		pessoa = new PessoaFisica();
 	}
 	
-	public void salvarInstituicao(){
+	public void pegarInstituicao(){
 		/**
 		 * TODO Esse butão vai verificar se existe a instituição que está
 		 * se tentando vincular, se existir vai levanter uma mensagem de 
@@ -76,11 +76,18 @@ public class UsuarioBean {
 		 */
 	}
 	
-	public void criarUsuario(){
+	public void criarUsuarioInstituicao(){
 		/**
 		 * TODO pegar informações de pessoa, usuario, instituicao, login...
 		 */
-		
+		novoInstituicao();
+	}
+	
+	public void criarUsuarioPessoa(){
+		/**
+		 * TODO pegar informações de pessoa, usuario, instituicao, login...
+		 */
+		novoPessoa();
 	}
 	
 }
