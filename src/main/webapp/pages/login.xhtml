@@ -13,10 +13,10 @@
 		<h:panelGrid columns="1">
 			<p:commandButton value="Entrar no sistema" icon="ui-icon-circle-check" oncomplete="PF('dialogoLogar').show()" actionListener="#{loginBean.novoLoginExistente}"/>
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de instituição" 
-				action="cadastroUsuarioInstituicao.xhtml" actionListener="#{usuarioBean.novoInstituicao}"/>	
+				action="cadastroUsuarioInstituicao.xhtml"/>	
 				
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de pessoa" 
-				action="cadastroUsuarioPessoa.xhtml" actionListener="#{usuarioBean.novoPessoa}"/>	
+				action="cadastroUsuarioPessoa.xhtml" />	
 		</h:panelGrid>
 	</h:form>
 	
@@ -36,7 +36,8 @@
 			<h:panelGrid columns="2">
 				<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}" oncomplete="PF('dialogoLogar').hide();"
 					update="formLogin:panelLogin" />
-				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" oncomplete="PF('dialogoLogar').hide();" update="formLogin:panelLogin"/>
+				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" oncomplete="PF('dialogoLogar').hide();" 
+				update="formLogin:panelLogin"/>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>

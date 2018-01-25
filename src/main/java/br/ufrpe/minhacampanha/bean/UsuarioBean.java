@@ -2,8 +2,9 @@ package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
@@ -11,7 +12,7 @@ import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsuarioBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -105,6 +106,7 @@ public class UsuarioBean implements Serializable{
 		instituicaoPesquisa = new Instituicao();
 	}
 	
+	@PostConstruct
 	public void novoInstituicao(){
 		instituicao = new Instituicao();
 		
@@ -112,6 +114,7 @@ public class UsuarioBean implements Serializable{
 		novoUsuariInst();
 	}
 	
+	@PostConstruct
 	public void novoPessoa(){
 		pessoa = new PessoaFisica();
 		
@@ -121,29 +124,31 @@ public class UsuarioBean implements Serializable{
 	
 	public void pegarInstituicao(){
 		/**
-		 * TODO Esse butão vai verificar se existe a instituição que está
+		 * TODO Esse butï¿½o vai verificar se existe a instituiï¿½ï¿½o que estï¿½
 		 * se tentando vincular, se existir vai levanter uma mensagem de 
-		 * confirmação, se não tbm vai levantar uma mensagem.
+		 * confirmaï¿½ï¿½o, se nï¿½o tbm vai levantar uma mensagem.
 		 */
 	}
 	
 	/**
 	 * TODO para fazer esses dois metodos olhar esse negocio aqui
 	 * https://stackoverflow.com/questions/32843135/redirect-login-page-to-another-page-in-jsf
+	 * 
+	 * https://www.youtube.com/watch?v=DnMl1xfmB70
 	 */
 	
 	public void criarUsuarioInstituicao(){
 		/**
-		 * TODO pegar informações de pessoa, usuario, instituicao, login...
+		 * TODO pegar informaï¿½ï¿½es de pessoa, usuario, instituicao, login...
 		 */
 	}
 	
 	public String criarUsuarioPessoa(){
 		/**
-		 * TODO pegar informações de pessoa, usuario, instituicao, login...
+		 * TODO pegar informaï¿½ï¿½es de pessoa, usuario, instituicao, login...
 		 */
 		
-		return "pages/menu_pessoa.xhtml?faces-redirect=true";
+		return "menu_pessoa.xhtml?faces-redirect=true";
 	}
 	
 }

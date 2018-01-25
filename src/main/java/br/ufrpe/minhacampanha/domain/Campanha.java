@@ -3,16 +3,18 @@ package br.ufrpe.minhacampanha.domain;
 import java.time.LocalDate;
 
 public class Campanha extends GenericDomain{
-	private LocalDate data_incio, data_fim;
+	private LocalDate data_inicio, data_fim;
 	private String publico_alvo, nome;
 	private short status_campanha_enum;
 	private float qtd_valor_necessario, qtd_valor_atual;
 	private int qtd_donativo_necessario, qtd_donativo_atual;
 	private boolean ativo = true;
 	
+	public Campanha(){}
+	
 	public Campanha(LocalDate data_incio, LocalDate data_fim, String publico_alvo, String nome, short status,
 			float qtd_valor_necessario) {
-		this.data_incio = data_incio;
+		this.data_inicio = data_incio;
 		this.data_fim = data_fim;
 		this.publico_alvo = publico_alvo;
 		this.nome = nome;
@@ -22,7 +24,7 @@ public class Campanha extends GenericDomain{
 
 	public Campanha(LocalDate data_incio, LocalDate data_fim, String publico_alvo, String nome, short status,
 			int qtd_donativo_necessario) {
-		this.data_incio = data_incio;
+		this.data_inicio = data_incio;
 		this.data_fim = data_fim;
 		this.publico_alvo = publico_alvo;
 		this.nome = nome;
@@ -31,7 +33,7 @@ public class Campanha extends GenericDomain{
 	}
 
 	public LocalDate getData_incio() {
-		return data_incio;
+		return data_inicio;
 	}
 
 	public LocalDate getData_fim() {

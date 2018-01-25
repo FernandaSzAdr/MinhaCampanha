@@ -1,6 +1,8 @@
 package br.ufrpe.minhacampanha.bean;
 
-public class AdministradorBean {
+import java.io.Serializable;
+
+public class AdministradorBean implements Serializable{
 
 	
 }

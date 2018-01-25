@@ -23,13 +23,13 @@
 				<p:inputText label="Nome" value="#{usuarioBean.pessoa.ultimo_nome}" maxlength="50" size="40" required="true"/>
 				
 				<p:outputLabel value="Data de Nascimento: *"/>
-				<p:inputMask id="Nascimento" value="{usuarioBean.pessoa.nascimento} " size="20" mask="99/99/9999" required="true"/>
+				<p:inputMask id="Nascimento" value="#{usuarioBean.pessoa.nascimento} " size="20" mask="99/99/9999" required="true"/>
 				
 				<p:outputLabel value="Telefone Celular: "/>
-				<p:inputMask maxlength="11" mask="(99)99999-9999" size="20"/>
+				<p:inputMask maxlength="11" mask="(99)99999-9999" size="20" value="#{usuarioBean.pessoa.telefone1}"/>
 				
 				<p:outputLabel value="Telefone Fixo: "/>
-				<p:inputMask maxlength="10" mask="(99)9999-9999" size="20"/>
+				<p:inputMask maxlength="10" mask="(99)9999-9999" size="20" value="#{usuarioBean.pessoa.telefone2}"/>
 			</p:panelGrid>
 			
 			<p:spacer height="5"/>
@@ -61,7 +61,7 @@
 				<p:commandButton icon="ui-icon-plus" value="Vincular uma instituição" actionListener="#{usuarioBean.novoInstituicaoPesquisa}" 
 				oncomplete="PF('dialogo').show();" update=":formInst:panelInst"/>
 				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioPessoa}"
-				update=":formCriacao"/>
+				update=":mensagem :formCriacao"/>
 				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" action="login.xhtml"/>
 			</h:panelGrid>
 		</h:form>
@@ -71,7 +71,7 @@
 			<h:form id="formInst">
 				<h:panelGrid columns="2" id="panelInst">
 					<p:outputLabel value="CNPJ: *" />
-					<p:inputMask value="#usuarioBean.instituicaoPesquisa.cnpj" maxlength="18" size="20" mask="99.999.999/9999-99"/>
+					<p:inputMask value="#{usuarioBean.instituicaoPesquisa.cnpj}" maxlength="18" size="20" mask="99.999.999/9999-99"/>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">
