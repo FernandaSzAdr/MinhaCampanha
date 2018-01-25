@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Atividade;

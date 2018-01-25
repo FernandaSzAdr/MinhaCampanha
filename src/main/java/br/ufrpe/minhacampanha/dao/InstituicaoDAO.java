@@ -61,7 +61,7 @@ public class InstituicaoDAO {
 			while (resultSet.next()) {
 
 				Instituicao instituicao = new Instituicao();
-				
+
 				instituicao.setCodigo(resultSet.getLong("id"));
 				instituicao.setCnpj(resultSet.getString("cnpj"));
 				instituicao.setData_entrada(resultSet.getDate("data_entrada"));
@@ -86,25 +86,43 @@ public class InstituicaoDAO {
 
 	}
 
-public void atualizar(Instituicao Instituicao) throws SQLException{
-		
+	public void atualizar(Instituicao Instituicao) throws SQLException {
+
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
-		
-		try{
-			stmt = connection.prepareStatement("UPDATE Instituicao SET telefone = ?, nomeCli = ?, email = ? WHERE cpf = ?");
-			
-			
+
+		try {
+			stmt = connection
+					.prepareStatement("UPDATE Instituicao SET telefone = ?, nomeCli = ?, email = ? WHERE cpf = ?");
+
 			stmt.executeUpdate();
-			
-			//JOptionPane.showMessageDialog(null, "Instituicao atualizado com sucesso");
-			
-		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
-			
-		}finally{
+
+			// JOptionPane.showMessageDialog(null, "Instituicao atualizado com
+			// sucesso");
+
+		} catch (SQLException ex) {
+			// JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
+
+		} finally {
 			ConnectionFactory.closeConnection(connection, stmt);
 		}
-		
+
+	}
+
+	public void excluir(Instituicao instituicao) throws SQLException {
+
+		Connection connection = ConnectionFactory.getConnection();
+		java.sql.PreparedStatement stmt = null;
+
+		try {
+			stmt = connection.prepareStatement("DELETE FROM instituicao WHERE id = ?");
+
+		} catch (SQLException ex) {
+			// JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
+
+		} finally {
+			ConnectionFactory.closeConnection(connection, stmt);
+		}
+
 	}
 }
