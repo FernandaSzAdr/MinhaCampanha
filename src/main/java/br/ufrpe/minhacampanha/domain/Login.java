@@ -22,6 +22,10 @@ public class Login extends GenericDomain {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
 	
 	
 }
