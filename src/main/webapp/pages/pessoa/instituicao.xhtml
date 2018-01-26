@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloPessoaFisica.xhtml">
+	
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel header="Instituição">
+				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="instituicaoTable"
+					paginator="true" value="#{instituicaoMenuPessoaBean.instituicoes}" var="instituicao" rows="5">
+					
+					<p:column headerText="Código" sortBy="#{instituicao.codigo}"
+						filterBy="#{instituicao.codigo}">
+						<h:outputText value="#{instituicao.codigo}" />
+					</p:column>
+					
+					<p:column headerText="CNPJ" sortBy="#{instituicao.cnpj}"
+						filterBy="#{instituicao.cnpj}" >
+						<h:outputText value="#{instituicao.cnpj}"/>
+					</p:column>
+					
+					<p:column headerText="Instituição" sortBy="#{instituicao.nome_fantasia}"
+						filterBy="#{instituicao.nome_fantasia}">
+						<h:outputText value="#{instituicao.nome_fantasia}" />
+					</p:column>				
+					
+					<!-- Por as campanhas aqui... -->
+					<p:column headerText="Campanhas">
+					</p:column>
+					
+					<p:column headerText="Responsável" sortBy="#{instituicao.nome_contato}"
+						filterBy="#{instituicao.nome_contato}">
+						<h:outputText value="#{instituicao.nome_contato}" />
+					</p:column>
+					
+					<p:column headerText="Email" sortBy="#{instituicao.email_geral_instituicao}"
+						filterBy="#{instituicao.email_geral_instituicao}">
+						<h:outputText value="#{instituicao.email_geral_instituicao}" />
+					</p:column>
+					
+					<p:column headerText="Telefone 1" sortBy="#{instituicao.telefone1}"
+						filterBy="#{instituicao.telefone1}">
+						<h:outputText value="#{instituicao.telefone1}" />
+					</p:column>
+					
+					<p:column headerText="Telefone 2" sortBy="#{instituicao.telefone2}"
+						filterBy="#{instituicao.telefone2}">
+						<h:outputText value="#{instituicao.telefone2}" />
+					</p:column>
+					
+					<!-- ESSA COLUNA TA ERRADA!!! -->
+					<p:column headerText="Ativo" sortBy="#{campanha.ativo}" filterMatchMode="equals">
+						<f:facet name="filter">
+							<p:selectOneButton onchange="PF('campanhaTable').filter()">
+								<f:converter converterId="javax.faces.Boolean"/>
+								<f:selectItem itemLabel="Todos" itemValue=""/>
+								<f:selectItem itemLabel="Ativo" itemValue="true"/>
+								<f:selectItem itemLabel="Encerrado" itemValue="false"/>
+							</p:selectOneButton>
+						</f:facet>		
+						<h:outputText value="#{campanha.ativo ? 'Ativo': 'Encerrado'}" />				
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

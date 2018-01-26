@@ -6,7 +6,7 @@ import java.time.LocalDate;
  * Essa classe vai ser utilizado nas tabelas donativo_financeiro
  * e donativo_produto.
  * 
- * Pode-se observar que ela contém informações dos dois tipos de doações.
+ * Pode-se observar que ela contï¿½m informaï¿½ï¿½es dos dois tipos de doaï¿½ï¿½es.
  * 
  * @author Fernanda
  */
@@ -14,6 +14,8 @@ public class Doacao extends GenericDomain {
 	private LocalDate dataDoacao;
 	private int qtd_donativo_doado;
 	private float qtd_valor_doado;
+	
+	public Doacao(){}
 	
 	public Doacao(LocalDate dataDoacao, int qtd_donativo_doado) {
 		this.dataDoacao = dataDoacao;

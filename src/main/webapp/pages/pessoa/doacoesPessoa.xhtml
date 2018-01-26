@@ -11,10 +11,12 @@
 	<h:form>
 		<p:panel header="Doações">
 			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				paginator="true" widgetVar="doacoesTable">
+				paginator="true" widgetVar="doacoesTable" value="#{doacaoPessoaBean.doacoes}" 
+				var="doacao">
 				
 				<f:facet name="header">
-					<p:commandButton value="Efetuar Nova Doação" oncomplete="" />
+					<p:commandButton value="Doar" actionListener="#{doacaoPessoaBean.novo()}" 
+					oncomplete="PF('dialogo').show();" update=":mensagem :formCadastro:painel" />
 				</f:facet>
 				
 				<p:column headerText="Campanha" filterBy="#{pf.camanha}" filterMatchMode="exact">
@@ -62,5 +64,22 @@
 			</p:dataTable>
 		</p:panel>
 	</h:form>
+	
+	<p:dialog header="Doação - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{doacaoPessoaBean.salvar()}"
+						update=":mensagem :formCadastro:painel" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	
 </ui:define>
 </ui:composition>
