@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import br.ufrpe.minhacampanha.domain.Doacao;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class DoacaoPessoaBean implements Serializable{

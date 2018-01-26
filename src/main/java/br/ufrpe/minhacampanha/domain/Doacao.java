@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * 
  * @author Fernanda
  */
+@SuppressWarnings("serial")
 public class Doacao extends GenericDomain {
 	private LocalDate dataDoacao;
 	private int qtd_donativo_doado;

@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import br.ufrpe.minhacampanha.domain.Endereco;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class EnderecoPessoaBean implements Serializable{

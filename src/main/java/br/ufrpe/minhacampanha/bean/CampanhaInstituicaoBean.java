@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import br.ufrpe.minhacampanha.domain.Campanha;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class CampanhaInstituicaoBean implements Serializable{

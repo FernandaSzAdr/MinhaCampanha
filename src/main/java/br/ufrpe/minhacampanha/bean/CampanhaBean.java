@@ -7,8 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.omnifaces.util.Messages;
+
 import br.ufrpe.minhacampanha.domain.Campanha;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class CampanhaBean implements Serializable{
@@ -36,7 +39,12 @@ public class CampanhaBean implements Serializable{
 	 */
 	@PostConstruct
 	public void listar(){
-		
+		try {
+			
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao listar as campanhas existentes no sistema.");
+			erro.printStackTrace();
+		}
 	}
 	
 	/**
@@ -45,7 +53,5 @@ public class CampanhaBean implements Serializable{
 	 */
 	public void novoCampanha(){
 		campanha = new Campanha();
-	}
-	
-	
+	}	
 }

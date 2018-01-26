@@ -6,15 +6,17 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.omnifaces.util.Messages;
+
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class UsuarioBean implements Serializable{
-	private static final long serialVersionUID = 1L;
 	
 	private Login loginInstituicao;
 	private Login loginPessoa;
@@ -88,18 +90,12 @@ public class UsuarioBean implements Serializable{
 		loginPessoa = new Login();
 	}
 	
-	
-	/**
-	 * TODO RESOLVER ESSE ERRO MALUCO!!!
-	 */
 	public void novoUsuarioPessoa(){
-		usuarioPessoa = new Usuario() {
-		};
+		usuarioPessoa = new Usuario();
 	}
 	
 	public void novoUsuariInst(){
-		usuarioInst = new Usuario() {
-		};
+		usuarioInst = new Usuario();
 	}
 	
 	public void novoInstituicaoPesquisa(){
@@ -141,13 +137,25 @@ public class UsuarioBean implements Serializable{
 		/**
 		 * TODO pegar informa��es de pessoa, usuario, instituicao, login...
 		 */
+		try {
+			
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuário.");
+			erro.printStackTrace();
+		}
 	}
 	
 	public String criarUsuarioPessoa(){
 		/**
 		 * TODO pegar informa��es de pessoa, usuario, instituicao, login...
 		 */
-		
+		try {
+			
+			
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuário.");
+			erro.printStackTrace();
+		} 
 		return "menu_pessoa.xhtml?faces-redirect=true";
 	}
 	

@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
 
+@SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 /**

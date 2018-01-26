@@ -9,6 +9,7 @@ import org.omnifaces.util.Messages;
 
 import br.ufrpe.minhacampanha.domain.Login;
 
+@SuppressWarnings("serial")
 @ManagedBean 
 @ViewScoped
 public class LoginBean implements Serializable{
