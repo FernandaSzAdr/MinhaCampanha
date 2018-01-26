@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloPessoaFisica.xhtml">
+	<!-- Editar essa ultima linha para por o modelo do template que vai usar -->
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel header="Seus Endereços">
+				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="enderecoTable"
+				paginator="true" value="#{enderecoPessoaBean.enderecos}" var="endereco" rows="5">					
+					<p:column headerText="Código" sortBy="#{endereco.codigo}">
+						<h:outputText value="#{endereco.codigo}" />
+					</p:column>
+					
+					<p:column headerText="CEP" sortBy="#{endereco.cep}" >
+						<h:outputText value="#{endereco.cep}" />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{endereco.nome}" >
+						<h:outputText value="#{endereco.nome}" />
+					</p:column>
+					
+					<p:column headerText="Numero" sortBy="#{endereco.numero}">
+						<h:outputText value="#{endereco.numero}" />
+					</p:column>
+					
+					<p:column headerText="Estado" sortBy="#{endereco.estado}">
+						<h:outputText value="#{endereco.estado}" />
+					</p:column>
+					
+					<p:column headerText="Cidade" sortBy="#{endereco.cidade}">
+						<h:outputText value="#{endereco.cidade}" />
+					</p:column>
+					
+					<p:column headerText="Bairro" sortBy="#{endereco.bairro}">
+						<h:outputText value="#{endereco.bairro}" />
+					</p:column>
+					
+					<p:column headerText="Tipo Logrador" sortBy="#{endereco.tipo_logradoro}">
+						<h:outputText value="#{endereco.tipo_logradoro}" />
+					</p:column>
+					
+					<p:column headerText="Ponto de referência" sortBy="#{endereco.ponto_ref}">
+						<h:outputText value="#{endereco.ponto_ref}" />
+					</p:column>
+					
+					<p:column headerText="Opções">
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

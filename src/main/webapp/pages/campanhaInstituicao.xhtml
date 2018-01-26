@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloInstituicao.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel header="Suas Campanhas">
+				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="campanhaTable"
+					paginator="true" value="#{campanhaInstituicaoBean.campanhas}" var="campanha" rows="5">
+					
+					<f:facet name="header">
+						<p:commandButton value="Novo" actionListener="#{campanhaInstituicaoBean.novo()}"
+							oncomplete="PF('dialogo').show();"
+							update=":mensagem :formCadastro:painel">
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</f:facet>
+					
+					
+					<p:column headerText="Código" sortBy="#{campanha.codigo}"
+						filterBy="#{campanha.codigo}">
+						<h:outputText value="#{campanha.codigo}" />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{campanha.nome}"
+						filterBy="#{campanha.nome}">
+						<h:outputText value="#{campanha.nome}" />
+					</p:column>
+					
+					<p:column headerText="Data começo" sortBy="#{campanha.data_incio}"
+						filterBy="#{campanha.data_incio}">
+						<f:facet name="filter">
+			                <p:spinner onchange="PF('campanhaTable').filter()" styleClass="month-spinner">
+			                    <f:converter converterId="javax.faces.Integer" />
+			                </p:spinner>
+			            </f:facet>
+			            <h:outputText value="#{campanha.data_fim}" />
+					</p:column>
+					
+					<p:column headerText="Data fim" sortBy="#{campanha.data_fim}"
+						filterBy="#{campanha.data_fim}">
+						<f:facet name="filter">
+			                <p:spinner onchange="PF('campanhaTable').filter()" styleClass="month-spinner">
+			                    <f:converter converterId="javax.faces.Integer" />
+			                </p:spinner>
+			            </f:facet>
+			            <h:outputText value="#{campanha.data_fim}" />
+					</p:column>
+					
+					<p:column headerText="Publico Alvo" sortBy="#{campanha.publico_alvo}"
+						filterBy="#{campanha.publico_alvo}">
+						<h:outputText value="#{campanha.publico_alvo}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de produtos atual" sortBy="#{campanha.qtd_donativo_atual}"
+						filterBy="#{campanha.qtd_donativo_atual}">
+						<h:outputText value="#{campanha.qtd_donativo_atual}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de produtos necessários" sortBy="#{campanha.qtd_donativo_necessario}"
+						filterBy="#{campanha.qtd_donativo_necessario}">
+						<h:outputText value="#{campanha.qtd_donativo_necessario}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de doações monetárias atual" sortBy="#{campanha.qtd_valor_atual}"
+						filterBy="#{campanha.qtd_valor_atual}">
+						<h:outputText value="#{campanha.qtd_valor_atual}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de doações monetárias necessárias" sortBy="#{campanha.qtd_valor_necessario}"
+						filterBy="#{campanha.qtd_valor_necessario}">
+						<h:outputText value="#{campanha.qtd_valor_necessario}" />
+					</p:column>
+					
+					<p:column headerText="Opções">
+					</p:column>
+			
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog header="Campanha - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+					<p:outputLabel for="dataInicio" value="Data de inicio:"/>
+						<p:calendar id="dataInicio" value="#{campanhaInstituicaoBean.campanha.data_incio}"
+						required="true" requiredMessage="O campo 'Data de incio' é obrigatório."
+						pattern="dd-MM-yyyy" mask="true"/>
+						
+					<p:outputLabel for="dataFim" value="Data de fim:"/>
+						<p:calendar id="dataFim" value="#{campanhaInstituicaoBean.campanha.data_fim}"
+						pattern="dd-MM-yyyy" mask="true"/>
+						
+					<p:outputLabel for="nome" value="Nome da campanha:"/>
+						<p:inputText id="nome" maxlength="255" size="30" 
+							value="#{campanhaInstituicaoBean.campanha.nome}"
+							required="true" requiredMessage="O campo 'Nome da Campanha' é obrigatório."/>
+							
+						
+					<p:outputLabel for="publicoA" value="Publico alvo:" />
+						<p:inputText id="publicoA" maxlength="255" size="30"
+							value="#{campanhaInstituicaoBean.campanha.publico_alvo}" required="true"
+							requiredMessage="O campo 'Publico alvo' é obrigatório." />
+							
+					<p:outputLabel value="Quantidade de itens necessários:" />
+						<p:inputText maxlength="5" size="10"
+							value="#{campanhaInstituicaoBean.campanha.qtd_donativo_necessario}" 
+							required="true"
+							requiredMessage="O campo 'Quantidade de itens' é obrigatório."
+							converterMessage="Informe um valor válido para o campo 'Quantidade de itens'"
+							validatorMessage="Informe um valor entre 0 e 1000 para o campo 'Quantidade de itens'">
+							<f:validateLongRange minimum="0" maximum="1000" />
+						</p:inputText> 
+						
+					<p:outputLabel value="Quantidade de doações monetárias necessários:" />
+						<p:inputText maxlength="10" size="10"
+							value="#{campanhaInstituicaoBean.campanha.qtd_valor_necessario}" 
+							required="true"
+							requiredMessage="O campo 'Quantidade de doações monetárias' é obrigatório."
+							converterMessage="Informe um valor válido para o campo 'Quantidade de doações'."
+							validatorMessage="Informe um valor entre 0 e 10000 para o campo 'Quantidade de doações'.">
+							<f:validateLongRange minimum="0" maximum="10000" />
+						</p:inputText> 
+				</h:panelGrid>
+	
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{campanhaInstituicaoBean.salvar()}"
+						update=":mensagem :formCadastro:painel" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -10,20 +10,25 @@
 	<ui:define name="conteudo">
 		<h:form id="formCriacao" >
 			<p:panelGrid id="paneLogin1" columns="2" cellpadding="5">
-				<p:outputLabel value="CPF: *"/>
-				<p:inputMask id="cpf" value="#{usuarioBean.pessoa.cpf}" maxlength="12" size="20" required="true" mask="999.999.999-99"/>
+				<p:outputLabel for="cpf" value="CPF:"/>
+				<p:inputMask id="cpf" value="#{usuarioBean.pessoa.cpf}" maxlength="12" size="20" required="true" 
+				mask="999.999.999-99" requiredMessage="O campo 'CPF' é obrigatório."/>
 				
-				<p:outputLabel value="Primeiro Nome: *"/>
-				<p:inputText label="Nome" value="#{usuarioBean.pessoa.primeiro_nome}" maxlength="50" size="40" required="true"/>
+				<p:outputLabel for="primeiro" value="Primeiro Nome:"/>
+				<p:inputText id="primeiro" label="Nome" value="#{usuarioBean.pessoa.primeiro_nome}" maxlength="50" size="40" 
+				required="true"/>
 					
-				<p:outputLabel value="Nome do meio: *"/>
-				<p:inputText label="Nome" value="#{usuarioBean.pessoa.medio_nome}" maxlength="1" size="40" required="true"/>
+				<p:outputLabel for="meio" value="Nome do meio:"/>
+				<p:inputText id="meio" label="Nome" value="#{usuarioBean.pessoa.medio_nome}" maxlength="1" size="40" 
+				required="true"/>
 					
-				<p:outputLabel value="Ultimo Nome: *"/>
-				<p:inputText label="Nome" value="#{usuarioBean.pessoa.ultimo_nome}" maxlength="50" size="40" required="true"/>
+				<p:outputLabel for="ultimo" value="Ultimo Nome:"/>
+				<p:inputText id="ultimo" label="Nome" value="#{usuarioBean.pessoa.ultimo_nome}" maxlength="50" size="40" 
+				required="true"/>
 				
-				<p:outputLabel value="Data de Nascimento: *"/>
-				<p:inputMask id="Nascimento" value="#{usuarioBean.pessoa.nascimento} " size="20" mask="99/99/9999" required="true"/>
+				<p:outputLabel for="Nascimento" value="Data de Nascimento:"/>
+				<p:inputMask id="Nascimento" value="#{usuarioBean.pessoa.nascimento} " size="20" mask="99/99/9999" 
+				required="true"/>
 				
 				<p:outputLabel value="Telefone Celular: "/>
 				<p:inputMask maxlength="11" mask="(99)99999-9999" size="20" value="#{usuarioBean.pessoa.telefone1}"/>
@@ -36,19 +41,22 @@
 			<p:separator/>
 			
 			<p:panelGrid id="panelLogin2" columns="2">
-				<p:outputLabel value="Usuario: *"/>
-				<p:inputText label="Usuario" value="#{usuarioBean.loginPessoa.login}" maxlength="30" size="10" required="true"/>
+				<p:outputLabel for="usuario" value="Usuario:"/>
+				<p:inputText id="usuario" label="Usuario" value="#{usuarioBean.loginPessoa.login}" maxlength="30" size="10" 
+				required="true"/>
 				
-				<p:outputLabel value="Senha: *"/>
-				<p:password id="senha1" label="Senha" value="#{usuarioBean.loginPessoa.senha}" maxlength="16" size="10" required="true" match="senha2"/>
+				<p:outputLabel for="senha1" value="Senha:"/>
+				<p:password id="senha1" label="Senha" value="#{usuarioBean.loginPessoa.senha}" maxlength="16" size="10" 
+				required="true" match="senha2"/>
 				
-				<h:outputLabel value="Repita a senha: *"/>
-				<p:password id="senha2" label="Senha2" value="#{usuarioBean.loginPessoa.senha}" maxlength="16" size="10" required="true"/>
+				<h:outputLabel for="senha2" value="Repita a senha:"/>
+				<p:password id="senha2" label="Senha2" value="#{usuarioBean.loginPessoa.senha}" maxlength="16" size="10"
+				 required="true"/>
 				
-				<p:outputLabel value="Email: *"/>
+				<p:outputLabel for="email1" value="Email:"/>
 				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuarioPessoa.email}" maxlength="100" size="20" required="true" match="email2"/>	
 				
-				<h:outputLabel value="Repita o email: *"/>
+				<h:outputLabel for="email2" value="Repita o email:"/>
 				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuarioPessoa.email}" maxlength="100" size="20" required="true"/>
 			</p:panelGrid>
 			
@@ -70,8 +78,9 @@
 		resizable="false" modal="true" closable="false">
 			<h:form id="formInst">
 				<h:panelGrid columns="2" id="panelInst">
-					<p:outputLabel value="CNPJ: *" />
-					<p:inputMask value="#{usuarioBean.instituicaoPesquisa.cnpj}" maxlength="18" size="20" mask="99.999.999/9999-99"/>
+					<p:outputLabel for="cnpj" value="CNPJ:" />
+					<p:inputMask id="cnpj" value="#{usuarioBean.instituicaoPesquisa.cnpj}" maxlength="18" size="20" 
+					mask="99.999.999/9999-99" required="true" requiredMessage="Campo 'CNPJ' obrigatório."/>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">

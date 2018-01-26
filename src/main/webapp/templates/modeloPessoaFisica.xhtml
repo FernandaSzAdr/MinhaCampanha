@@ -15,23 +15,24 @@
 	
 	<div id="geral">
 		<div id="topo" class="divTopo">
-			<p:graphicImage library="img" name="logo_generico.png" 
-			styleClass="imagemCentralizada"/>
+			<!-- <p:graphicImage library="img" name="logo_generico.png" 
+			styleClass="imagemCentralizada"/> -->
 		</div>
 
 		<div id="cabecalho" class="divCabecalho">
 			<h:form id="formeMenu">
 			<p:menubar>
-				<p:submenu label="Minha Campanha" url="/pages/campanha.xhtml">
-					<p:menuitem value="Campanha"/>
+				<p:submenu label="Minha Campanha">
+					<p:menuitem value="Campanha" url="/pages/campanhaMenuPessoa.xhtml"/>
 					<p:menuitem value="Instituição"/>
 					<p:menuitem value="Projeto Social"/>
 				</p:submenu>
 	
 				<p:submenu label="Usuario">
 					<p:menuitem value="Informações"/>
-					<p:menuitem value="Endereço"/>
+					<p:menuitem value="Endereço" url="/pages/enderecoMenuPessoa.xhtml"/>
 					<p:menuitem value="Carteira"/>
+					<p:menuitem value="Doações" url="/pages/doacoesPessoa.xhtml"/>
 				</p:submenu>
 				
 				<p:submenu label="Ajuda">

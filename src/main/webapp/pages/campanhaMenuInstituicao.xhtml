@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloInstituicao.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel header="Campanha">
+				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="campanhaTable"
+					paginator="true" value="#{campanhaBean.campanhas}" var="campanha" rows="5">
+					
+					<p:column headerText="Código" sortBy="#{campanha.codigo}"
+						filterBy="#{campanha.codigo}">
+						<h:outputText value="#{campanha.codigo}" />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{campanha.nome}"
+						filterBy="#{campanha.nome}">
+						<h:outputText value="#{campanha.nome}" />
+					</p:column>
+					
+					<p:column headerText="Status" sortBy="#{campanha.status}"
+						filterBy="#{campanha.status}">
+					</p:column>
+					
+					<p:column headerText="Data começo" sortBy="#{campanha.data_inicio}"
+						filterBy="#{campanha.data_inicio}">
+						<f:facet name="filter">
+			                <p:spinner onchange="PF('campanhaTable').filter()" styleClass="month-spinner">
+			                    <f:converter converterId="javax.faces.Integer" />
+			                </p:spinner>
+			            </f:facet>
+			            <h:outputText value="#{campanha.data_fim}" />
+					</p:column>
+					
+					<p:column headerText="Data fim" sortBy="#{campanha.data_fim}"
+						filterBy="#{campanha.data_fim}">
+						<f:facet name="filter">
+			                <p:spinner onchange="PF('campanhaTable').filter()" styleClass="month-spinner">
+			                    <f:converter converterId="javax.faces.Integer" />
+			                </p:spinner>
+			            </f:facet>
+			            <h:outputText value="#{campanha.data_fim}" />
+					</p:column>
+					
+					<p:column headerText="Publico Alvo" sortBy="#{campanha.publico_alvo}"
+						filterBy="#{campanha.publico_alvo}">
+						<h:outputText value="#{campanha.qtd_valor_necessario}">
+							<f:convertNumber currencySymbol="R$" type="currency"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Quantidade de produtos atual" sortBy="#{campanha.qtd_donativo_atual}"
+						filterBy="#{campanha.qtd_donativo_atual}">
+						<h:outputText value="#{campanha.qtd_donativo_atual}">
+							<f:convertNumber currencySymbol="R$" type="currency"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Quantidade de produtos necessários" sortBy="#{campanha.qtd_donativo_necessario}"
+						filterBy="#{campanha.qtd_donativo_necessario}">
+						<h:outputText value="#{campanha.qtd_donativo_necessario}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de doações monetárias atual" sortBy="#{campanha.qtd_valor_atual}"
+						filterBy="#{campanha.qtd_valor_atual}">
+						<h:outputText value="#{campanha.qtd_valor_atual}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de doações monetárias necessárias" sortBy="#{campanha.qtd_valor_necessario}"
+						filterBy="#{campanha.qtd_valor_necessario}">
+						<h:outputText value="#{campanha.qtd_valor_necessario}" />
+					</p:column>
+					
+					<!-- ESSA COLUNA TA ERRADA!!! -->
+					<p:column headerText="Ativo" sortBy="#{campanha.ativo}" filterMatchMode="equals">
+						<f:facet name="filter">
+							<p:selectOneButton onchange="PF('campanhaTable').filter()">
+								<f:converter converterId="javax.faces.Boolean"/>
+								<f:selectItem itemLabel="Todos" itemValue=""/>
+								<f:selectItem itemLabel="Ativo" itemValue="true"/>
+								<f:selectItem itemLabel="Encerrado" itemValue="false"/>
+							</p:selectOneButton>
+						</f:facet>		
+						<h:outputText value="#{campanha.ativo ? 'Ativo': 'Encerrado'}" />				
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

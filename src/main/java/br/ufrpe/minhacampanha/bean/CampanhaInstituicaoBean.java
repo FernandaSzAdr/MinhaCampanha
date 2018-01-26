@@ -8,44 +8,52 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.ufrpe.minhacampanha.domain.Campanha;
+import br.ufrpe.minhacampanha.domain.Instituicao;
 
 @ManagedBean
 @ViewScoped
-public class CampanhaBean implements Serializable{
+public class CampanhaInstituicaoBean implements Serializable{
+	private Instituicao instituicao;
 	private Campanha campanha;
 	private List<Campanha> campanhas;
-	
-	public List<Campanha> getCampanhas() {
-		return campanhas;
-	}
 	
 	public Campanha getCampanha() {
 		return campanha;
 	}
 	
-	public void setCampanhas(List<Campanha> campanhas) {
-		this.campanhas = campanhas;
+	public List<Campanha> getCampanhas() {
+		return campanhas;
+	}
+	
+	public Instituicao getInstituicao() {
+		return instituicao;
 	}
 	
 	public void setCampanha(Campanha campanha) {
 		this.campanha = campanha;
 	}
 	
+	public void setCampanhas(List<Campanha> campanhas) {
+		this.campanhas = campanhas;
+	}
+	
+	public void setInstituicao(Instituicao instituicao) {
+		this.instituicao = instituicao;
+	}
+	
 	/**
-	 * TODO listar todas as campanhas do sistema, vincular ao banco
+	 * TODO listar todas as campanhas dessa instituição:
 	 */
 	@PostConstruct
 	public void listar(){
 		
 	}
 	
-	/**
-	 * TODO como que vai ligar essa campanha com a instituição logada? 
-	 * Será que precisa por outro tipo de Scoped? .-.	 * 
-	 */
-	public void novoCampanha(){
+	public void novo(){
 		campanha = new Campanha();
 	}
 	
-	
+	public void salvar(){
+		
+	}
 }

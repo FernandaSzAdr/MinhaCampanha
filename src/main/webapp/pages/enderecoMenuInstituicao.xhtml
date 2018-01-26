@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloInstituicao.xhtml">
+	<!-- Editar essa ultima linha para por o modelo do template que vai usar -->
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel header="Seus Endereços">
+				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="enderecoTable"
+				paginator="true" value="#{enderecoInstituicaoBean.enderecos}" var="endereco" rows="5">
+					<f:facet name="header">
+						<p:commandButton value="Novo" actionListener="#{enderecoInstituicaoBean.novoEndereco()}"
+						oncomplete="PF('dialogo').show();" update=":mensagem :formCadastro:painel">
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</f:facet>				
+					
+					<p:column headerText="Código" sortBy="#{endereco.codigo}" filterBy="#{endereco.codigo}">
+						<h:outputText value="#{endereco.codigo}" />
+					</p:column>
+					
+					<p:column headerText="CEP" sortBy="#{endereco.cep}" filterBy="#{endereco.cep}">
+						<h:outputText value="#{endereco.cep}" />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{endereco.nome}" filterBy="#{endereco.nome}">
+						<h:outputText value="#{endereco.nome}" />
+					</p:column>
+					
+					<p:column headerText="Numero" sortBy="#{endereco.numero}" filterBy="#{endereco.numero}">
+						<h:outputText value="#{endereco.numero}" />
+					</p:column>
+					
+					<p:column headerText="Estado" sortBy="#{endereco.estado}" filterBy="#{endereco.estado}">
+						<h:outputText value="#{endereco.estado}" />
+					</p:column>
+					
+					<p:column headerText="Cidade" sortBy="#{endereco.cidade}" filterBy="#{endereco.cidade}">
+						<h:outputText value="#{endereco.cidade}" />
+					</p:column>
+					
+					<p:column headerText="Bairro" sortBy="#{endereco.bairro}" filterBy="#{endereco.bairro}">
+						<h:outputText value="#{endereco.bairro}" />
+					</p:column>
+					
+					<p:column headerText="Tipo Logrador" sortBy="#{endereco.tipo_logradoro}" filterBy="#{endereco.tipo_logradoro}">
+						<h:outputText value="#{endereco.tipo_logradoro}" />
+					</p:column>
+					
+					<p:column headerText="Ponto de referência" sortBy="#{endereco.ponto_ref}" filterBy="#{endereco.ponto_ref}">
+						<h:outputText value="#{endereco.ponto_ref}" />
+					</p:column>
+					
+					<p:column headerText="Opções">
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog header="Endereco - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+					<p:outputLabel for="cep" value="CEP:"/>
+						<p:inputMask id="cep" value="#{enderecoInstituicaoBean.endereco.cep}" maxlength="8" 
+						mask="999.99-999" size="10" required="true"
+						requiredMessage="Campo 'CEP' é obrigatório."/>
+					
+					<p:outputLabel for="nome" value="Nome:"/>
+						<p:inputText id="nome" maxlength="100" value="#{enderecoInstituicaoBean.endereco.nome}"
+						size="20" required="true"
+						requiredMessage="Campo 'nome' é obrigatório."/>
+					
+					<p:outputLabel for="numero" value="Numero:"/>
+						<p:inputText id="numero" maxlength="20" value="#{enderecoInstituicaoBean.endereco.numero}"
+						size="10" required="true"
+						requiredMessage="Campo 'numero' é obrigatório."/>
+					
+					<p:outputLabel for="estado" value="Estado:"/>
+						<p:inputText id="estado" maxlength="2" value="#{enderecoInstituicaoBean.endereco.estado}"
+						size="10" required="true"
+						requiredMessage="Campo 'estado' é obrigatório."/>
+					
+					<p:outputLabel for="cidade" value="Cidade:"/>
+						<p:inputText id="cidade" maxlength="100" value="#{enderecoInstituicaoBean.endereco.cidade}"
+						size="10" required="true"
+						requiredMessage="Campo 'cidade' é obrigatório."/>
+					
+					<p:outputLabel for="bairro" value="Bairro:"/>
+						<p:inputText id="bairro" maxlength="50" value="#{enderecoInstituicaoBean.endereco.bairro}"
+						size="10" required="true"
+						requiredMessage="Campo 'bairro' é obrigatório."/>
+					
+					<p:outputLabel value="Ponto Referência:"/>
+						<p:inputText maxlength="255" value="#{enderecoInstituicaoBean.endereco.ponto_ref}"
+						size="20"/>
+					
+					<p:outputLabel value="Tipo de logradoro:"/>
+						<p:inputText maxlength="10" value="#{enderecoInstituicaoBean.endereco.tipo_logradoro}"
+						size="10" required="true"
+						requiredMessage="Campo 'tipo de logradoro' obrigatório."/>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{enderecoInstituicaoBean.inserir()}"
+						update=":mensagem :formCadastro:painel" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
