@@ -8,16 +8,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.ufrpe.minhacampanha.domain.Doacao;
-import br.ufrpe.minhacampanha.domain.DoacaoProduto;
+import br.ufrpe.minhacampanha.domain.Donativo_produto;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class DoacoesProdutoInstiBean implements Serializable{
-	private DoacaoProduto doacao;
+	private Donativo_produto doacao;
 	private List<Doacao> doacoes;
 	
-	public DoacaoProduto getDoacao() {
+	public Donativo_produto getDoacao() {
 		return doacao;
 	}
 	
@@ -25,7 +25,7 @@ public class DoacoesProdutoInstiBean implements Serializable{
 		return doacoes;
 	}
 	
-	public void setDoacao(DoacaoProduto doacao) {
+	public void setDoacao(Donativo_produto doacao) {
 		this.doacao = doacao;
 	}
 	
@@ -39,7 +39,7 @@ public class DoacoesProdutoInstiBean implements Serializable{
 	}
 	
 	public void novo(){
-		doacao = new DoacaoProduto();
+		doacao = new Donativo_produto();
 	}
 	
 	public void salvar(){
