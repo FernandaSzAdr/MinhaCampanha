@@ -31,7 +31,6 @@ public class InstituicaoDAO {
 			stmt.setString(8, instituicao.getTelefone1());
 			stmt.setString(9, instituicao.getTelefone2());
 			stmt.setString(10, instituicao.getNome_contato());
-			stmt.setLong(11, instituicao.getId_usuario());
 
 			stmt.executeUpdate();
 

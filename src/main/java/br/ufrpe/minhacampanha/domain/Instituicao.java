@@ -5,19 +5,11 @@ import java.time.LocalDate;
 
 public class Instituicao extends GenericDomain{
 	private String cnpj, nome_fantasia;
-	// Esse email é diferente do email de usuario. 
+	// Esse email ï¿½ diferente do email de usuario. 
 	private String razao_social, ramo_atuacao, nome_contato, email_geral_instituicao;
 	private String telefone1, telefone2;
 	private Date data_entrada;
-	private long id_usuario;
 	
-	public long getId_usuario() {
-		return id_usuario;
-	}
-
-	public void setId_usuario(long id_usuario) {
-		this.id_usuario = id_usuario;
-	}
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;

@@ -1,5 +1,14 @@
 package br.ufrpe.minhacampanha.dao;
 
-public class CampanhaDAO {
+import java.util.ArrayList;
+import java.util.List;
 
+import br.ufrpe.minhacampanha.domain.Campanha;
+
+
+public class CampanhaDAO {
+	public List<Campanha> listar(){
+		List<Campanha> campanhas = new ArrayList<Campanha>();
+		return campanhas;
+	}
 }

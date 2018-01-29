@@ -51,19 +51,7 @@
 						filterBy="#{instituicao.telefone2}">
 						<h:outputText value="#{instituicao.telefone2}" />
 					</p:column>
-					
-					<!-- ESSA COLUNA TA ERRADA!!! -->
-					<p:column headerText="Ativo" sortBy="#{campanha.ativo}" filterMatchMode="equals">
-						<f:facet name="filter">
-							<p:selectOneButton onchange="PF('campanhaTable').filter()">
-								<f:converter converterId="javax.faces.Boolean"/>
-								<f:selectItem itemLabel="Todos" itemValue=""/>
-								<f:selectItem itemLabel="Ativo" itemValue="true"/>
-								<f:selectItem itemLabel="Encerrado" itemValue="false"/>
-							</p:selectOneButton>
-						</f:facet>		
-						<h:outputText value="#{campanha.ativo ? 'Ativo': 'Encerrado'}" />				
-					</p:column>
+			
 				</p:dataTable>
 			</p:panel>
 		</h:form>
