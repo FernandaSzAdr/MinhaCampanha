@@ -10,7 +10,6 @@ public class Instituicao extends GenericDomain{
 	private String telefone1, telefone2;
 	private Date data_entrada;
 	
-
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
