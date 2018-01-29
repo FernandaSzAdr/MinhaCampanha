@@ -19,6 +19,7 @@ public class TestConnection {
 		try {
 			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
 			instituicoes = instituicaoDAO.listar();
+			System.out.println(instituicoes);
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar listar as instituições.");
 			erro.printStackTrace();
