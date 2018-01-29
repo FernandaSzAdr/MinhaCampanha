@@ -32,7 +32,7 @@ public class InstituicaoMenuPessoaBean implements Serializable{
 	}
 	
 	@PostConstruct
-	public void listar() throws SQLException{
+	public void listar(){
 		try {
 			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
 			instituicoes = instituicaoDAO.listar();

@@ -52,7 +52,7 @@ public class InstituicaoDAO {
 
 		try {
 
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM instituicao");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Instituicao");
 			ResultSet resultSet = stmt.executeQuery();
 
 			while (resultSet.next()) {
@@ -69,13 +69,12 @@ public class InstituicaoDAO {
 				instituicao.setTelefone1(resultSet.getString("tele1"));
 				instituicao.setTelefone2(resultSet.getString("tele2"));
 				instituicao.setNome_contato(resultSet.getString("nome_contato"));
-				instituicao.setId_usuario(resultSet.getLong("id_usuario"));
 
 				instituicoes.add(instituicao);
 			}
 
 		} catch (SQLException ex) {
-			System.out.println("erroo");
+			System.out.println(ex);
 			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
 		} finally {
 			//ConnectionFactory.closeConnection(connection, stmt, resultSet);
