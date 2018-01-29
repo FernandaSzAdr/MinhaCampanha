@@ -13,15 +13,17 @@ public class ConnectionFactory {
 	private static final String USER = "root";
 	private static final String PASS = "1234";
 	
-	public static Connection getConnection () throws SQLException{
+	public static Connection getConnection () {
 			
 			try {
 				Class.forName(DRIVER);
 				
 				return (Connection) DriverManager.getConnection(URL, USER, PASS); 
 						
-			} catch (ClassNotFoundException ex) {
+			} catch (SQLException ex) {
 				throw new RuntimeException("Erro na conexï¿½o: ",ex);
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException("Classe não encontrada: ",e);
 			}			
 	}
 	

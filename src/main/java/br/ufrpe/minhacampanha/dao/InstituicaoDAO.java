@@ -45,7 +45,7 @@ public class InstituicaoDAO {
 		}
 	}
 
-	public List<Instituicao> listar() throws SQLException {
+	public List<Instituicao> listar(){
 
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
@@ -83,7 +83,6 @@ public class InstituicaoDAO {
 			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		return instituicoes;
-
 	}
 
 	public void atualizar(Instituicao Instituicao) throws SQLException {
