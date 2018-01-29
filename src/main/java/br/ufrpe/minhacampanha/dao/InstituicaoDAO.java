@@ -9,7 +9,6 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
-import br.ufrpe.minhacampanha.util.Conexao;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class InstituicaoDAO {
@@ -53,7 +52,7 @@ public class InstituicaoDAO {
 
 		try {
 
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Instituicao");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM instituicao");
 			ResultSet resultSet = stmt.executeQuery();
 
 			while (resultSet.next()) {
@@ -76,6 +75,7 @@ public class InstituicaoDAO {
 			}
 
 		} catch (SQLException ex) {
+			System.out.println("erroo");
 			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
 		} finally {
 			//ConnectionFactory.closeConnection(connection, stmt, resultSet);
