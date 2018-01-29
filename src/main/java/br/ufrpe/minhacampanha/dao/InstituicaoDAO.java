@@ -1,5 +1,6 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,22 +43,18 @@ public class InstituicaoDAO {
 			// JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
 
 		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
+			//ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 
 	public List<Instituicao> listar(){
-		Conexao conec = new Conexao();
-		Connection connection = (Connection) conec.abrirBDCon();
-		java.sql.PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-
+		Connection connection = ConnectionFactory.getConnection();
 		List<Instituicao> instituicoes = new ArrayList<Instituicao>();
 
 		try {
 
-			stmt = connection.prepareStatement("SELECT * FROM Instituicao");
-			resultSet = stmt.executeQuery();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Instituicao");
+			ResultSet resultSet = stmt.executeQuery();
 
 			while (resultSet.next()) {
 
@@ -81,7 +78,7 @@ public class InstituicaoDAO {
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
 		} finally {
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
+			//ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		return instituicoes;
 	}
@@ -104,7 +101,7 @@ public class InstituicaoDAO {
 			// JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 
 		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
+			//ConnectionFactory.closeConnection(connection, stmt);
 		}
 
 	}
@@ -121,7 +118,7 @@ public class InstituicaoDAO {
 			// JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 
 		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
+			//ConnectionFactory.closeConnection(connection, stmt);
 		}
 
 	}
