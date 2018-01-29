@@ -52,12 +52,11 @@ public class Instituicao_receptoraDAO {
 		
 			while (resultSet.next()){
 				
-				
+			
 				Instituicao_receptora instituicao = new Instituicao_receptora();
-				instituicao.setId_doador(resultSet.getInt("id_doador"));
-				instituicao.setDt_ultima_doacao(resultSet.getDate("dt_ultima_doacao"));
-				instituicao.setNum_doacoes_prod(resultSet.getInt("num_doacoes_prod"));
-				instituicao.setNum_doacoes_fin(resultSet.getInt("num_doacoes_fin"));
+				instituicao.setId_recep(resultSet.getInt("id_recep"));
+				instituicao.setDt_ultima_recep(resultSet.getDate("dt_ultima_recep"));
+				instituicao.setNum_doacoes_recebi(resultSet.getInt("num_doacoes_recebi"));
 			
 				
 				
@@ -79,12 +78,13 @@ public class Instituicao_receptoraDAO {
 		java.sql.PreparedStatement stmt = null;
 		
 		try{
-			stmt = connection.prepareStatement("UPDATE Instituicao_receptora SET   dt_ultima_doacao= ?,  num_doacoes_prod= ?, "
-					+ "num_doacoes_fin  = ? WHERE cod = ?");
-			stmt.setDate(1, instituicao.getDt_ultima_doacao());
-			stmt.setInt(2, instituicao.getNum_doacoes_prod());
-			stmt.setInt(3,instituicao.getNum_doacoes_fin());
-			stmt.setLong(4, instituicao.getCodigo());	
+			stmt = connection.prepareStatement("UPDATE Instituicao_receptora SET   dt_ultima_recep = ?	,"
+					+ "num_doacoes_recebi = ? WHERE cod = ?");
+		
+			
+			stmt.setDate(1, instituicao.getDt_ultima_recep());
+			stmt.setInt(2, instituicao.getNum_doacoes_recebi());
+			stmt.setLong(3, instituicao.getCodigo());	
 			stmt.executeUpdate();
 			
 			//JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso");
