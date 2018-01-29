@@ -12,28 +12,43 @@ import java.time.LocalDate;
  */
 public abstract class Doacao extends GenericDomain {
 	private LocalDate dataDoacao;
-	
-	private int qtd_donativo_doado;
-	private float qtd_valor_doado;
-	
+	private int id_inst_doadora		;
+    private int id_pessoa_doadora;
+    private int id_campanha;
 
 	public LocalDate getDataDoacao() {
 		return dataDoacao;
 	}
 
-	public int getQtd_donativo_doado() {
-		return qtd_donativo_doado;
+	public int getId_inst_doadora() {
+		return id_inst_doadora;
 	}
 
-	public float getQtd_valor_doado() {
-		return qtd_valor_doado;
+	public void setId_inst_doadora(int id_inst_doadora) {
+		this.id_inst_doadora = id_inst_doadora;
 	}
 
-	public void setQtd_donativo_doado(int qtd_donativo_doado) {
-		this.qtd_donativo_doado = qtd_donativo_doado;
+	public int getId_pessoa_doadora() {
+		return id_pessoa_doadora;
 	}
 
-	public void setQtd_valor_doado(float qtd_valor_doado) {
-		this.qtd_valor_doado = qtd_valor_doado;
-	}	
+	public void setId_pessoa_doadora(int id_pessoa_doadora) {
+		this.id_pessoa_doadora = id_pessoa_doadora;
+	}
+
+	public int getId_campanha() {
+		return id_campanha;
+	}
+
+	public void setId_campanha(int id_campanha) {
+		this.id_campanha = id_campanha;
+	}
+
+	public void setDataDoacao(LocalDate dataDoacao) {
+		this.dataDoacao = dataDoacao;
+	}
+	
+	
+	
+	
 }

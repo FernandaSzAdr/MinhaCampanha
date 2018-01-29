@@ -10,23 +10,23 @@ import javax.faces.bean.ViewScoped;
 import org.omnifaces.util.Messages;
 
 import br.ufrpe.minhacampanha.domain.Campanha;
-import br.ufrpe.minhacampanha.domain.DoacaoFinanceira;
-import br.ufrpe.minhacampanha.domain.DoacaoProduto;
+import br.ufrpe.minhacampanha.domain.Donativo_financeiro;
+import br.ufrpe.minhacampanha.domain.Donativo_produto;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class CampanhaBean implements Serializable{
 	private Campanha campanha;
-	private DoacaoProduto doacaoP;
-	private DoacaoFinanceira doacaoF;
+	private Donativo_produto doacaoP;
+	private Donativo_financeiro doacaoF;
 	private List<Campanha> campanhas;
 	
-	public DoacaoFinanceira getDoacaoF() {
+	public Donativo_financeiro getDoacaoF() {
 		return doacaoF;
 	}
 	
-	public DoacaoProduto getDoacaoP() {
+	public Donativo_produto getDoacaoP() {
 		return doacaoP;
 	}
 	
@@ -38,11 +38,11 @@ public class CampanhaBean implements Serializable{
 		return campanha;
 	}
 	
-	public void setDoacaoF(DoacaoFinanceira doacaoF) {
+	public void setDoacaoF(Donativo_financeiro doacaoF) {
 		this.doacaoF = doacaoF;
 	}
 	
-	public void setDoacaoP(DoacaoProduto doacaoP) {
+	public void setDoacaoP(Donativo_produto doacaoP) {
 		this.doacaoP = doacaoP;
 	}
 	
@@ -73,11 +73,11 @@ public class CampanhaBean implements Serializable{
 	 */
 	
 	public void novaDoacaoP(){
-		doacaoP = new DoacaoProduto();
+		doacaoP = new Donativo_produto();
 	}
 	
 	public void novaDoacaoF(){
-		doacaoF = new DoacaoFinanceira();
+		doacaoF = new Donativo_financeiro();
 	}
 	
 	public void novoCampanha(){

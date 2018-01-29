@@ -1,14 +1,19 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.util.Date;
-
-public class DoacaoFinanceira extends Doacao{
+/**
+ * 
+ * @author Srta Camelo
+ *
+ */
+public class Donativo_financeiro extends Doacao{
 	
     int ja_em_estoque;
     Date data_ulti_entrada;
-    String status_donativo;
+    int id_campanha;
+    private float qtd_valor_doado;
     
-    public DoacaoFinanceira() {
+    public Donativo_financeiro() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -27,15 +32,15 @@ public class DoacaoFinanceira extends Doacao{
 	public void setData_ulti_entrada(Date data_ulti_entrada) {
 		this.data_ulti_entrada = data_ulti_entrada;
 	}
-
-	public String getStatus_donativo() {
-		return status_donativo;
+	
+	public float getQtd_valor_doado() {
+		return qtd_valor_doado;
 	}
 
-	public void setStatus_donativo(String status_donativo) {
-		this.status_donativo = status_donativo;
-	}
-    
+	public void setQtd_valor_doado(float qtd_valor_doado) {
+		this.qtd_valor_doado = qtd_valor_doado;
+	}	
+
     
 
 }
