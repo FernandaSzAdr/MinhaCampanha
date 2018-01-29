@@ -5,17 +5,17 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	template="/templates/modeloPessoaFisica.xhtml">
+	template="/templates/modeloPessoaInst.xhtml">
 
 <ui:define name="conteudo">
 	<h:form>
 		<p:panel header="Doações">
 			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				paginator="true" widgetVar="doacoesTable" value="#{doacaoPessoaBean.doacoes}" 
+				paginator="true" widgetVar="doacoesTable" value="#{doacoesProdutoInstiBean.doacoes}" 
 				var="doacao">
 				
 				<f:facet name="header">
-					<p:commandButton value="Doar" actionListener="#{doacaoPessoaBean.novo()}" 
+					<p:commandButton value="Doar" actionListener="#{doacoesProdutoInstiBean.novo()}" 
 					oncomplete="PF('dialogo').show();" update=":mensagem :formCadastro:painel" />
 				</f:facet>
 				
@@ -37,7 +37,8 @@
 				
 				<p:column headerText="Produtos Doados" filterBy="#{pf.produto_doado}" filterMatchMode="in">
 					<f:facet name="filter">
-		                <p:selectCheckboxMenu label="Selecione os Produtos Doados de Sua Escolha" onchange="PF('doacoesTable').filter()" panelStyle="width:125px" scrollHeight="150">
+		                <p:selectCheckboxMenu label="Selecione os Produtos Doados de Sua Escolha" onchange="PF('doacoesTable').filter()" 
+		                panelStyle="width:125px" scrollHeight="150">
 		                    <f:selectItems value="" />
 		                </p:selectCheckboxMenu>
 		            </f:facet>
@@ -74,7 +75,7 @@
 				
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar"
-						actionListener="#{doacaoPessoaBean.salvar()}"
+						actionListener="#{doacoesProdutoInstiBean.salvar()}"
 						update=":mensagem :formCadastro:painel" />
 					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 				</h:panelGrid>
