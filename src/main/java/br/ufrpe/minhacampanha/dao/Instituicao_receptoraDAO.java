@@ -9,7 +9,11 @@ import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao_receptora;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
-
+/**
+ * 
+ * @author raiss
+ *
+ */
 public class Instituicao_receptoraDAO {
 	
 	public void criar(Instituicao_receptora instituicao) throws SQLException{

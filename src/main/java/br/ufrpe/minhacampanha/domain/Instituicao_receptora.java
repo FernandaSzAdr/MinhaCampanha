@@ -1,5 +1,10 @@
 package br.ufrpe.minhacampanha.domain;
 import java.sql.Date;
+/**
+ * 
+ * @author raiss
+ *
+ */
 public class Instituicao_receptora extends Instituicao{
 
 	private int id_recep;		

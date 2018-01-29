@@ -9,7 +9,11 @@ import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Donativo_financeiro;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
-
+/**
+ * 
+ * @author raiss
+ *
+ */
 public class Donativo_financeiroDAO {
 
 	public void criar(Donativo_financeiro produto) throws SQLException{

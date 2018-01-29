@@ -8,7 +8,11 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 import br.ufrpe.minhacampanha.domain.Instituicao_doadora;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
-
+/**
+ * 
+ * @author raiss
+ *
+ */
 public class Instituicao_doadoraDAO {
 	
 	public void criar(Instituicao_doadora instituicao) throws SQLException{
