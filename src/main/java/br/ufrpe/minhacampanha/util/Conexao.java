@@ -17,6 +17,7 @@ public class Conexao {
 	
 	public Connection abrirBDCon(){
 		try {
+			
 			Class.forName(driver);
 			this.con = DriverManager.getConnection(servidor,usuario,senha);
 			this.stm = con.createStatement();
