@@ -13,11 +13,6 @@
 				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="campanhaTable"
 					paginator="true" value="#{campanhaBean.campanhas}" var="campanha" rows="5">
 					
-					<p:column headerText="Código" sortBy="#{campanha.codigo}"
-						filterBy="#{campanha.codigo}">
-						<h:outputText value="#{campanha.codigo}" />
-					</p:column>
-					
 					<p:column headerText="Nome" sortBy="#{campanha.nome}"
 						filterBy="#{campanha.nome}">
 						<h:outputText value="#{campanha.nome}" />

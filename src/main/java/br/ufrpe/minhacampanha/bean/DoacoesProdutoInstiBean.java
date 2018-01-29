@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.ufrpe.minhacampanha.domain.Doacao;
 import br.ufrpe.minhacampanha.domain.DoacaoProduto;
 
 @SuppressWarnings("serial")
@@ -14,13 +15,13 @@ import br.ufrpe.minhacampanha.domain.DoacaoProduto;
 @ViewScoped
 public class DoacoesProdutoInstiBean implements Serializable{
 	private DoacaoProduto doacao;
-	private List<DoacaoProduto> doacoes;
+	private List<Doacao> doacoes;
 	
 	public DoacaoProduto getDoacao() {
 		return doacao;
 	}
 	
-	public List<DoacaoProduto> getDoacoes() {
+	public List<Doacao> getDoacoes() {
 		return doacoes;
 	}
 	
@@ -28,7 +29,7 @@ public class DoacoesProdutoInstiBean implements Serializable{
 		this.doacao = doacao;
 	}
 	
-	public void setDoacoes(List<DoacaoProduto> doacoes) {
+	public void setDoacoes(List<Doacao> doacoes) {
 		this.doacoes = doacoes;
 	}
 	

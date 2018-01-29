@@ -1,12 +1,16 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.omnifaces.util.Messages;
+
+import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 
 @SuppressWarnings("serial")
@@ -28,7 +32,13 @@ public class InstituicaoMenuPessoaBean implements Serializable{
 	}
 	
 	@PostConstruct
-	public void listar(){
-		
+	public void listar() throws SQLException{
+		try {
+			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
+			instituicoes = instituicaoDAO.listar();
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar listar as instituições.");
+			erro.printStackTrace();
+		}
 	}
 }

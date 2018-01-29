@@ -9,9 +9,9 @@ import com.mysql.jdbc.Connection;
 public class ConnectionFactory {
 
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://localhost:3306/minhacampanha";
+	private static final String URL = "jdbc:mysql://localhost:3306/minha_campanha";
 	private static final String USER = "root";
-	private static final String PASS = "";
+	private static final String PASS = "1234";
 	
 	public static Connection getConnection () throws SQLException{
 			
@@ -21,7 +21,7 @@ public class ConnectionFactory {
 				return (Connection) DriverManager.getConnection(URL, USER, PASS); 
 						
 			} catch (ClassNotFoundException ex) {
-				throw new RuntimeException("Erro na conexão: ",ex);
+				throw new RuntimeException("Erro na conexï¿½o: ",ex);
 			}			
 	}
 	
@@ -33,7 +33,7 @@ public class ConnectionFactory {
 				connection.close();
 			}	
 		}catch (SQLException ex) {
-			throw new RuntimeException("Não foi possível encerrar a conexão - ",ex);
+			throw new RuntimeException("Nï¿½o foi possï¿½vel encerrar a conexï¿½o - ",ex);
 		}
 		
 	}
@@ -48,7 +48,7 @@ public class ConnectionFactory {
 					stmt.close();
 				}	
 			}catch (SQLException ex) {
-				throw new RuntimeException("Não foi possível encerrar a conexão - ",ex);
+				throw new RuntimeException("Nï¿½o foi possï¿½vel encerrar a conexï¿½o - ",ex);
 			}
 			
 		}
@@ -62,7 +62,7 @@ public class ConnectionFactory {
 				resultset.close();
 			}	
 		}catch (SQLException ex) {
-			throw new RuntimeException("Não foi possível encerrar a conexão - ",ex);
+			throw new RuntimeException("Nï¿½o foi possï¿½vel encerrar a conexï¿½o - ",ex);
 		}
 		
 	}

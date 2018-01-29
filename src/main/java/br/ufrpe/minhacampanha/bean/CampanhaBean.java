@@ -10,13 +10,25 @@ import javax.faces.bean.ViewScoped;
 import org.omnifaces.util.Messages;
 
 import br.ufrpe.minhacampanha.domain.Campanha;
+import br.ufrpe.minhacampanha.domain.DoacaoFinanceira;
+import br.ufrpe.minhacampanha.domain.DoacaoProduto;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class CampanhaBean implements Serializable{
 	private Campanha campanha;
+	private DoacaoProduto doacaoP;
+	private DoacaoFinanceira doacaoF;
 	private List<Campanha> campanhas;
+	
+	public DoacaoFinanceira getDoacaoF() {
+		return doacaoF;
+	}
+	
+	public DoacaoProduto getDoacaoP() {
+		return doacaoP;
+	}
 	
 	public List<Campanha> getCampanhas() {
 		return campanhas;
@@ -24,6 +36,14 @@ public class CampanhaBean implements Serializable{
 	
 	public Campanha getCampanha() {
 		return campanha;
+	}
+	
+	public void setDoacaoF(DoacaoFinanceira doacaoF) {
+		this.doacaoF = doacaoF;
+	}
+	
+	public void setDoacaoP(DoacaoProduto doacaoP) {
+		this.doacaoP = doacaoP;
 	}
 	
 	public void setCampanhas(List<Campanha> campanhas) {
@@ -51,7 +71,24 @@ public class CampanhaBean implements Serializable{
 	 * TODO como que vai ligar essa campanha com a instituição logada? 
 	 * Será que precisa por outro tipo de Scoped? .-.	 * 
 	 */
+	
+	public void novaDoacaoP(){
+		doacaoP = new DoacaoProduto();
+	}
+	
+	public void novaDoacaoF(){
+		doacaoF = new DoacaoFinanceira();
+	}
+	
 	public void novoCampanha(){
 		campanha = new Campanha();
 	}	
+	
+	public void doarFinanceiro(){
+		
+	}
+	
+	public void doarProduto(){
+		
+	}
 }

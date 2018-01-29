@@ -8,16 +8,12 @@
 	template="/templates/modeloPessoaFisica.xhtml">
 
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="formListaggem">
 			<p:panel header="Campanha">
-				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="campanhaTable"
-					paginator="true" value="#{campanhaBean.campanhas}" var="campanha" rows="5">
-					
-					<p:column headerText="Código" sortBy="#{campanha.codigo}"
-						filterBy="#{campanha.codigo}">
-						<h:outputText value="#{campanha.codigo}" />
-					</p:column>
-					
+				<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado." 
+					widgetVar="campanhaTable" paginator="true" 
+					value="#{campanhaBean.campanhas}" var="campanha" rows="5">
+				
 					<p:column headerText="Nome" sortBy="#{campanha.nome}"
 						filterBy="#{campanha.nome}">
 						<h:outputText value="#{campanha.nome}" />
@@ -88,8 +84,38 @@
 						</f:facet>		
 						<h:outputText value="#{campanha.ativo ? 'Ativo': 'Encerrado'}" />				
 					</p:column>
+					
+					<p:column headerText="Opções">
+						<p:commandButton icon="ui-icon-circle-plus"	update=":mensagem :formListagem:tabela" 
+						oncomplete="PF('dialogoDoar').show();" />
+					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
+		
+		<p:dialog header="Doar" widgetVar="dialogoDoar"
+			draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formDoar">
+				<h:panelGrid columns="2">
+					<p:commandButton value="Doar Produto" actionListener="#{campanhaBean.novaDoacaoP()}"
+					update=":mensagem" oncomplete="PF('dialogoProduto').show();"/>
+					<p:commandButton value="Doação Monetária" actionListener="#{campanhaBean.doacaoF}"
+					update=":mensagem" oncomplete="PF('dialogoFinanceiro').show();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog header="Doação Produto" widgetVar="dialogoProduto"
+			draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formProduto">
+				<h:panelGrid columns="2" id="painelProduto">
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" >
+					<p:commandButton value="Salvar" actionListener="#{campanhaBean.doacaoP}"/>
+					<p:commandButton value="Voltar" oncomplete="PF('dialogoProduto').hide;"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
