@@ -8,6 +8,7 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
+import br.ufrpe.minhacampanha.util.Conexao;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class InstituicaoDAO {
@@ -46,8 +47,8 @@ public class InstituicaoDAO {
 	}
 
 	public List<Instituicao> listar(){
-
-		Connection connection = ConnectionFactory.getConnection();
+		Conexao conec = new Conexao();
+		Connection connection = (Connection) conec.abrirBDCon();
 		java.sql.PreparedStatement stmt = null;
 		ResultSet resultSet = null;
 
