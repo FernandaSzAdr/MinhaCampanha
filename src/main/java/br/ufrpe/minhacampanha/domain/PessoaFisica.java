@@ -1,11 +1,12 @@
 package br.ufrpe.minhacampanha.domain;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class PessoaFisica extends GenericDomain{
 	private String primeiro_nome, medio_nome, ultimo_nome;
 	private String cpf;
-	private LocalDate nascimento;
+	private Date nascimento;
 	private String telefone1, telefone2;
 	private boolean ativo = true;
 	private boolean anonimato = false;
@@ -13,7 +14,7 @@ public class PessoaFisica extends GenericDomain{
 	
 	public PessoaFisica(){}
 	
-	public PessoaFisica(String primeiro_nome, String medio_nome, String ultimo_nome, String cpf, LocalDate nascimento,
+	public PessoaFisica(String primeiro_nome, String medio_nome, String ultimo_nome, String cpf, Date nascimento,
 			String telefone1, String telefone2, Long endereco) {
 		this.primeiro_nome = primeiro_nome;
 		this.medio_nome = medio_nome;
@@ -49,11 +50,11 @@ public class PessoaFisica extends GenericDomain{
 		this.ultimo_nome = ultimo_nome;
 	}
 
-	public LocalDate getNascimento() {
+	public Date getNascimento() {
 		return nascimento;
 	}
 
-	public void setNascimento(LocalDate nascimento) {
+	public void setNascimento(Date nascimento) {
 		this.nascimento = nascimento;
 	}
 
