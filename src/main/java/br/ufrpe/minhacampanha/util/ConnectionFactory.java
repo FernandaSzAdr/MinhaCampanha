@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.util;
 
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,4 +22,44 @@ public class ConnectionFactory {
             throw new RuntimeException("Ocorreu um ClassNotFoundException na ConnectionFactory", ex);
         }
     }
+    
+public static void closeConnection(Connection connection){
+		
+		try {
+			if (connection != null){
+				connection.close();
+			}	
+		}catch (SQLException ex) {
+			throw new RuntimeException("Não foi possível encerrar a conexão - ",ex);
+		}
+		
+	}
+	
+	
+	
+	public static void closeConnection(java.sql.Connection connection, java.sql.PreparedStatement stmt){
+			
+		closeConnection((Connection) connection);
+			try {
+				if (stmt != null){
+					stmt.close();
+				}	
+			}catch (SQLException ex) {
+				throw new RuntimeException("Não foi possível encerrar a conexão - ",ex);
+			}
+			
+		}
+	
+	
+	public static void closeConnection(java.sql.Connection connection, java.sql.PreparedStatement stmt, ResultSet resultset){
+		closeConnection(connection, stmt);
+		
+		try {
+			if (resultset != null){
+				resultset.close();
+			}	
+		}catch (SQLException ex) {
+			throw new RuntimeException("Não foi possível encerrar a conexão - ",ex);
+		}
+	}
 }
