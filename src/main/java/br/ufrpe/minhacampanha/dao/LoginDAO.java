@@ -9,10 +9,41 @@ import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 import  br.ufrpe.minhacampanha.domain.*;
-
+/**
+ * 
+ * @author raiss
+ *
+ */
 public class LoginDAO {
+	//Funcao checa o usuario e a senha para Logar no sistema
 	public boolean efetuarLogin(Login tentativa) {
+		Login sistema = new Login();
 		boolean logado = false;
+		Connection connection = ConnectionFactory.getConnection();
+		java.sql.PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		
+		try {
+			
+			stmt = connection.prepareStatement("SELECT login, senha FROM USUARIO WHERE login = ?");
+			resultSet =stmt.executeQuery();
+			if(resultSet == null) {
+				//Usuario não cadastrado???
+			}
+			while(resultSet.next()) { //Isso é necessario?
+				sistema.setLogin(resultSet.getString("login"));
+				sistema.setSenha(resultSet.getString("senha"));
+			}
+			
+		}catch(SQLException ex) {
+			
+		}
+		if(sistema != null) {
+			if(sistema.equals(tentativa)) {
+				logado = true;
+			}
+		}
+		
 		//TODO: SQL block
 		return logado;
 	}

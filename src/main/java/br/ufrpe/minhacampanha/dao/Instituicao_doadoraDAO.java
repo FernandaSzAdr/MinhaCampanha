@@ -28,8 +28,8 @@ public class Instituicao_doadoraDAO {
 			stmt.setInt(3,instituicao.getNum_doacoes_prod());
 			stmt.setInt(4,instituicao.getNum_doacoes_fin());
 			
-
-			
+			stmt.executeUpdate();
+			connection.commit();
 			//JOptionPane.showMessageDialog(null, "Donativo_instituicao, regustrado");
 			
 		}catch (SQLException ex){
