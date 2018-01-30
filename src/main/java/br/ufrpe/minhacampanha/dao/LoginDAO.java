@@ -11,6 +11,11 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
 import  br.ufrpe.minhacampanha.domain.*;
 
 public class LoginDAO {
+	public boolean efetuarLogin(Login tentativa) {
+		boolean logado = false;
+		//TODO: SQL block
+		return logado;
+	}
 	public void criar(Login new_login) throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
