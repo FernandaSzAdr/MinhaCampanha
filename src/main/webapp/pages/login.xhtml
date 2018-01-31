@@ -30,12 +30,13 @@
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 			</p:commandButton>
 		</h:form>
-		
-		<h:panelGrid columns="2">
+	</h:form>	
+	<h:form>
+		<h:panelGrid columns="1">
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de instituição" 
-				action="cadastroUsuarioInstituicao.xhtml"/>	
+				action="cadastroUsuarioInstituicao?faces-redirect=true"/>
 			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de pessoa" 
-				action="cadastroUsuarioPessoa.xhtml" />	
+				action="cadastroUsuarioPessoa?faces-redirect=true" />	
 		</h:panelGrid>
 	</h:form>
 	</ui:define>

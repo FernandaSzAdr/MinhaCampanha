@@ -1,30 +1,20 @@
 package br.ufrpe.minhacampanha.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @SuppressWarnings("serial")
 public class PessoaFisica extends GenericDomain{
 	private String primeiro_nome, medio_nome, ultimo_nome;
 	private String cpf;
-	private Date nascimento;
+	private LocalDate nascimento;
 	private String telefone1, telefone2;
 	private boolean ativo = true;
-	private boolean anonimato = false;
-	private Long endereco;
+	private int anonimato;
+	private int id_endereco;
+	private int id_usuario;
+	private String tipo_pessoa;
 	
 	public PessoaFisica(){}
-	
-	public PessoaFisica(String primeiro_nome, String medio_nome, String ultimo_nome, String cpf, Date nascimento,
-			String telefone1, String telefone2, Long endereco) {
-		this.primeiro_nome = primeiro_nome;
-		this.medio_nome = medio_nome;
-		this.ultimo_nome = ultimo_nome;
-		this.cpf = cpf;
-		this.nascimento = nascimento;
-		this.telefone1 = telefone1;
-		this.telefone2 = telefone2;
-		this.endereco = endereco;
-	}
 
 	public String getPrimeiro_nome() {
 		return primeiro_nome;
@@ -50,11 +40,11 @@ public class PessoaFisica extends GenericDomain{
 		this.ultimo_nome = ultimo_nome;
 	}
 
-	public Date getNascimento() {
+	public LocalDate getNascimento() {
 		return nascimento;
 	}
 
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(LocalDate nascimento) {
 		this.nascimento = nascimento;
 	}
 
@@ -82,15 +72,39 @@ public class PessoaFisica extends GenericDomain{
 		this.ativo = ativo;
 	}
 
-	public boolean isAnonimato() {
+	public int isAnonimato() {
 		return anonimato;
 	}
 
-	public void setAnonimato(boolean anonimato) {
+	public void setAnonimato(int anonimato) {
 		this.anonimato = anonimato;
 	}
 
 	public String getCpf() {
 		return cpf;
+	}
+
+	public String getTipo_pessoa() {
+		return tipo_pessoa;
+	}
+
+	public void setTipo_pessoa(String tipo_pessoa) {
+		this.tipo_pessoa = tipo_pessoa;
+	}
+
+	public int getEndereco() {
+		return id_endereco;
+	}
+
+	public void setEndereco(int endereco) {
+		this.id_endereco = endereco;
+	}
+
+	public int getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
 	} 
 }

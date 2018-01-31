@@ -12,7 +12,8 @@ public class Usuario extends GenericDomain {
 	private int ativo;
 	
 	public Usuario(){
-		
+		data_criacao = LocalDate.now();
+		ativo = 1;
 	}
 	
 	public Usuario(String email, Login login) {
@@ -36,7 +37,7 @@ public class Usuario extends GenericDomain {
 		this.login = login;
 	}
 
-	public long getInstituicao_vinculada() {
+	public int getInstituicao_vinculada() {
 		return instituicao_vinculada;
 	}
 

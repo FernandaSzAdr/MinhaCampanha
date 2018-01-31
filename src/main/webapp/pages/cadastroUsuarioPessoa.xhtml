@@ -62,9 +62,7 @@
 			
 			<p:spacer height="5"/>
 			<p:separator/>			
-		</h:form>
-		
-		<h:form>
+	
 			<h:panelGrid columns="2">
 				<p:commandButton icon="ui-icon-plus" value="Vincular uma instituição" 
 				actionListener="#{usuarioPessoaBean.novoInstituicao}" 
@@ -74,7 +72,7 @@
 				actionListener="#{usuarioPessoaBean.criarUsuario}"
 				update=":mensagem :formCriacao"/>
 				
-				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" action="login.xhtml"/>
+				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" action="login?faces-redirect=true"/>
 			</h:panelGrid>
 		</h:form>
 		

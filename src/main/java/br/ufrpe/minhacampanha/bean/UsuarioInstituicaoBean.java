@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -8,12 +9,9 @@ import javax.faces.bean.ViewScoped;
 
 import org.omnifaces.util.Messages;
 
-import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
-import br.ufrpe.minhacampanha.dao.LoginDAO;
-import br.ufrpe.minhacampanha.dao.UsuarioDAO;
+import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
-import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
 
 @SuppressWarnings("serial")
@@ -56,25 +54,30 @@ public class UsuarioInstituicaoBean implements Serializable{
 		this.instituicao = instituicao;
 	}
 	
+	/* ------------------------------------------------------------------------------------- */
+	
 	/**
 	 * TODO para fazer esses dois metodos olhar esse negocio aqui
 	 * https://stackoverflow.com/questions/32843135/redirect-login-page-to-another-page-in-jsf
 	 * 
 	 * https://www.youtube.com/watch?v=DnMl1xfmB70
+	 * @throws Exception 
+	 * @throws SQLException 
 	 */
 	
-	public void criarUsuarioInstituicao(){
-		/**
-		 * TODO pegar informa��es de pessoa, usuario, instituicao, login...
-		 */
+	public String criarUsuarioInstituicao(){
 		try {
-			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
-			LoginDAO loginDAO = new LoginDAO();
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
 			
-		} catch (RuntimeException erro) {
+			cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao);
+			Messages.addGlobalInfo("Cadastro realizado com Sucesso");
+			
+			return "/pages/login?faces-redirect=true";
+		} catch (Exception erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuário.");
 			erro.printStackTrace();
+			
 		}
+		return "/pages/cadastroUsuarioInstituicao?faces-redirect=true";
 	}	
 }

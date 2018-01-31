@@ -1,6 +1,6 @@
 package br.ufrpe.minhacampanha.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * 
@@ -13,7 +13,11 @@ public class Instituicao extends GenericDomain{
 	// Esse email � diferente do email de usuario. 
 	private String razao_social, ramo_atuacao, nome_contato, email_geral_instituicao;
 	private String telefone1, telefone2;
-	private Date data_entrada;
+	private LocalDate data_entrada;
+	
+	public Instituicao() {
+		data_entrada = LocalDate.now();
+	}
 	
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
@@ -31,27 +35,10 @@ public class Instituicao extends GenericDomain{
 		this.ramo_atuacao = ramo_atuacao;
 	}
 
-	public void setData_entrada(Date data_entrada) {
+	public void setData_entrada(LocalDate data_entrada) {
 		this.data_entrada = data_entrada;
 	}
-
-	public Instituicao( String cnpj, String nome_fantasia, String razao_social, String ramo_atuacao, String nome_contato,
-			String email_geral_instituicao, String telefone1, String telefone2, Date data_entrada) {
-		this.cnpj = cnpj;
-		this.nome_fantasia = nome_fantasia;
-		this.razao_social = razao_social;
-		this.ramo_atuacao = ramo_atuacao;
-		this.nome_contato = nome_contato;
-		this.email_geral_instituicao = email_geral_instituicao;
-		this.telefone1 = telefone1;
-		this.telefone2 = telefone2;
-		this.data_entrada = data_entrada;
-	}
-
-	public Instituicao() {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -102,7 +89,7 @@ public class Instituicao extends GenericDomain{
 	}
 
 
-	public Date getData_entrada() {
+	public LocalDate getData_entrada() {
 		return data_entrada;
 	}
 	

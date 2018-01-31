@@ -6,11 +6,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class PessoaFisicaDAO {
+	/**
+	 * Busca a pessoa pelo id de usuario, para poder vincular a pessoa
+	 * no LoginBean
+	 * @param idUsuario
+	 * @throws SQLException 
+	 */
+	public PessoaFisica buscar(int idUsuario) throws SQLException{		
+		PessoaFisica pessoa = new PessoaFisica();
+		try {			
+			Connection connection = ConnectionFactory.getConnection();
+			String SQL = "SELECT * from pessoa_fisica where id_usuario = ?";
+			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt.setInt(1, idUsuario);
+			
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				pessoa.setPrimeiro_nome(rs.getString("p_nome"));
+				pessoa.setMedio_nome(rs.getString("m_nome"));
+				pessoa.setUltimo_nome(rs.getString("u_nome"));
+				pessoa.setAnonimato(rs.getInt("anonimato"));
+				pessoa.setNascimento(rs.getDate("dt_nasc").toLocalDate());
+				pessoa.setTelefone1(rs.getString("num1"));
+				pessoa.setTelefone2(rs.getString("num"));
+				pessoa.setTipo_pessoa(rs.getString("tipo_pessoa"));
+				pessoa.setId_usuario(idUsuario);
+				pessoa.setEndereco(rs.getInt("seque_end"));
+			}
+			
+			ConnectionFactory.closeConnection(connection, stmt);
+		} catch (SQLException erro) {
+			throw erro;
+		}
+		
+		return pessoa;
+	}
+	
 	public void criar(PessoaFisica pessoa) {
 
 		Connection connection = ConnectionFactory.getConnection();

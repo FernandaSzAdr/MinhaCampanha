@@ -16,18 +16,48 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
  *
  */
 public class InstituicaoDAO {
+	
+	public Instituicao buscar(int idInst) throws SQLException{
+		Instituicao instituicao = new Instituicao();
+		try {			
+			Connection connection = ConnectionFactory.getConnection();
+			String SQL = "SELECT * FROM instituicao WHERE id = ?";
+			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt.setInt(1, idInst);
+			
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				instituicao.setCnpj(rs.getString("cnpj"));
+				instituicao.setData_entrada(rs.getDate("data_entrada").toLocalDate());
+				instituicao.setRamo_atuacao(rs.getString("ramo_atuacao"));
+				instituicao.setRazao_social(rs.getString("razao_social"));
+				instituicao.setNome_fantasia(rs.getString("nome_fantasia"));
+				instituicao.setEmail_geral_instituicao(rs.getString("email"));
+				instituicao.setTelefone1(rs.getString("tele1"));
+				instituicao.setTelefone2(rs.getString("tele2"));
+				instituicao.setNome_contato(rs.getString("nome_contato"));
+			}
+			
+			ConnectionFactory.closeConnection(connection, stmt);
+		} catch (SQLException erro) {
+			throw erro;
+		}
+		
+		return instituicao;
+	}
+	
 	public void criar(Instituicao instituicao) throws SQLException {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-
 		try {
+			Connection connection = ConnectionFactory.getConnection();
+			java.sql.PreparedStatement stmt = null;
+			
 			stmt = connection.prepareStatement("INSERT INTO Instituicao (id, cnpj, data_entrada, "
-					+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, tele2, nome_contato"
-					+ "id_usuario)VALUES(?,?,?,?,?,?,?,?,?,?,?)");
-			stmt.setLong(1, instituicao.getCodigo());
+					+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, tele2, nome_contato)"
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)");
+			
 			stmt.setString(2, instituicao.getCnpj());
-			stmt.setDate(3, instituicao.getData_entrada());
+			System.out.println("data " + instituicao.getData_entrada());
+			stmt.setDate(3, java.sql.Date.valueOf(instituicao.getData_entrada()));
 			stmt.setString(4, instituicao.getRamo_atuacao());
 			stmt.setString(5, instituicao.getRazao_social());
 			stmt.setString(6, instituicao.getNome_fantasia());
@@ -40,13 +70,12 @@ public class InstituicaoDAO {
 
 			// JOptionPane.showMessageDialog(null, "Instituicao salvo com
 			// sucesso");
-
+			
+			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
 
-		} finally {
-			//ConnectionFactory.closeConnection(connection, stmt);
-		}
+		} 
 	}
 
 	public List<Instituicao> listar(){

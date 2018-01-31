@@ -22,6 +22,7 @@ import br.ufrpe.minhacampanha.domain.Usuario;
 public class UsuarioPessoaBean implements Serializable{
 	private Login login;
 	private Usuario usuario;
+	@SuppressWarnings("unused")
 	private Instituicao inst_pessoa;
 	private PessoaFisica pessoa;
 	
@@ -31,11 +32,6 @@ public class UsuarioPessoaBean implements Serializable{
 		login = new Login();
 		usuario = new Usuario();
 	}
-	
-	public void novoInstituicao(){
-		inst_pessoa = new Instituicao();
-	}
-	
 	public Instituicao getInst_pessoa() {
 		return inst_pessoa;
 	}
@@ -66,6 +62,10 @@ public class UsuarioPessoaBean implements Serializable{
 	
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public void novoInstituicao(){
+		inst_pessoa = new Instituicao();
 	}
 	
 	public void pegarInstituicao(){

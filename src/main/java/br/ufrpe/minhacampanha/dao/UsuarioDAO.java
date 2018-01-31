@@ -13,32 +13,29 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class UsuarioDAO {
 	
-	public void criar(Usuario user) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void criar(Usuario user) throws SQLException{		
 		try{
-			String SQL = "INSERT INTO USUARIO (login, senha, email, dtcriacao,id_inst, "
-					+ "bool_ativado, data_vl_inicio, data_vl_fim) VALUES(?,?,?,?,?,?,?,?)";
+			Connection connection = ConnectionFactory.getConnection();
+			java.sql.PreparedStatement stmt = null;
+			
+			String SQL = "INSERT INTO USUARIO (idusuario, senha, login, email, dtcriacao, id_inst, "
+					+ "bool_ativado, data_vl_inicio, data_vl_fim) VALUES(?,?,?,?,?,?,?,?,?)";
 			stmt = connection.prepareStatement(SQL);
 			
-			stmt.setString(2, user.getLogin().getLogin());
-			stmt.setString(3, user.getLogin().getSenha());
+			stmt.setString(2, user.getLogin().getSenha());
+			stmt.setString(3, user.getLogin().getLogin());
 			stmt.setString(4, user.getEmail());
-			//stmt.setDate(4, user.getData_criacao()); TODO:
-			//stmt.setLong(5, user.getInstituicao_vinculada());
-			//stmt.setBoolean(6,1);
-			//stmt.setDate(7, user.getData_vl_inicio()); 
-			//stmt.setDate(7, user.getData_vl_fim()()); 
-			
+			stmt.setDate(5, java.sql.Date.valueOf(user.getData_criacao())); 
+			stmt.setInt(6, user.getInstituicao_vinculada());
+			stmt.setInt(7, user.getAtivo());
+			stmt.setDate(8, java.sql.Date.valueOf(user.getData_vl_inicio())); 
+			stmt.setDate(9, java.sql.Date.valueOf(user.getData_vl_fim())); 
 			
 			//JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso");
-			
+			ConnectionFactory.closeConnection(connection, stmt);
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
-			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
+			throw ex;
 		}
 	}
 	
