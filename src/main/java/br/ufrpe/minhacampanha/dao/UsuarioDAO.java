@@ -12,15 +12,19 @@ import br.ufrpe.minhacampanha.domain.Usuario;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class UsuarioDAO {
+	
 	public void criar(Usuario user) throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
 		
 		try{
-			stmt = connection.prepareStatement("INSERT INTO USUARIO (login, senha, email, dtcriacao,id_inst, bool_ativado, data_vl_inicio, data_vl_fim) VALUES(?,?,?,?,?,?,?,?)");
-			stmt.setString(1, user.getLogin().getLogin());
-			stmt.setString(2, user.getLogin().getSenha());
-			stmt.setString(3, user.getEmail());
+			String SQL = "INSERT INTO USUARIO (login, senha, email, dtcriacao,id_inst, "
+					+ "bool_ativado, data_vl_inicio, data_vl_fim) VALUES(?,?,?,?,?,?,?,?)";
+			stmt = connection.prepareStatement(SQL);
+			
+			stmt.setString(2, user.getLogin().getLogin());
+			stmt.setString(3, user.getLogin().getSenha());
+			stmt.setString(4, user.getEmail());
 			//stmt.setDate(4, user.getData_criacao()); TODO:
 			//stmt.setLong(5, user.getInstituicao_vinculada());
 			//stmt.setBoolean(6,1);
@@ -53,15 +57,13 @@ public class UsuarioDAO {
 			while (resultSet.next()){
 				
 				Usuario user = new Usuario();
-				user.setCodigo(resultSet.getLong("cod"));
+				user.setCodigo(resultSet.getInt("cod"));
 				//user.setData_vl_inicio(resultSet.getDate("data_vl_inicio"));
 				//user.setData_vl_fim(resultSet.getDate("data_vl_fim"));
 				user.setEmail(resultSet.getString("email"));
 				Login login = new Login();
 				login.setLogin(resultSet.getString("login"));
 				user.setLogin(login);
-				
-				
 				
 				users.add(user);
 			 }

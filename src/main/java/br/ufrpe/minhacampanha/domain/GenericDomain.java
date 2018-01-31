@@ -2,15 +2,16 @@ package br.ufrpe.minhacampanha.domain;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class GenericDomain implements Serializable {
 	
-	private long codigo;
+	private int codigo;
 
-	public long getCodigo() {
+	public int getCodigo() {
 		return codigo;  
 	}
 
-	public void setCodigo(long codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}	
 }

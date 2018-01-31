@@ -24,19 +24,26 @@
 		resizable="false" modal="true" closable="false">
 		<h:form id="formLogin">
 			<h:panelGrid id="panelLogin" columns="2">
-				<p:outputLabel value="Usuário: *" />
-				<p:inputText label="Usuario" value="#{loginBean.loginExistente.login}" maxlength="30" size="10" required="true"/>
+				<p:outputLabel for="usuario" value="Usuario:" />
+				<p:inputText id="usuario" label="Usuario" value="#{loginBean.loginExistente.login}" maxlength="30" size="10" 
+				required="true" requiredMessage="O campo 'Usuario' é obrigatorio!"/>
 	
-				<p:outputLabel value="Senha: *" />
-				<p:password label="Senha" value="#{loginBean.loginExistente.senha}" maxlength="16" size="10" required="true"/>
+				<p:outputLabel for="senha" value="Senha:" />
+				<p:password id="senha" label="Senha" value="#{loginBean.loginExistente.senha}" maxlength="16" size="10" 
+				required="true" requiredMessage="O campo 'Senha' é obrigatorio!"/>
 			</h:panelGrid>	
 		</h:form>
 		
 		<h:form>
 			<h:panelGrid columns="2">
 				<p:commandButton icon="ui-icon-key" value="Entrar" actionListener="#{loginBean.logar}"
-					update="formLogin:panelLogin" />
-				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" oncomplete="PF('dialogoLogar').hide();" 
+					update=":mensagem :formLogin:panelLogin" >
+					<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+				</p:commandButton>
+				
+				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" 
+				oncomplete="PF('dialogoLogar').hide();" 
 				update="formLogin:panelLogin"/>
 			</h:panelGrid>
 		</h:form>

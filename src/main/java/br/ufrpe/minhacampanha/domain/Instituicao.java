@@ -1,12 +1,13 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.sql.Date;
-import java.time.LocalDate;
+
 /**
  * 
  * @author raiss
  *
  */
+@SuppressWarnings("serial")
 public class Instituicao extends GenericDomain{
 	private String cnpj, nome_fantasia;
 	// Esse email � diferente do email de usuario. 

@@ -73,7 +73,8 @@
 			</p:panelGrid>
 	
 			<h:panelGrid columns="2">
-				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioInstituicaoBean.criarUsuarioInstituicao()}"
+				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  
+				actionListener="#{usuarioInstituicaoBean.criarUsuarioInstituicao()}"
 				update=":mensagem :formCadastro">
 					<f:actionListener
 								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />

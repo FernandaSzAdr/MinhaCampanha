@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Minha Campanha</title>
+	<h:outputStylesheet library="css" name="estilos.css" />
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+	
+	<div id="geral">
+		<div id="topo" class="divTopo">
+			<!-- <p:graphicImage library="img" name="logo_generico.png" 
+			styleClass="imagemCentralizada"/> -->
+		</div>
+
+		<div id="cabecalho" class="divCabecalho">
+			<h:form id="formeMenu">
+			<p:menubar>
+				<p:submenu label="Minha Campanha">
+					<p:menuitem value="Campanha" url="/pages/pessoa/campanhaMenuPessoa.xhtml"/>
+					<p:menuitem value="Doações" url="/pages/pessoa/doacoesProdutoPessoa.xhtml"/>
+					<p:menuitem value="Instituição Receptoras" url="/pages/pessoa/instituicao.xhtml"/>
+					<p:menuitem value="Projeto Social"/>
+					<p:menuitem value="Voluntariar" url="/pages/pessoa/voluntario.xhtml"/>
+				</p:submenu>
+	
+				<p:submenu label="Usuario">
+					<p:menuitem value="Informações"/>
+					<p:menuitem value="Endereço" url="/pages/pessoa/enderecoMenuPessoa.xhtml"/>
+					<p:menuitem value="Carteira"/>
+				</p:submenu>
+				
+				<p:submenu label="Ajuda">
+					<p:menuitem value="Sobre" url="/pages/pessoa/sobre.xhtml"/>
+				</p:submenu>
+			</p:menubar>
+			</h:form>
+		</div>
+
+		<div id="conteudo">	
+			<ui:insert name="conteudo"/>
+		</div>
+	</div>
+	
+</h:body>
+</html>

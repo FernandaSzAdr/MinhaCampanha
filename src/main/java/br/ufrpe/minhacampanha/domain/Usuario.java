@@ -1,14 +1,15 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.time.LocalDate;
-import java.sql.Date;;
+
 @SuppressWarnings("serial")
 public class Usuario extends GenericDomain {
 	private String email;
 	private Login login;
-	private Date data_criacao;
-	private long instituicao_vinculada;
-	private Date data_vl_inicio, data_vl_fim;
+	private LocalDate data_criacao;
+	private int instituicao_vinculada;
+	private LocalDate data_vl_inicio, data_vl_fim;
+	private int ativo;
 	
 	public Usuario(){
 		
@@ -20,7 +21,7 @@ public class Usuario extends GenericDomain {
 		this.data_criacao = LocalDate.now();
 	}
 	
-	public Usuario(String email, Login login, Long instituicao_vinculada) {
+	public Usuario(String email, Login login, int instituicao_vinculada) {
 		this.email = email;
 		this.login = login;
 		this.data_criacao = LocalDate.now();
@@ -35,16 +36,16 @@ public class Usuario extends GenericDomain {
 		this.login = login;
 	}
 
-
-
-	
-
 	public long getInstituicao_vinculada() {
 		return instituicao_vinculada;
 	}
 
-	public void setInstituicao_vinculada(long instituicao_vinculada) {
+	public void setInstituicao_vinculada(int instituicao_vinculada) {
 		this.instituicao_vinculada = instituicao_vinculada;
+	}
+	
+	public void setData_criacao(LocalDate data_criacao) {
+		this.data_criacao = data_criacao;
 	}
 
 	public String getEmail() {
@@ -73,6 +74,14 @@ public class Usuario extends GenericDomain {
 
 	public void setData_vl_fim(LocalDate data_vl_fim) {
 		this.data_vl_fim = data_vl_fim;
+	}
+
+	public int getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(int ativo) {
+		this.ativo = ativo;
 	}
 	
 }
