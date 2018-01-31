@@ -15,6 +15,30 @@ import  br.ufrpe.minhacampanha.domain.*;
  *
  */
 public class LoginDAO {
+	
+	//Pega os dados do usuario caso exista (Depois do login)
+	public Usuario pegaUser(Login tentativa) {
+		Usuario logado = new Usuario();
+		logado = null;
+		boolean log = efetuarLogin(tentativa);
+		if(log) {
+			Connection connection = ConnectionFactory.getConnection();
+			java.sql.PreparedStatement stmt = null;
+			ResultSet resultSet = null;
+			try{
+				stmt = connection.prepareStatement("SELECT * FROM USUARIO WHERE login = ?");
+				resultSet =stmt.executeQuery();
+				
+			}catch(SQLException ex) {
+				logado.setLogin(tentativa);
+				logado.setData_criacao(resultSet.getDate("data_criacao"));
+				logado.setData_vl_fim(resultSet.getDate("data_vl_fim"));
+				logado.setData_vl_inicio(resultSet.getDate("data_vl_inicio"));
+				logado.setEmail(resultSet.getString("email"));
+				logado.setInstituicao_vinculada(resultSet.getLong("instituicao_vinculada"));
+			}
+		}
+	}
 	//Funcao checa o usuario e a senha para Logar no sistema
 	public boolean efetuarLogin(Login tentativa) {
 		Login sistema = new Login();
@@ -27,9 +51,7 @@ public class LoginDAO {
 			
 			stmt = connection.prepareStatement("SELECT login, senha FROM USUARIO WHERE login = ?");
 			resultSet =stmt.executeQuery();
-			if(resultSet == null) {
-				//Usuario não cadastrado???
-			}
+		
 			while(resultSet.next()) { //Isso é necessario?
 				sistema.setLogin(resultSet.getString("login"));
 				sistema.setSenha(resultSet.getString("senha"));
