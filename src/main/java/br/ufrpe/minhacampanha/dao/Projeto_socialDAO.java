@@ -82,11 +82,19 @@ public class Projeto_socialDAO {
 		java.sql.PreparedStatement stmt = null;
 		
 		try{
-			stmt = connection.prepareStatement("UPDATE PROJETO_SOCIAL SET descricao = ?, cod_barras = ?, marca = ? WHERE cod = ?");
-			stmt.setString(1, projeto.getDescricao());
-			stmt.setString(2, projeto.getCodigo_barras());
-			stmt.setString(3, projeto.getMarca());
-			stmt.setLong(4, projeto.getCodigo());
+			stmt = connection.prepareStatement("UPDATE PROJETO_SOCIAL SET  tipo = ?,nome = ?,objetivo = ?,"
+					+ "descricao = ?,data_inicio = ?,data_fim = ?	"
+					+ ",qtd_volunt_atual = ?, qtd_volunt_nec = ?,");
+			stmt.setString(1, projeto.getTipo());
+			stmt.setString(2, projeto.getNome());
+			stmt.setString(3, projeto.getObjetivo());
+			stmt.setString(4, projeto.getDescricao());
+			stmt.setDate(5, java.sql.Date.valueOf(projeto.getData_inicio()));
+			stmt.setDate(6, java.sql.Date.valueOf(projeto.getData_fim()));
+			stmt.setInt(7, projeto.getQtd_volunt_atual());
+			stmt.setInt(8, projeto.getQtd_volunt_nec());
+		
+			
 			
 			stmt.executeUpdate();
 			
@@ -105,7 +113,7 @@ public class Projeto_socialDAO {
 		java.sql.PreparedStatement stmt = null;
 		
 		try{
-			stmt = connection.prepareStatement("DELETE FROM projeto_ref WHERE cod = ?");
+			stmt = connection.prepareStatement("DELETE FROM projeto_social WHERE cod = ?");
 			stmt.setLong(1, projeto.getCodigo());
 						
 			stmt.executeUpdate();
