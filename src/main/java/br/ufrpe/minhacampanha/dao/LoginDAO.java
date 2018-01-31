@@ -2,12 +2,6 @@ package br.ufrpe.minhacampanha.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.management.RuntimeErrorException;
-
-import java.time.LocalDate;
 
 import com.mysql.jdbc.Connection;
 
@@ -22,46 +16,35 @@ public class LoginDAO {
 	
 	//Pega os dados do usuario caso exista (Depois do login)
 	public Usuario pegaUser(Login tentativa) throws SQLException {
-		boolean log = efetuarLogin(tentativa);
 		Usuario logado = new Usuario();
-		if(log) {
-			try{
-				System.out.println("conectando...");
-				Connection connection = ConnectionFactory.getConnection();
-				java.sql.PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				
-				System.out.println("pesquisando...");
-				
-				stmt = connection.prepareStatement("SELECT * FROM USUARIO WHERE login = ? and senha = ?");
-				stmt.setString(1, tentativa.getLogin());
-				stmt.setString(2, tentativa.getSenha());
-				resultSet =stmt.executeQuery();
-				
-				/* Se não ele retorna nulo */
-				if (resultSet.next()) {
-					System.out.println("entrou aqui...");
-					
-					/* Aqui ele faz a conversão de tipo Date para LocalDate*/
-					logado.setLogin(tentativa);
-					logado.setCodigo(resultSet.getInt("idusuario"));
-					logado.setData_criacao(resultSet.getDate("dtcriacao").toLocalDate());
-					logado.setData_vl_fim(resultSet.getDate("data_vl_fim").toLocalDate());
-					logado.setData_vl_inicio(resultSet.getDate("data_vl_inicio").toLocalDate());
-					logado.setEmail(resultSet.getString("email"));
-					logado.setInstituicao_vinculada(resultSet.getInt("instituicao_vinculada"));
-				} else {
-					logado = null;
-				}
-				ConnectionFactory.closeConnection(connection, stmt);
-				
-			}catch(SQLException ex) {
-				throw ex;
+		try{
+			Connection connection = ConnectionFactory.getConnection();
+			java.sql.PreparedStatement stmt = null;
+			ResultSet resultSet = null;
+			
+			stmt = connection.prepareStatement("SELECT * FROM USUARIO WHERE login = ? and senha = ?");
+			stmt.setString(1, tentativa.getLogin());
+			stmt.setString(2, tentativa.getSenha());
+			resultSet =stmt.executeQuery();
+			
+			/* Se não ele retorna nulo */
+			if (resultSet.next()) {
+				/* Aqui ele faz a conversão de tipo Date para LocalDate*/
+				logado.setLogin(tentativa);
+				logado.setCodigo(resultSet.getInt("idusuario"));
+				logado.setData_criacao(resultSet.getDate("dtcriacao").toLocalDate());
+				logado.setData_vl_fim(resultSet.getDate("data_vl_fim").toLocalDate());
+				logado.setData_vl_inicio(resultSet.getDate("data_vl_inicio").toLocalDate());
+				logado.setEmail(resultSet.getString("email"));
+				logado.setInstituicao_vinculada(resultSet.getInt("instituicao_vinculada"));
+			} else {
+				logado = null;
 			}
-		}else {
-			logado = null;
+			ConnectionFactory.closeConnection(connection, stmt);
+			
+		}catch(SQLException ex) {
+			throw ex;
 		}
-		
 		return logado;
 	}
 	//Funcao checa o usuario e a senha para Logar no sistema
