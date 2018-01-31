@@ -5,7 +5,8 @@ import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
 
@@ -15,7 +16,7 @@ import br.ufrpe.minhacampanha.domain.Usuario;
 
 @SuppressWarnings("serial")
 @ManagedBean 
-@ViewScoped
+@SessionScoped
 public class LoginBean implements Serializable{
 	private Login login;
 	
@@ -34,7 +35,7 @@ public class LoginBean implements Serializable{
 	}
 	
 	
-	public void logar() throws SQLException{
+	public String logar(){
 		/**
 		 * TODO quando clicar nesse botao vai levar para a tela referente
 		 * ao tipo de usuario:
@@ -45,19 +46,19 @@ public class LoginBean implements Serializable{
 			
 			if (verificado != null) {
 				if (verificado.getInstituicao_vinculada() != 0L) {
-					//return "/pages/menuInstituicao.xhtml";
+		
+					return "/pages/menuInstituicao?faces-redirect=true";
 				} else {
-					System.out.println("Email " + verificado.getEmail() + " Login " + verificado.getLogin().getSenha()
-							+ " " + verificado.getLogin().getLogin() + " Codigo " + verificado.getCodigo());
-					//return "/pages/menuPessoa.xhtml";
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", verificado);
+					return "/pages/menuPessoa?faces-redirect=true";
 				}
 			} else {
 				Messages.addGlobalError("Usuario ou senha incorretos!");
 			}
-		} catch (RuntimeException erro) {
+		} catch (RuntimeException|SQLException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar logar no sistema.");
 			erro.printStackTrace();
 		}
-		//return null;
+		return null;
 	}	
 }

@@ -1,7 +1,9 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import com.mysql.jdbc.Connection;
 
@@ -15,6 +17,7 @@ import  br.ufrpe.minhacampanha.domain.*;
 public class LoginDAO {
 	
 	//Pega os dados do usuario caso exista (Depois do login)
+	@SuppressWarnings("deprecation")
 	public Usuario pegaUser(Login tentativa) throws SQLException {
 		Usuario logado = new Usuario();
 		try{
@@ -30,13 +33,18 @@ public class LoginDAO {
 			/* Se não ele retorna nulo */
 			if (resultSet.next()) {
 				/* Aqui ele faz a conversão de tipo Date para LocalDate*/
+				/*TODO tem erro aqui
+				 * if (!resultSet.getDate("data_vl_fim").equals("0000-00-00")) {
+					logado.setData_vl_fim(resultSet.getDate("data_vl_fim").toLocalDate());
+				} else if (!resultSet.getDate("data_vl_inicio").equals("0000-00-00")) {
+					logado.setData_vl_inicio(resultSet.getDate("data_vl_inicio").toLocalDate());
+				}*/
+				
 				logado.setLogin(tentativa);
 				logado.setCodigo(resultSet.getInt("idusuario"));
 				logado.setData_criacao(resultSet.getDate("dtcriacao").toLocalDate());
-				logado.setData_vl_fim(resultSet.getDate("data_vl_fim").toLocalDate());
-				logado.setData_vl_inicio(resultSet.getDate("data_vl_inicio").toLocalDate());
 				logado.setEmail(resultSet.getString("email"));
-				logado.setInstituicao_vinculada(resultSet.getInt("instituicao_vinculada"));
+				logado.setInstituicao_vinculada(resultSet.getInt("id_inst"));
 			} else {
 				logado = null;
 			}

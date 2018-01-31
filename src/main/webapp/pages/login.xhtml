@@ -10,18 +10,6 @@
 	<ui:define name="conteudo">
 	
 	<h:form>
-		<h:panelGrid columns="1">
-			<p:commandButton value="Entrar no sistema" icon="ui-icon-circle-check" 
-			oncomplete="PF('dialogoLogar').show()"/>
-			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de instituição" 
-				action="cadastroUsuarioInstituicao.xhtml"/>	
-			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de pessoa" 
-				action="cadastroUsuarioPessoa.xhtml" />	
-		</h:panelGrid>
-	</h:form>
-	
-	<p:dialog header="Logar no sistema" widgetVar="dialogoLogar" draggable="false"
-		resizable="false" modal="true" closable="false">
 		<h:form id="formLogin">
 			<h:panelGrid id="panelLogin" cellpadding="5" columns="2">
 				<p:outputLabel for="usuario" value="Usuario:" />
@@ -34,20 +22,21 @@
 				maxlength="16" size="10" 
 				required="true" requiredMessage="O campo 'Senha' é obrigatorio!"/>
 			</h:panelGrid>	
-
-			<h:panelGrid columns="2">
-				<p:commandButton icon="ui-icon-key" value="Entrar" 
-				actionListener="#{loginBean.logar()}" update=":mensagem :formLogin:panelLogin" >
-					<f:actionListener
-								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
-				</p:commandButton>
-				
-				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" 
-				oncomplete="PF('dialogoLogar').hide();" 
-				update="formLogin:panelLogin"/>
-			</h:panelGrid>
+			
+			<h:column/>
+			<p:commandButton icon="ui-icon-key" value="Entrar" 
+			action="#{loginBean.logar()}" update=":mensagem " >
+				<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+			</p:commandButton>
 		</h:form>
-	</p:dialog>
-	
+		
+		<h:panelGrid columns="2">
+			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de instituição" 
+				action="cadastroUsuarioInstituicao.xhtml"/>	
+			<p:commandButton icon="ui-icon-circle-plus" value="Criar uma conta de pessoa" 
+				action="cadastroUsuarioPessoa.xhtml" />	
+		</h:panelGrid>
+	</h:form>
 	</ui:define>
 </ui:composition>
