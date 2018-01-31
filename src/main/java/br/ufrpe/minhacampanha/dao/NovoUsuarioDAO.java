@@ -16,7 +16,6 @@ public class NovoUsuarioDAO {
 		java.sql.PreparedStatement stmt = null;
 		try {
 			connection.setAutoCommit(false);
-			
 			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			

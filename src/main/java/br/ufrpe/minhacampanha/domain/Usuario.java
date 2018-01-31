@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @SuppressWarnings("serial")
 public class Usuario extends GenericDomain {
@@ -13,6 +14,9 @@ public class Usuario extends GenericDomain {
 	
 	public Usuario(){
 		data_criacao = LocalDate.now();
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String text = data_criacao.format(formatters);
+	    data_criacao = LocalDate.parse(text, formatters);
 		ativo = 1;
 	}
 	

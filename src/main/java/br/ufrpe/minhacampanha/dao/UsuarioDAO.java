@@ -1,5 +1,6 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,13 +29,15 @@ public class UsuarioDAO {
 			stmt.setDate(5, java.sql.Date.valueOf(user.getData_criacao())); 
 			stmt.setInt(6, user.getInstituicao_vinculada());
 			stmt.setInt(7, user.getAtivo());
-			stmt.setDate(8, java.sql.Date.valueOf(user.getData_vl_inicio())); 
-			stmt.setDate(9, java.sql.Date.valueOf(user.getData_vl_fim())); 
+			if (user.getData_vl_inicio() != null) {
+				stmt.setDate(8, java.sql.Date.valueOf(user.getData_vl_inicio())); 
+			} else if (user.getData_vl_fim() != null) {
+				stmt.setDate(9, java.sql.Date.valueOf(user.getData_vl_fim()));
+			}
 			
-			//JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso");
 			ConnectionFactory.closeConnection(connection, stmt);
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
+			ex.printStackTrace();
 			throw ex;
 		}
 	}

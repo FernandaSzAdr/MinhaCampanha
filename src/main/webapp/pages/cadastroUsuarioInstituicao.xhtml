@@ -45,7 +45,7 @@
 				required="true" size="30" requiredMessage="O campo 'Telefone Fixo' é obrigatório."/>
 			
 				<p:outputLabel value="Telefone Celular: "/>
-				<p:inputMask value="#{usuarioInstituicaoBean.instituicao.telefone2}" mask="(99)99999-9999"/>
+				<p:inputMask value="#{usuarioInstituicaoBean.instituicao.telefone2}" maxlength="11" mask="(99)99999-9999"/>
 			</p:panelGrid>
 			
 			<p:spacer height="5"/>

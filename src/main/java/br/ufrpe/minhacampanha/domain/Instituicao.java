@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 
@@ -17,6 +18,9 @@ public class Instituicao extends GenericDomain{
 	
 	public Instituicao() {
 		data_entrada = LocalDate.now();
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String text = data_entrada.format(formatters);
+	    data_entrada = LocalDate.parse(text, formatters);
 	}
 	
 	public void setCnpj(String cnpj) {

@@ -54,16 +54,17 @@ public class InstituicaoDAO {
 			stmt = connection.prepareStatement("INSERT INTO Instituicao (id, cnpj, data_entrada, "
 					+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, tele2, nome_contato)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?)");
-			
+			System.out.println("instituicao");
 			stmt.setString(2, instituicao.getCnpj());
-			System.out.println("data " + instituicao.getData_entrada());
 			stmt.setDate(3, java.sql.Date.valueOf(instituicao.getData_entrada()));
 			stmt.setString(4, instituicao.getRamo_atuacao());
 			stmt.setString(5, instituicao.getRazao_social());
 			stmt.setString(6, instituicao.getNome_fantasia());
 			stmt.setString(7, instituicao.getEmail_geral_instituicao());
 			stmt.setString(8, instituicao.getTelefone1());
-			stmt.setString(9, instituicao.getTelefone2());
+			if (!instituicao.getTelefone2().isEmpty()) {
+				stmt.setString(9, instituicao.getTelefone2());
+			}
 			stmt.setString(10, instituicao.getNome_contato());
 
 			stmt.executeUpdate();
@@ -73,7 +74,8 @@ public class InstituicaoDAO {
 			
 			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {
-			// JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
+			ex.printStackTrace();
+			throw ex;
 
 		} 
 	}
