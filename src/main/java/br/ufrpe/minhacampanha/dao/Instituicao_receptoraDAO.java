@@ -42,7 +42,7 @@ public class Instituicao_receptoraDAO {
 		}
 	}
 	
-	public List<Instituicao_receptora> listar() throws SQLException{
+	public List<Instituicao_receptora> listar() {
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
 		ResultSet resultSet = null;

@@ -5,17 +5,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
- * Essa classe, se refere as pessoas que são voluntarias de um projeto ou campanha,
- * mas que não possuem cadastro no sistema.
+ * Essa classe, se refere as pessoas que sï¿½o voluntarias de um projeto ou campanha,
+ * mas que nï¿½o possuem cadastro no sistema.
  * 
  * @author Fernanda
  *
  */
+@SuppressWarnings("serial")
 public class VoluntarioPessoa extends GenericDomain {
 	private String cpf;
 	private String nome;
 	private LocalDate data_admisao;
 	private ProjetoSocial projeto;
+	
+	public VoluntarioPessoa(){}
 	
 	public VoluntarioPessoa(String cpf, String nome, LocalDate data_admisao, ProjetoSocial projeto) {
 		this.cpf = cpf;

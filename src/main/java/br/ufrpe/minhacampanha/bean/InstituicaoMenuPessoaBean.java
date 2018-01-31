@@ -1,7 +1,6 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;

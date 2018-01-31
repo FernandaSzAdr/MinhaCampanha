@@ -11,23 +11,23 @@
 		<h:form id="formCadastro">
 			<p:panelGrid columns="2" cellpadding="5" id="panelInst1">
 				<p:outputLabel for="cnpj" value="CNPJ:"/>
-				<p:inputMask id="cnpj" value="#{usuarioBean.instituicao.cnpj}" maxlength="14" size="20" mask="99.999.999/9999-99" 
+				<p:inputMask id="cnpj" value="#{usuarioInstituicaoBean.instituicao.cnpj}" maxlength="14" size="20" mask="99.999.999/9999-99" 
 				required="true" requiredMessage="O campo 'cnpj' é obrigatório."/>
 				
 				<p:outputLabel for="nome" value="Nome Fantasia:"/>
-				<p:inputText id="nome" value="#{usuarioBean.instituicao.nome_fantasia}" maxlength="255" size="50" 
+				<p:inputText id="nome" value="#{usuarioInstituicaoBean.instituicao.nome_fantasia}" maxlength="255" size="50" 
 				required="true" requiredMessage="O campo 'Nome Fantasia' é obrigatório."/>
 				
 				<p:outputLabel for="razao" value="Razão Social:"/>
-				<p:inputText id="razao" value="#{usuarioBean.instituicao.razao_social}" maxlength="255" size="50" 
+				<p:inputText id="razao" value="#{usuarioInstituicaoBean.instituicao.razao_social}" maxlength="255" size="50" 
 				required="true" requiredMessage="O campo 'Razão Social' é obrigatório."/>
 				
 				<p:outputLabel for="ramo" value="Ramo Atuação:"/>
-				<p:inputText id="ramo" value="#{usuarioBean.instituicao.ramo_atuacao}" maxlength="255" size="50" 
+				<p:inputText id="ramo" value="#{usuarioInstituicaoBean.instituicao.ramo_atuacao}" maxlength="255" size="50" 
 				required="true" requiredMessage="O campo 'Ramo Atuação' é obrigatório."/>
 				
 				<p:outputLabel for="pessoa" value="Pessoa Responsável:"/>
-				<p:inputText id="pessoa" value="#{usuarioBean.instituicao.nome_contato}" maxlength="255" size="50" 
+				<p:inputText id="pessoa" value="#{usuarioInstituicaoBean.instituicao.nome_contato}" maxlength="255" size="50" 
 				required="true" requiredMessage="O campo 'Pessoa Responsável' é obrigatório."/>
 			</p:panelGrid>
 			
@@ -36,15 +36,15 @@
 			
 			<p:panelGrid columns="2" id="panelInst2">
 				<p:outputLabel for="email" value="Email para contato:"/>
-				<p:inputText id="email" value="#{usuarioBean.instituicao.email_geral_instituicao}" maxlength="100" size="30"
+				<p:inputText id="email" value="#{usuarioInstituicaoBean.instituicao.email_geral_instituicao}" maxlength="100" size="30"
 				required="true" requiredMessage="O campo 'Email para contato' é obrigatório."/>
 				
 				<p:outputLabel for="tel" value="Telefone Fixo:"/>
-				<p:inputMask id="tel" value="#{usuarioBean.instituicao.telefone1}" maxlength="10" mask="(99)9999-9999" 
+				<p:inputMask id="tel" value="#{usuarioInstituicaoBean.instituicao.telefone1}" maxlength="10" mask="(99)9999-9999" 
 				required="true" size="30" requiredMessage="O campo 'Telefone Fixo' é obrigatório."/>
 			
 				<p:outputLabel value="Telefone Celular: "/>
-				<p:inputMask value="#{usuarioBean.instituicao.telefone2}" mask="(99)99999-9999"/>
+				<p:inputMask value="#{usuarioInstituicaoBean.instituicao.telefone2}" mask="(99)99999-9999"/>
 			</p:panelGrid>
 			
 			<p:spacer height="5"/>
@@ -52,28 +52,28 @@
 			
 			<p:panelGrid columns="2" id="panelInst3">
 				<p:outputLabel for="usuario" value="Usuario:"/>
-				<p:inputText id="usuario" label="Usuario" value="#{usuarioBean.loginInstituicao.login}" maxlength="30" size="10" 
+				<p:inputText id="usuario" label="Usuario" value="#{usuarioInstituicaoBean.loginInstituicao.login}" maxlength="30" size="10" 
 				required="true" requiredMessage="O campo 'Usuario' é obrigatório."/>
 				
 				<p:outputLabel for="senha1" value="Senha:"/>
-				<p:password id="senha1" label="Senha" value="#{usuarioBean.loginInstituicao.senha}" maxlength="16" size="10" 
+				<p:password id="senha1" label="Senha" value="#{usuarioInstituicaoBean.loginInstituicao.senha}" maxlength="16" size="10" 
 				required="true" match="senha2" requiredMessage="O campo 'Senha' é obrigatório."/>
 				
 				<h:outputLabel for="senha2" value="Repita a senha:"/>
-				<p:password id="senha2" label="Senha2" value="#{usuarioBean.loginInstituicao.senha}" maxlength="16" size="10" 
+				<p:password id="senha2" label="Senha2" value="#{usuarioInstituicaoBean.loginInstituicao.senha}" maxlength="16" size="10" 
 				required="true" requiredMessage="Informe a mesma senha fornecida no campo 'Senha'."/>
 				
 				<p:outputLabel for="email1" value="Email: "/>
-				<p:inputText id="email1" label="Email" value="#{usuarioBean.usuarioInst.email}" maxlength="100" size="20" 
+				<p:inputText id="email1" label="Email" value="#{usuarioInstituicaoBean.usuarioInst.email}" maxlength="100" size="20" 
 				required="true" match="email2" requiredMessage="O campo 'Email' é obrigatório."/>	
 				
 				<h:outputLabel for="email2" value="Repita o email: "/>
-				<p:inputText id="email2" label="Email2" value="#{usuarioBean.usuarioInst.email}" maxlength="100" size="20" 
+				<p:inputText id="email2" label="Email2" value="#{usuarioInstituicaoBean.usuarioInst.email}" maxlength="100" size="20" 
 				required="true" requiredMessage="Informe o mesmo email fornecido no campo 'Email'"/>
 			</p:panelGrid>
 	
 			<h:panelGrid columns="2">
-				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioBean.criarUsuarioInstituicao()}"
+				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  actionListener="#{usuarioInstituicaoBean.criarUsuarioInstituicao()}"
 				update=":mensagem :formCadastro">
 					<f:actionListener
 								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />

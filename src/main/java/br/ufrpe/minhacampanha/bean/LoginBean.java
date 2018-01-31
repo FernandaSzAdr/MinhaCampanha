@@ -7,6 +7,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.omnifaces.util.Messages;
 
+import br.ufrpe.minhacampanha.dao.LoginDAO;
 import br.ufrpe.minhacampanha.domain.Login;
 
 @SuppressWarnings("serial")
@@ -34,8 +35,13 @@ public class LoginBean implements Serializable{
 		 * TODO quando clicar nesse botao vai levar para a tela referente
 		 * ao tipo de usuario:
 		 */		
-		Messages.addGlobalInfo("Login realizado com sucesso!");
-		
-	}
-	
+		try {
+			LoginDAO loginDAO = new LoginDAO();
+			
+			Messages.addGlobalInfo("Login realizado com sucesso!");
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar logar no sistema.");
+			erro.printStackTrace();
+		}
+	}	
 }

@@ -1,8 +1,8 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
+@SuppressWarnings("serial")
 public class PessoaFisica extends GenericDomain{
 	private String primeiro_nome, medio_nome, ultimo_nome;
 	private String cpf;

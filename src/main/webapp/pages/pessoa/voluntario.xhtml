@@ -6,13 +6,19 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/templates/modeloPessoaFisica.xhtml">
-
+	<!-- Editar essa ultima linha para por o modelo do template que vai usar -->
 	<ui:define name="conteudo">
 		<h:form id="formListaggem">
 			<p:panel header="Campanha">
 				<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado." 
 					widgetVar="campanhaTable" paginator="true" 
-					value="#{campanhaBean.campanhas}" var="campanha" rows="5">
+					value="#{voluntarioBean.campanhas}" var="campanha" rows="5">
+					
+					<f:facet name="header">
+						<p:commandButton value="Voluntariar" actionListener="#{voluntarioDAO.novoVoluntario()}" 
+						oncomplete="PF('dialogo').show();" update=":mensagem :formCadastro:painel" />
+					</f:facet>
+				
 				
 					<p:column headerText="Nome" sortBy="#{campanha.nome}"
 						filterBy="#{campanha.nome}">
@@ -71,38 +77,25 @@
 						filterBy="#{campanha.qtd_valor_necessario}">
 						<h:outputText value="#{campanha.qtd_valor_necessario}" />
 					</p:column>
-					
-					<p:column headerText="Opções">
-						<p:commandButton icon="ui-icon-circle-plus"	update=":mensagem :formListagem:tabela" 
-						oncomplete="PF('dialogoDoar').show();" />
-					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-		
-		<p:dialog header="Doar" widgetVar="dialogoDoar"
-			draggable="false" resizable="false" modal="true" closable="false">
-			<h:form id="formDoar">
-				<h:panelGrid columns="2">
-					<p:commandButton value="Doar Produto" actionListener="#{campanhaBean.novaDoacaoP()}"
-					update=":mensagem" oncomplete="PF('dialogoProduto').show();"/>
-					<p:commandButton value="Doação Monetária" actionListener="#{campanhaBean.doacaoF}"
-					update=":mensagem" oncomplete="PF('dialogoFinanceiro').show();"/>
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
-		
-		<p:dialog header="Doação Produto" widgetVar="dialogoProduto"
-			draggable="false" resizable="false" modal="true" closable="false">
-			<h:form id="formProduto">
-				<h:panelGrid columns="2" id="painelProduto">
+	
+	<p:dialog header="Voluntario - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+					
 				</h:panelGrid>
 				
-				<h:panelGrid columns="2" >
-					<p:commandButton value="Salvar" actionListener="#{campanhaBean.doacaoP}"/>
-					<p:commandButton value="Voltar" oncomplete="PF('dialogoProduto').hide;"/>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{voluntarioDAO.cadastrar()}"
+						update=":mensagem :formCadastro:painel" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
 	</ui:define>
+	
 </ui:composition>
