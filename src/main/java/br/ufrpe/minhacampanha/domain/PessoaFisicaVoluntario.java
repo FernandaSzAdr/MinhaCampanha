@@ -5,11 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 @SuppressWarnings("serial")
 public class PessoaFisicaVoluntario extends GenericDomain{
-	private int pessoa;
+	private int id_ps;
 	private LocalDate data_inicio;
 	private LocalDate data_fim;
 	private Carro carro;
-	private int tem_veiculo;
+	private boolean tem_veiculo;
 	
 	public PessoaFisicaVoluntario(){
 		data_inicio = LocalDate.now();
@@ -18,12 +18,18 @@ public class PessoaFisicaVoluntario extends GenericDomain{
 	    data_inicio = LocalDate.parse(text, formatters);
 	}
 	
-	public int getPessoa() {
-		return pessoa;
+	
+	
+	public int getId_ps() {
+		return id_ps;
 	}
-	public void setPessoa(int pessoa) {
-		this.pessoa = pessoa;
+
+
+	public void setId_ps(int id_ps) {
+		this.id_ps = id_ps;
 	}
+
+
 	public LocalDate getData_inicio() {
 		return data_inicio;
 	}
@@ -42,10 +48,18 @@ public class PessoaFisicaVoluntario extends GenericDomain{
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
-	public int getTem_veiculo() {
+
+
+
+	public boolean getTem_veiculo() {
 		return tem_veiculo;
 	}
-	public void setTem_veiculo(int tem_veiculo) {
+
+
+
+	public void setTem_veiculo(boolean tem_veiculo) {
 		this.tem_veiculo = tem_veiculo;
 	}
+	
+	
 }
