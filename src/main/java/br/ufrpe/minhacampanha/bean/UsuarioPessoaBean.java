@@ -1,6 +1,8 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -9,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.omnifaces.util.Messages;
 
 import br.ufrpe.minhacampanha.dao.LoginDAO;
+import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaDAO;
 import br.ufrpe.minhacampanha.dao.UsuarioDAO;
 import br.ufrpe.minhacampanha.domain.Instituicao;
@@ -22,7 +25,6 @@ import br.ufrpe.minhacampanha.domain.Usuario;
 public class UsuarioPessoaBean implements Serializable{
 	private Login login;
 	private Usuario usuario;
-	@SuppressWarnings("unused")
 	private Instituicao inst_pessoa;
 	private PessoaFisica pessoa;
 	
@@ -80,18 +82,23 @@ public class UsuarioPessoaBean implements Serializable{
 		
 	}
 	
-	public void criarUsuario(){
+	public String criarUsuario(){
 		try {
-			LoginDAO loginDAO = new LoginDAO();
-			PessoaFisicaDAO pessoaDAO = new PessoaFisicaDAO();
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate nascimento;
+		    nascimento = LocalDate.parse(pessoa.getNasc(), formatters);
+			pessoa.setNascimento(nascimento);
 			
+			NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
+			cadastroDAO.novoPessoa(usuario, pessoa, login);
 			
+			Messages.addGlobalInfo("Cadastro realizado com Sucesso");
 			
-		} catch (RuntimeException erro) {
+			return "/pages/login?faces-redirect=true";
+		} catch (Exception erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuario.");
 			erro.printStackTrace();
 		}
-		
+		return "/pages/cadastroUsuarioPessoa?faces-redirect=true";
 	}
 }

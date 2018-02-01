@@ -9,6 +9,7 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Login;
+import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
@@ -18,28 +19,94 @@ public class UsuarioDAO {
 		try{
 			Connection connection = ConnectionFactory.getConnection();
 			java.sql.PreparedStatement stmt = null;
-			
-			String SQL = "INSERT INTO USUARIO (idusuario, senha, login, email, dtcriacao, id_inst, "
-					+ "bool_ativado, data_vl_inicio, data_vl_fim) VALUES(?,?,?,?,?,?,?,?,?)";
-			stmt = connection.prepareStatement(SQL);
-			
-			stmt.setString(2, user.getLogin().getSenha());
-			stmt.setString(3, user.getLogin().getLogin());
-			stmt.setString(4, user.getEmail());
-			stmt.setDate(5, java.sql.Date.valueOf(user.getData_criacao())); 
-			stmt.setInt(6, user.getInstituicao_vinculada());
-			stmt.setInt(7, user.getAtivo());
-			if (user.getData_vl_inicio() != null) {
-				stmt.setDate(8, java.sql.Date.valueOf(user.getData_vl_inicio())); 
-			} else if (user.getData_vl_fim() != null) {
-				stmt.setDate(9, java.sql.Date.valueOf(user.getData_vl_fim()));
+			if (user.getData_vl_inicio() == null && user.getData_vl_fim() == null) {
+				if (user.getInstituicao_vinculada() == 0) {
+					String SQL = "INSERT INTO USUARIO (senha, login, email, dtcriacao, "
+							+ "bool_ativado) VALUES(?,?,?,?,?)";
+					stmt = connection.prepareStatement(SQL);
+					
+					stmt.setString(1, user.getLogin().getSenha());
+					stmt.setString(2, user.getLogin().getLogin());
+					stmt.setString(3, user.getEmail());
+					stmt.setDate(4, java.sql.Date.valueOf(user.getData_criacao())); 
+					stmt.setInt(5, user.getAtivo());
+				}else {
+					String SQL = "INSERT INTO USUARIO (senha, login, email, dtcriacao, id_inst, "
+							+ "bool_ativado) VALUES(?,?,?,?,?,?)";
+					stmt = connection.prepareStatement(SQL);
+					
+					stmt.setString(1, user.getLogin().getSenha());
+					stmt.setString(2, user.getLogin().getLogin());
+					stmt.setString(3, user.getEmail());
+					stmt.setDate(4, java.sql.Date.valueOf(user.getData_criacao())); 
+					stmt.setInt(5, user.getInstituicao_vinculada());
+					stmt.setInt(6, user.getAtivo());
+				}
+				
+			} else if (user.getData_vl_inicio() != null) {
+				String SQL = "INSERT INTO USUARIO (senha, login, email, dtcriacao, id_inst, "
+						+ "bool_ativado, data_vl_inicio) VALUES(?,?,?,?,?,?,?)";
+				stmt = connection.prepareStatement(SQL);
+				
+				stmt.setString(1, user.getLogin().getSenha());
+				stmt.setString(2, user.getLogin().getLogin());
+				stmt.setString(3, user.getEmail());
+				stmt.setDate(4, java.sql.Date.valueOf(user.getData_criacao())); 
+				stmt.setInt(5, user.getInstituicao_vinculada());
+				stmt.setInt(6, user.getAtivo());
+				stmt.setDate(7, java.sql.Date.valueOf(user.getData_vl_inicio())); 
+			}else if (user.getData_vl_inicio() != null && user.getData_vl_fim() != null) {
+				String SQL = "INSERT INTO USUARIO (senha, login, email, dtcriacao, id_inst, "
+						+ "bool_ativado, data_vl_inicio, data_vl_fim) VALUES(?,?,?,?,?,?,?,?)";
+				stmt = connection.prepareStatement(SQL);
+				
+				stmt.setString(1, user.getLogin().getSenha());
+				stmt.setString(2, user.getLogin().getLogin());
+				stmt.setString(3, user.getEmail());
+				stmt.setDate(4, java.sql.Date.valueOf(user.getData_criacao())); 
+				stmt.setInt(5, user.getInstituicao_vinculada());
+				stmt.setInt(6, user.getAtivo());
+				stmt.setDate(7, java.sql.Date.valueOf(user.getData_vl_inicio())); 
+				stmt.setDate(8, java.sql.Date.valueOf(user.getData_vl_fim()));
 			}
+			stmt.executeUpdate();
 			
 			ConnectionFactory.closeConnection(connection, stmt);
 		}catch (SQLException ex){
 			ex.printStackTrace();
 			throw ex;
 		}
+	}
+	
+	public Usuario buscar(String login, String senha) throws SQLException{		
+		Usuario usuario = new Usuario();
+		try {			
+			Connection connection = ConnectionFactory.getConnection();
+			String SQL = "SELECT * from usuario where login = ? and senha = ?";
+			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt.setString(1, login);
+			stmt.setString(2, senha);
+			
+			Login loginbusca = new Login();
+			
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				usuario.setCodigo(rs.getInt("idusuario"));
+				usuario.setData_criacao(rs.getDate("dtcriacao").toLocalDate());
+				usuario.setEmail(rs.getString("email"));
+				loginbusca.setLogin(rs.getString("login"));
+				loginbusca.setSenha(rs.getString("senha"));
+				usuario.setLogin(loginbusca);
+				usuario.setAtivo(rs.getInt("bool_ativado"));
+				usuario.setInstituicao_vinculada(rs.getInt("id_inst"));
+			}
+			
+			ConnectionFactory.closeConnection(connection, stmt);
+		} catch (SQLException erro) {
+			throw erro;
+		}
+		
+		return usuario;
 	}
 	
 	public List<Usuario> listar() throws SQLException{

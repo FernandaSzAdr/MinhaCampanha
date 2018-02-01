@@ -17,16 +17,17 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
  */
 public class InstituicaoDAO {
 	
-	public Instituicao buscar(int idInst) throws SQLException{
+	public Instituicao buscar(String cnpj) throws SQLException{
 		Instituicao instituicao = new Instituicao();
 		try {			
 			Connection connection = ConnectionFactory.getConnection();
-			String SQL = "SELECT * FROM instituicao WHERE id = ?";
+			String SQL = "SELECT * FROM instituicao WHERE cnpj = ?";
 			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
-			stmt.setInt(1, idInst);
+			stmt.setString(1, cnpj);
 			
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
+				instituicao.setCodigo(rs.getInt("id"));
 				instituicao.setCnpj(rs.getString("cnpj"));
 				instituicao.setData_entrada(rs.getDate("data_entrada").toLocalDate());
 				instituicao.setRamo_atuacao(rs.getString("ramo_atuacao"));
@@ -51,26 +52,34 @@ public class InstituicaoDAO {
 			Connection connection = ConnectionFactory.getConnection();
 			java.sql.PreparedStatement stmt = null;
 			
-			stmt = connection.prepareStatement("INSERT INTO Instituicao (id, cnpj, data_entrada, "
-					+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, tele2, nome_contato)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?)");
-			System.out.println("instituicao");
-			stmt.setString(2, instituicao.getCnpj());
-			stmt.setDate(3, java.sql.Date.valueOf(instituicao.getData_entrada()));
-			stmt.setString(4, instituicao.getRamo_atuacao());
-			stmt.setString(5, instituicao.getRazao_social());
-			stmt.setString(6, instituicao.getNome_fantasia());
-			stmt.setString(7, instituicao.getEmail_geral_instituicao());
-			stmt.setString(8, instituicao.getTelefone1());
 			if (!instituicao.getTelefone2().isEmpty()) {
-				stmt.setString(9, instituicao.getTelefone2());
+				stmt = connection.prepareStatement("INSERT INTO Instituicao (cnpj, data_entrada, "
+						+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, tele2, nome_contato)"
+						+ "VALUES(?,?,?,?,?,?,?,?,?)");
+				stmt.setString(1, instituicao.getCnpj());
+				stmt.setDate(2, java.sql.Date.valueOf(instituicao.getData_entrada()));
+				stmt.setString(3, instituicao.getRamo_atuacao());
+				stmt.setString(4, instituicao.getRazao_social());
+				stmt.setString(5, instituicao.getNome_fantasia());
+				stmt.setString(6, instituicao.getEmail_geral_instituicao());
+				stmt.setString(7, instituicao.getTelefone1());
+				stmt.setString(8, instituicao.getTelefone2());
+				stmt.setString(9, instituicao.getNome_contato());
+			}else{
+				stmt = connection.prepareStatement("INSERT INTO Instituicao (cnpj, data_entrada, "
+						+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, nome_contato)"
+						+ "VALUES(?,?,?,?,?,?,?,?)");
+				stmt.setString(1, instituicao.getCnpj());
+				stmt.setDate(2, java.sql.Date.valueOf(instituicao.getData_entrada()));
+				stmt.setString(3, instituicao.getRamo_atuacao());
+				stmt.setString(4, instituicao.getRazao_social());
+				stmt.setString(5, instituicao.getNome_fantasia());
+				stmt.setString(6, instituicao.getEmail_geral_instituicao());
+				stmt.setString(7, instituicao.getTelefone1());
+				stmt.setString(8, instituicao.getNome_contato());
 			}
-			stmt.setString(10, instituicao.getNome_contato());
 
 			stmt.executeUpdate();
-
-			// JOptionPane.showMessageDialog(null, "Instituicao salvo com
-			// sucesso");
 			
 			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {

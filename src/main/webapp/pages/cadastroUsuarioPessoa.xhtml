@@ -27,8 +27,9 @@
 				required="true"/>
 				
 				<p:outputLabel for="Nascimento" value="Data de Nascimento:"/>
-				<p:inputMask id="Nascimento" value="#{usuarioPessoaBean.pessoa.nascimento} " size="20" mask="99/99/9999" 
-				required="true"/>
+				<p:inputMask id="Nascimento" label="nascimento" value="#{usuarioPessoaBean.pessoa.nasc}" 
+				size="20" mask="9999-99-99" required="true" maxlength="8" 
+				requiredMessage="Campo 'data de nascimeno' é obrigatorio!"/>
 				
 				<p:outputLabel value="Telefone Celular: "/>
 				<p:inputMask maxlength="11" mask="(99)99999-9999" size="20" value="#{usuarioPessoaBean.pessoa.telefone1}"/>
@@ -69,8 +70,11 @@
 				oncomplete="PF('dialogo').show();" update=":formInst:panelInst"/>
 				
 				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  
-				actionListener="#{usuarioPessoaBean.criarUsuario}"
-				update=":mensagem :formCriacao"/>
+				action="#{usuarioPessoaBean.criarUsuario}"
+				update=":mensagem :formCriacao">
+					<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+				</p:commandButton>
 				
 				<p:commandButton value="Voltar" icon="ui-icon-arrowreturn-1-w" action="login?faces-redirect=true"/>
 			</h:panelGrid>

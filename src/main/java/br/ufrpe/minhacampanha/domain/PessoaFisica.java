@@ -7,6 +7,7 @@ public class PessoaFisica extends GenericDomain{
 	private String primeiro_nome, medio_nome, ultimo_nome;
 	private String cpf;
 	private LocalDate nascimento;
+	private String nasc;
 	private String telefone1, telefone2;
 	private boolean ativo = true;
 	private int anonimato;
@@ -14,7 +15,7 @@ public class PessoaFisica extends GenericDomain{
 	private int id_usuario;
 	private String tipo_pessoa;
 	
-	public PessoaFisica(){}
+	public PessoaFisica(){	}
 
 	public String getPrimeiro_nome() {
 		return primeiro_nome;
@@ -80,6 +81,10 @@ public class PessoaFisica extends GenericDomain{
 		this.anonimato = anonimato;
 	}
 
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
 	public String getCpf() {
 		return cpf;
 	}
@@ -106,5 +111,13 @@ public class PessoaFisica extends GenericDomain{
 
 	public void setId_usuario(int id_usuario) {
 		this.id_usuario = id_usuario;
+	}
+
+	public String getNasc() {
+		return nasc;
+	}
+
+	public void setNasc(String nasc) {
+		this.nasc = nasc;
 	} 
 }

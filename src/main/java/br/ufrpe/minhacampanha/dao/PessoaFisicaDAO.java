@@ -2,6 +2,8 @@ package br.ufrpe.minhacampanha.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,16 +20,17 @@ public class PessoaFisicaDAO {
 	 * @param idUsuario
 	 * @throws SQLException 
 	 */
-	public PessoaFisica buscar(int idUsuario) throws SQLException{		
+	public PessoaFisica buscar(String cpf) throws SQLException{		
 		PessoaFisica pessoa = new PessoaFisica();
 		try {			
 			Connection connection = ConnectionFactory.getConnection();
-			String SQL = "SELECT * from pessoa_fisica where id_usuario = ?";
+			String SQL = "SELECT * from pessoa_fisica where cpf = ?";
 			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
-			stmt.setInt(1, idUsuario);
+			stmt.setString(1, cpf);
 			
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
+				pessoa.setCodigo(rs.getInt("id"));
 				pessoa.setPrimeiro_nome(rs.getString("p_nome"));
 				pessoa.setMedio_nome(rs.getString("m_nome"));
 				pessoa.setUltimo_nome(rs.getString("u_nome"));
@@ -36,8 +39,9 @@ public class PessoaFisicaDAO {
 				pessoa.setTelefone1(rs.getString("num1"));
 				pessoa.setTelefone2(rs.getString("num"));
 				pessoa.setTipo_pessoa(rs.getString("tipo_pessoa"));
-				pessoa.setId_usuario(idUsuario);
+				pessoa.setId_usuario(rs.getInt("id_usuario"));
 				pessoa.setEndereco(rs.getInt("seque_end"));
+				pessoa.setCpf(rs.getString("cpf"));
 			}
 			
 			ConnectionFactory.closeConnection(connection, stmt);
@@ -48,36 +52,31 @@ public class PessoaFisicaDAO {
 		return pessoa;
 	}
 	
-	public void criar(PessoaFisica pessoa) {
+	public void criar(PessoaFisica pessoa) throws SQLException {
 
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
 
 		try {
-			stmt = connection.prepareStatement("INSERT INTO pessoa_fisica (cpf, p_nome, m_nome, u_name, "
+			stmt = connection.prepareStatement("INSERT INTO pessoa_fisica (cpf, p_nome, m_nome, u_nome, "
 					+ "anonimato, dt_nasc, num1, num, tipo_pessoa, seque_end, id_usuario)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 			stmt.setString(1, pessoa.getCpf());
 			stmt.setString(2, pessoa.getPrimeiro_nome());
 			stmt.setString(3, pessoa.getMedio_nome());
 			stmt.setString(4, pessoa.getUltimo_nome());
-			stmt.setInt(5, pessoa.getAnonimato());
-			stmt.setDate(6, pessoa.getNascimento());
+			stmt.setInt(5, pessoa.isAnonimato());
+			stmt.setDate(6, java.sql.Date.valueOf(pessoa.getNascimento()));
 			stmt.setString(7, pessoa.getTelefone1());
 			stmt.setString(8, pessoa.getTelefone2());
-			stmt.setString(9, pessoa.getTipoPessoa());
-			stmt.setLong(10, pessoa.getCodigoEndereco());
-			stmt.setLong(11, pessoa.getCodigoUsuario());
-
+			stmt.setString(9, pessoa.getTipo_pessoa());
+			stmt.setInt(10, 1);
+			stmt.setInt(11, pessoa.getId_usuario());
+			
 			stmt.executeUpdate();
-
-			// JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso");
-
-		} catch (SQLException ex) {
-			// JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
-
-		} finally {
 			ConnectionFactory.closeConnection(connection, stmt);
+		} catch (SQLException ex) {
+			throw ex;
 		}
 	}
 
