@@ -5,19 +5,14 @@ import java.time.LocalTime;
 
 @SuppressWarnings("serial")
 public class DisponibilidadePessoaFisica extends GenericDomain{
-	private LocalDate data;
+	private LocalDate dia;
 	private LocalTime hora_inicio, hora_fim;
-	private int pessoa_fisica;
+	private int cod_pf_voluntaria;
 	private boolean confirmacao_dia, dia_de_semana, ind_feriado;
 	private String periodo_dia;
+    
 
-	public LocalDate getData() {
-		return data;
-	}
 
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
 
 	public LocalTime getHora_inicio() {
 		return hora_inicio;
@@ -67,7 +62,21 @@ public class DisponibilidadePessoaFisica extends GenericDomain{
 		this.periodo_dia = periodo_dia;
 	}
 
-	public int getPessoa_fisica() {
-		return pessoa_fisica;
+	public LocalDate getDia() {
+		return dia;
 	}
+
+	public void setDia(LocalDate dia) {
+		this.dia = dia;
+	}
+
+	public int getCod_pf_voluntaria() {
+		return cod_pf_voluntaria;
+	}
+
+	public void setCod_pf_voluntaria(int cod_pf_voluntaria) {
+		this.cod_pf_voluntaria = cod_pf_voluntaria;
+	}
+
+
 }
