@@ -3,24 +3,13 @@ package br.ufrpe.minhacampanha.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@SuppressWarnings("serial")
 public class DisponibilidadePessoaFisica extends GenericDomain{
 	private LocalDate data;
 	private LocalTime hora_inicio, hora_fim;
-	private Long pessoa_fisica;
+	private int pessoa_fisica;
 	private boolean confirmacao_dia, dia_de_semana, ind_feriado;
 	private String periodo_dia;
-	
-	public DisponibilidadePessoaFisica(LocalDate data, LocalTime hora_inicio, LocalTime hora_fim, Long pessoa_fisica,
-			boolean confirmacao_dia, boolean dia_de_semana, boolean ind_feriado, String periodo_dia) {
-		this.data = data;
-		this.hora_inicio = hora_inicio;
-		this.hora_fim = hora_fim;
-		this.pessoa_fisica = pessoa_fisica;
-		this.confirmacao_dia = confirmacao_dia;
-		this.dia_de_semana = dia_de_semana;
-		this.ind_feriado = ind_feriado;
-		this.periodo_dia = periodo_dia;
-	}
 
 	public LocalDate getData() {
 		return data;
@@ -78,7 +67,7 @@ public class DisponibilidadePessoaFisica extends GenericDomain{
 		this.periodo_dia = periodo_dia;
 	}
 
-	public Long getPessoa_fisica() {
+	public int getPessoa_fisica() {
 		return pessoa_fisica;
 	}
 }

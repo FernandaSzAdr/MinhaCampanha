@@ -18,15 +18,20 @@
 						<p:commandButton value="Voluntariar" actionListener="#{voluntarioDAO.novoVoluntario()}" 
 						oncomplete="PF('dialogo').show();" update=":mensagem :formCadastro:painel" />
 					</f:facet>
-				
+					
+					<p:column headerText="Código" sortBy="#{campanha.codigo}"
+						filterBy="#{campanha.codigo}">
+						<h:outputText value="#{campanha.codigo}" />
+					</p:column>
 				
 					<p:column headerText="Nome" sortBy="#{campanha.nome}"
 						filterBy="#{campanha.nome}">
 						<h:outputText value="#{campanha.nome}" />
 					</p:column>
 					
-					<p:column headerText="Status" sortBy="#{campanha.status}"
-						filterBy="#{campanha.status}">
+					<p:column headerText="Status" sortBy="#{campanha.status_campanha_enum}"
+						filterBy="#{campanha.status_campanha_enum}">
+						<h:outputText value="#{campanha.status_campanha_enum}" />
 					</p:column>
 					
 					<p:column headerText="Data começo" sortBy="#{campanha.data_inicio}"
@@ -51,15 +56,12 @@
 					
 					<p:column headerText="Publico Alvo" sortBy="#{campanha.publico_alvo}"
 						filterBy="#{campanha.publico_alvo}">
-						<h:outputText value="#{campanha.qtd_valor_necessario}">
-							<f:convertNumber currencySymbol="R$" type="currency"/>
-						</h:outputText>
+						<h:outputText value="#{campanha.publico_alvo}"/>
 					</p:column>
 					
 					<p:column headerText="Quantidade de produtos atual" sortBy="#{campanha.qtd_donativo_atual}"
 						filterBy="#{campanha.qtd_donativo_atual}">
 						<h:outputText value="#{campanha.qtd_donativo_atual}">
-							<f:convertNumber currencySymbol="R$" type="currency"/>
 						</h:outputText>
 					</p:column>
 					
@@ -70,12 +72,16 @@
 					
 					<p:column headerText="Quantidade de doações monetárias atual" sortBy="#{campanha.qtd_valor_atual}"
 						filterBy="#{campanha.qtd_valor_atual}">
-						<h:outputText value="#{campanha.qtd_valor_atual}" />
+						<h:outputText value="#{campanha.qtd_valor_atual}" >
+							<f:convertNumber currencySymbol="R$" type="currency"/>
+						</h:outputText>
 					</p:column>
 					
 					<p:column headerText="Quantidade de doações monetárias necessárias" sortBy="#{campanha.qtd_valor_necessario}"
 						filterBy="#{campanha.qtd_valor_necessario}">
-						<h:outputText value="#{campanha.qtd_valor_necessario}" />
+						<h:outputText value="#{campanha.qtd_valor_necessario}">
+							<f:convertNumber currencySymbol="R$" type="currency"/>
+						</h:outputText>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
@@ -85,7 +91,9 @@
 		draggable="false" resizable="false" modal="true" closable="false">
 			<h:form id="formCadastro">
 				<h:panelGrid id="painel" columns="2">
-					
+					<h:outputLabel for="cep" value="CEP:"/>
+					<p:inputMask id="cep" label="cep" value="#{enderecoPessoaBean.editado.cep}" maxlength="10"
+						mask="999.99-999" size="10" required="true" requiredMessage="Campo 'cep' é obrigatorio."/>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">

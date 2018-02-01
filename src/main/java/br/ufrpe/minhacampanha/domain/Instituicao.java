@@ -15,6 +15,7 @@ public class Instituicao extends GenericDomain{
 	private String razao_social, ramo_atuacao, nome_contato, email_geral_instituicao;
 	private String telefone1, telefone2;
 	private LocalDate data_entrada;
+	private String tipo_instituicao;
 	
 	public Instituicao() {
 		data_entrada = LocalDate.now();
@@ -43,6 +44,14 @@ public class Instituicao extends GenericDomain{
 		this.data_entrada = data_entrada;
 	}
 	
+	public String getTipo_instituicao() {
+		return tipo_instituicao;
+	}
+
+	public void setTipo_instituicao(String tipo_instituicao) {
+		this.tipo_instituicao = tipo_instituicao;
+	}
+
 	public String getCnpj() {
 		return cnpj;
 	}

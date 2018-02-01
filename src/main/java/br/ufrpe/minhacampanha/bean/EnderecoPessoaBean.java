@@ -1,19 +1,25 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.omnifaces.util.Messages;
+
+import br.ufrpe.minhacampanha.dao.EnderecoDAO;
 import br.ufrpe.minhacampanha.domain.Endereco;
+import br.ufrpe.minhacampanha.domain.PessoaFisica;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class EnderecoPessoaBean implements Serializable{
-	private Endereco endereco;
+	private Endereco endereco, editado;
 	private List<Endereco> enderecos;
 	
 	public List<Endereco> getEnderecos() {
@@ -22,6 +28,14 @@ public class EnderecoPessoaBean implements Serializable{
 	
 	public Endereco getEndereco() {
 		return endereco;
+	}
+	
+	public Endereco getEditado() {
+		return editado;
+	}
+	
+	public void setEditado(Endereco editado) {
+		this.editado = editado;
 	}
 	
 	public void setEndereco(Endereco endereco) {
@@ -36,15 +50,31 @@ public class EnderecoPessoaBean implements Serializable{
 		endereco = new Endereco();
 	}
 	
+	public void novoEditar(){
+		editado = new Endereco();
+	}
 	/**
 	 * TODO listar todos os endereços daquela pessoa (no caso um endereço apenas)
 	 */
 	@PostConstruct
 	public void listar(){
+		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
+			
+			EnderecoDAO enderecoDAO = new EnderecoDAO();
+			enderecos = enderecoDAO.buscar(pessoa.getEndereco());
+		} catch (SQLException e) {
+			Messages.addGlobalError("Erro ao tentar mostrar o endereço!");
+		}
 		
 	}
 	
-	public void inserir(){
-		
+	public void atualizar(){
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

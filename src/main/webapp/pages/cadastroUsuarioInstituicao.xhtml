@@ -72,6 +72,15 @@
 				<p:inputText id="email2" label="Email2" value="#{usuarioInstituicaoBean.usuarioInst.email}" maxlength="100" size="20" 
 				required="true" requiredMessage="Informe o mesmo email fornecido no campo 'Email'"/>
 			</p:panelGrid>
+			
+			<h:panelGrid columns="2">
+				<p:outputLabel for="tipo" value="Tipo:"/>
+				<p:selectOneRadio id="tipo" value="#{usuarioInstituicaoBean.instituicao.tipo_instituicao}"
+					required="true" requiredMessage="Campo 'tipo instituição' obrigatório.">
+					<f:selectItem itemLabel="Doadora" itemValue="Doadora"/>
+					<f:selectItem itemLabel="Receptora" itemValue="Receptora"/>
+				</p:selectOneRadio>
+			</h:panelGrid>
 	
 			<h:panelGrid columns="2">
 				<p:commandButton icon="ui-icon-plus" value="Criar Usuário"  

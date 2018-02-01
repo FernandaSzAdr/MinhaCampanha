@@ -8,7 +8,7 @@
 	template="/templates/modeloPessoaFisica.xhtml">
 	<!-- Editar essa ultima linha para por o modelo do template que vai usar -->
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="formListagem">
 			<p:panel header="Seus Endereços">
 				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="enderecoTable"
 				paginator="true" value="#{enderecoPessoaBean.enderecos}" var="endereco" rows="5">					
@@ -49,9 +49,55 @@
 					</p:column>
 					
 					<p:column headerText="Opções">
+						<p:commandButton icon="ui-icon-wrench"	update=":mensagem :formListagem" 
+							oncomplete="PF('dialogoEditar').show();" actionListener="#{enderecoPessoaBean.novoEditar()}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
+		
+		<p:dialog header="Editar" widgetVar="dialogoEditar"
+		draggable="false" resizable="false" modal="true">
+			<h:form id="formEditar">
+				<h:panelGrid columns="2" id="panelEditar">
+					<h:outputLabel for="cep" value="CEP:"/>
+					<p:inputMask id="cep" label="cep" value="#{enderecoPessoaBean.editado.cep}" maxlength="10"
+						mask="999.99-999" size="10" required="true" requiredMessage="Campo 'cep' é obrigatorio."/>
+					
+					<h:outputLabel for="end" value="Endereço:"/>
+					<p:inputText id="end" label="end" value="#{enderecoPessoaBean.editado.nome}" maxlength="100"
+						size="20" required="true" requiredMessage="Campo 'endreço' é obrigatorio."/>
+					
+					<h:outputLabel for="numero" value="Número:"/>
+					<p:inputText id="numero" label="numero" value="#{enderecoPessoaBean.editado.numero}" maxlength="10"
+						size="10" required="true" requiredMessage="Campo 'numero' é obrigatorio."/>
+					
+					<h:outputLabel for="tipo" value="Logrador:"/>
+					<p:inputText id="tipo" label="tipo" value="#{enderecoPessoaBean.editado.tipo_logradoro}" maxlength="10"
+						size="10" required="true" requiredMessage="Campo 'logrador' é obrigatorio."/>
+					
+					<h:outputLabel for="bairro" value="Bairro:"/>
+					<p:inputText id="bairro" label="bairro" value="#{enderecoPessoaBean.editado.bairro}" maxlength="50"
+						size="20" required="true" requiredMessage="Campo 'bairro' é obrigatorio."/>
+					
+					<h:outputLabel for="cidade" value="Cidade:"/>
+					<p:inputText id="cidade" label="cidade" value="#{enderecoPessoaBean.editado.cidade}"
+						maxlength="100" size="20" required="true" requiredMessage="Campo 'cidade' é obrigatorio."/>
+					
+					<h:outputLabel for="estado" value="Estado:"/>
+					<p:inputText id="estado" label="estado" value="#{enderecoPessoaBean.editado.estado}" maxlength="2"
+						size="10" required="true" requiredMessage="Campo 'estado' é obrigatorio."/>
+					
+					<h:outputLabel for="ponto" value="Ponto de Referência:"/>
+					<p:inputText id="ponto" label="ponto" value="#{enderecoPessoaBean.editado.ponto_ref}" maxlength="255"
+						size="20"/>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:commandButton value="Atualizar" actionListener="#{enderecoPessoaBean.atualizar()}"
+						update=":mensagem :formEditar:panelEditar"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 	</ui:define>
 </ui:composition>

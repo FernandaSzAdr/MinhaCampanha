@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -55,15 +56,13 @@ public class CampanhaBean implements Serializable{
 		this.campanha = campanha;
 	}
 	
-	/**
-	 * TODO listar todas as campanhas do sistema, vincular ao banco
-	 */
+	
 	@PostConstruct
 	public void listar(){
 		try {
 			CampanhaDAO campanhaDAO = new CampanhaDAO();
 			campanhas = campanhaDAO.listar();
-		} catch (RuntimeException erro) {
+		} catch (RuntimeException|SQLException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao listar as campanhas existentes no sistema.");
 			erro.printStackTrace();
 		}

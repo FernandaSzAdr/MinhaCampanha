@@ -1,22 +1,11 @@
 package br.ufrpe.minhacampanha.domain;
 
+@SuppressWarnings("serial")
 public class Endereco extends GenericDomain{
 	private String cep, nome, numero, cidade, bairro, ponto_ref, tipo_logradoro;
-	private char estado;
+	private String estado;
 	
 	public Endereco() {
-	}
-
-	public Endereco(String cep, String nome, String numero, String cidade, String bairro, String ponto_ref,
-			String tipo_logradoro, char estado) {
-		this.cep = cep;
-		this.nome = nome;
-		this.numero = numero;
-		this.cidade = cidade;
-		this.bairro = bairro;
-		this.ponto_ref = ponto_ref;
-		this.tipo_logradoro = tipo_logradoro;
-		this.estado = estado;
 	}
 
 	public String getCep() {
@@ -75,11 +64,11 @@ public class Endereco extends GenericDomain{
 		this.tipo_logradoro = tipo_logradoro;
 	}
 
-	public char getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(char estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 }

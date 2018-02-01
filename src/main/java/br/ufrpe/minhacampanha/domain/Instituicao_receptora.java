@@ -1,26 +1,23 @@
 package br.ufrpe.minhacampanha.domain;
-import java.sql.Date;
+
+import java.time.LocalDate;
 /**
  * 
  * @author raiss
  *
  */
+@SuppressWarnings("serial")
 public class Instituicao_receptora extends Instituicao{
-
-	private int id_recep;		
-	private Date dt_ultima_recep ;	
+	private LocalDate dt_ultima_recep ;	
 	private int num_doacoes_recebi ;
 	
-	public int getId_recep() {
-		return id_recep;
+	public Instituicao_receptora(){
 	}
-	public void setId_recep(int id_recep) {
-		this.id_recep = id_recep;
-	}
-	public Date getDt_ultima_recep() {
+	
+	public LocalDate getDt_ultima_recep() {
 		return dt_ultima_recep;
 	}
-	public void setDt_ultima_recep(Date dt_ultima_recep) {
+	public void setDt_ultima_recep(LocalDate dt_ultima_recep) {
 		this.dt_ultima_recep = dt_ultima_recep;
 	}
 	public int getNum_doacoes_recebi() {

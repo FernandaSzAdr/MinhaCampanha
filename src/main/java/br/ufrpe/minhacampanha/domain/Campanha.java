@@ -2,35 +2,15 @@ package br.ufrpe.minhacampanha.domain;
 
 import java.time.LocalDate;
 
+@SuppressWarnings("serial")
 public class Campanha extends GenericDomain{
 	private LocalDate data_inicio, data_fim;
 	private String publico_alvo, nome;
-	private short status_campanha_enum;
+	private String status_campanha_enum;
 	private float qtd_valor_necessario, qtd_valor_atual;
 	private int qtd_donativo_necessario, qtd_donativo_atual;
-	private boolean ativo = true;
 	
 	public Campanha(){}
-	
-	public Campanha(LocalDate data_incio, LocalDate data_fim, String publico_alvo, String nome, short status,
-			float qtd_valor_necessario) {
-		this.data_inicio = data_incio;
-		this.data_fim = data_fim;
-		this.publico_alvo = publico_alvo;
-		this.nome = nome;
-		this.status_campanha_enum = status;
-		this.qtd_valor_necessario = qtd_valor_necessario;
-	}
-
-	public Campanha(LocalDate data_incio, LocalDate data_fim, String publico_alvo, String nome, short status,
-			int qtd_donativo_necessario) {
-		this.data_inicio = data_incio;
-		this.data_fim = data_fim;
-		this.publico_alvo = publico_alvo;
-		this.nome = nome;
-		this.status_campanha_enum = status;
-		this.qtd_donativo_necessario = qtd_donativo_necessario;
-	}
 
 	public LocalDate getData_incio() {
 		return data_inicio;
@@ -46,10 +26,6 @@ public class Campanha extends GenericDomain{
 
 	public String getNome() {
 		return nome;
-	}
-
-	public short getStatus() {
-		return status_campanha_enum;
 	}
 
 	public float getQtd_valor_necessario() {
@@ -68,10 +44,14 @@ public class Campanha extends GenericDomain{
 		return qtd_donativo_atual;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
+	public LocalDate getData_inicio() {
+		return data_inicio;
 	}
-
+	
+	public String getStatus_campanha_enum() {
+		return status_campanha_enum;
+	}
+	
 	public void setData_fim(LocalDate data_fim) {
 		this.data_fim = data_fim;
 	}
@@ -82,10 +62,6 @@ public class Campanha extends GenericDomain{
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public void setStatus(short status) {
-		this.status_campanha_enum = status;
 	}
 
 	public void setQtd_valor_necessario(float qtd_valor_necessario) {
@@ -103,8 +79,12 @@ public class Campanha extends GenericDomain{
 	public void setQtd_donativo_atual(int qtd_donativo_atual) {
 		this.qtd_donativo_atual = qtd_donativo_atual;
 	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}	
+	
+	public void setData_inicio(LocalDate data_inicio) {
+		this.data_inicio = data_inicio;
+	}
+	
+	public void setStatus_campanha_enum(String status_campanha_enum) {
+		this.status_campanha_enum = status_campanha_enum;
+	}
 }

@@ -1,5 +1,6 @@
 package br.ufrpe.minhacampanha.domain;
 
+@SuppressWarnings("serial")
 public class Login extends GenericDomain {
 	private String login;
 	private String senha;

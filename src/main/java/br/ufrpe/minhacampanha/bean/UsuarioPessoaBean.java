@@ -14,6 +14,7 @@ import br.ufrpe.minhacampanha.dao.LoginDAO;
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaDAO;
 import br.ufrpe.minhacampanha.dao.UsuarioDAO;
+import br.ufrpe.minhacampanha.domain.Endereco;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
@@ -27,12 +28,14 @@ public class UsuarioPessoaBean implements Serializable{
 	private Usuario usuario;
 	private Instituicao inst_pessoa;
 	private PessoaFisica pessoa;
+	private Endereco endereco;
 	
 	@PostConstruct
 	public void inicia(){
 		pessoa = new PessoaFisica();
 		login = new Login();
 		usuario = new Usuario();
+		setEndereco(new Endereco());
 	}
 	public Instituicao getInst_pessoa() {
 		return inst_pessoa;
@@ -50,6 +53,12 @@ public class UsuarioPessoaBean implements Serializable{
 		return pessoa;
 	}
 
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 	public void setPessoa(PessoaFisica pessoa) {
 		this.pessoa = pessoa;
 	}
@@ -90,7 +99,7 @@ public class UsuarioPessoaBean implements Serializable{
 			pessoa.setNascimento(nascimento);
 			
 			NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
-			cadastroDAO.novoPessoa(usuario, pessoa, login);
+			cadastroDAO.novoPessoa(usuario, pessoa, login, endereco);
 			
 			Messages.addGlobalInfo("Cadastro realizado com Sucesso");
 			

@@ -14,6 +14,40 @@ import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class PessoaFisicaDAO {
+	
+	public PessoaFisica buscar(int codigo) throws SQLException{		
+		PessoaFisica pessoa = new PessoaFisica();
+		try {			
+			Connection connection = ConnectionFactory.getConnection();
+			String SQL = "SELECT * from pessoa_fisica where id = ?";
+			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt.setInt(1, codigo);
+			
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				pessoa.setCodigo(rs.getInt("id"));
+				pessoa.setPrimeiro_nome(rs.getString("p_nome"));
+				pessoa.setMedio_nome(rs.getString("m_nome"));
+				pessoa.setUltimo_nome(rs.getString("u_nome"));
+				pessoa.setAnonimato(rs.getInt("anonimato"));
+				pessoa.setNascimento(rs.getDate("dt_nasc").toLocalDate());
+				pessoa.setTelefone1(rs.getString("num1"));
+				pessoa.setTelefone2(rs.getString("num"));
+				pessoa.setTipo_pessoa(rs.getString("tipo_pessoa"));
+				pessoa.setId_usuario(rs.getInt("id_usuario"));
+				pessoa.setEndereco(rs.getInt("seque_end"));
+				pessoa.setCpf(rs.getString("cpf"));
+			}
+			
+			ConnectionFactory.closeConnection(connection, stmt);
+		} catch (SQLException erro) {
+			throw erro;
+		}
+		
+		return pessoa;
+	}
+	
+	
 	/**
 	 * Busca a pessoa pelo id de usuario, para poder vincular a pessoa
 	 * no LoginBean
@@ -70,7 +104,7 @@ public class PessoaFisicaDAO {
 			stmt.setString(7, pessoa.getTelefone1());
 			stmt.setString(8, pessoa.getTelefone2());
 			stmt.setString(9, pessoa.getTipo_pessoa());
-			stmt.setInt(10, 1);
+			stmt.setInt(10, pessoa.getEndereco());
 			stmt.setInt(11, pessoa.getId_usuario());
 			
 			stmt.executeUpdate();

@@ -16,6 +16,36 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
  *
  */
 public class InstituicaoDAO {
+	public Instituicao buscar(int codigo) throws SQLException{
+		Instituicao instituicao = new Instituicao();
+		try {			
+			Connection connection = ConnectionFactory.getConnection();
+			String SQL = "SELECT * FROM instituicao WHERE id = ?";
+			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt.setInt(1, codigo);
+			
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				instituicao.setCodigo(rs.getInt("id"));
+				instituicao.setCnpj(rs.getString("cnpj"));
+				instituicao.setData_entrada(rs.getDate("data_entrada").toLocalDate());
+				instituicao.setRamo_atuacao(rs.getString("ramo_atuacao"));
+				instituicao.setRazao_social(rs.getString("razao_social"));
+				instituicao.setNome_fantasia(rs.getString("nome_fantasia"));
+				instituicao.setEmail_geral_instituicao(rs.getString("email"));
+				instituicao.setTelefone1(rs.getString("tele1"));
+				instituicao.setTelefone2(rs.getString("tele2"));
+				instituicao.setNome_contato(rs.getString("nome_contato"));
+			}
+			
+			ConnectionFactory.closeConnection(connection, stmt);
+		} catch (SQLException erro) {
+			throw erro;
+		}
+		
+		return instituicao;
+	}
+	
 	
 	public Instituicao buscar(String cnpj) throws SQLException{
 		Instituicao instituicao = new Instituicao();
@@ -119,9 +149,9 @@ public class InstituicaoDAO {
 		} catch (SQLException ex) {
 			System.out.println(ex);
 			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		} finally {
-			//ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
+		
+		ConnectionFactory.closeConnection(connection, stmt);
 		return instituicoes;
 	}
 

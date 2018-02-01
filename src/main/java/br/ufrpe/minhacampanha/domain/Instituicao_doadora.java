@@ -1,27 +1,25 @@
 package br.ufrpe.minhacampanha.domain;
-import java.sql.Date;
+
+import java.time.LocalDate;
 /**
  * 
  * @author raiss
  *
  */
+@SuppressWarnings("serial")
 public class Instituicao_doadora extends Instituicao{
-
-	private int id_doador;
-	private Date dt_ultima_doacao;
+	private LocalDate dt_ultima_doacao;
     private int num_doacoes_prod;		
     private int num_doacoes_fin;
     
-	public int getId_doador() {
-		return id_doador;
-	}
-	public void setId_doador(int id_doador) {
-		this.id_doador = id_doador;
-	}
-	public Date getDt_ultima_doacao() {
+    public Instituicao_doadora(){
+ 
+    }
+    
+	public LocalDate getDt_ultima_doacao() {
 		return dt_ultima_doacao;
 	}
-	public void setDt_ultima_doacao(Date dt_ultima_doacao) {
+	public void setDt_ultima_doacao(LocalDate dt_ultima_doacao) {
 		this.dt_ultima_doacao = dt_ultima_doacao;
 	}
 	public int getNum_doacoes_prod() {

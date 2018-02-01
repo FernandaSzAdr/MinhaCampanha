@@ -20,21 +20,18 @@ public class Instituicao_doadoraDAO {
 		java.sql.PreparedStatement stmt = null;
 		
 		try{
-			stmt = connection.prepareStatement("INSERT INTO Instituicao_doadora (id_doador,dt_ultima_doacao, "
-					+ "num_doacoes_prod,  num_doacoes_fin)VALUES(?,?,?,?)");
-		
-		    stmt.setInt(1, instituicao.getId_doador());
-			stmt.setDate(2,instituicao.getDt_ultima_doacao());
-			stmt.setInt(3,instituicao.getNum_doacoes_prod());
-			stmt.setInt(4,instituicao.getNum_doacoes_fin());
+			String SQL;
+			if (instituicao.getDt_ultima_doacao() == null && instituicao.getNum_doacoes_fin() == 0
+				&& instituicao.getNum_doacoes_prod() == 0){
+				SQL = "INSERT INTO instituicao_doadora (id_doador) values (?)";
+				stmt = connection.prepareStatement(SQL);
+				
+				stmt.setInt(1, instituicao.getCodigo());
+			}	
 			
 			stmt.executeUpdate();
-			connection.commit();
-			//JOptionPane.showMessageDialog(null, "Donativo_instituicao, regustrado");
-			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
-			
+			throw ex;
 		}finally{
 			ConnectionFactory.closeConnection(connection, stmt);
 		}
