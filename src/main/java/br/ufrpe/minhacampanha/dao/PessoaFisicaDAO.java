@@ -130,18 +130,18 @@ public class PessoaFisicaDAO {
 			while (resultSet.next()) {
 
 				PessoaFisica pessoa = new PessoaFisica();
-				pessoa.setCodigo(resultSet.getLong("id"));
+				pessoa.setCodigo(resultSet.getInt("id"));
 				pessoa.setCpf(resultSet.getString("cpf"));
 				pessoa.setPrimeiro_nome(resultSet.getString("p_nome"));
 				pessoa.setMedio_nome(resultSet.getString("m_nome"));
 				pessoa.setUltimo_nome(resultSet.getString("u_nome"));
 				pessoa.setAnonimato(resultSet.getInt("anonimato"));
-				pessoa.setNascimento(resultSet.getDate("dt_nasc"));
+				pessoa.setNascimento(resultSet.getDate("dt_nasc").toLocalDate());
 				pessoa.setTelefone1(resultSet.getString("num1"));
 				pessoa.setTelefone2(resultSet.getString("num"));
-				pessoa.setTipoPessoa(resultSet.getString("tipo_pessoa"));
-				pessoa.setCodigoEndereco(resultSet.getLong("seque_end"));
-				pessoa.setCodigoUsuario(resultSet.getLong("id_usuario"));
+				pessoa.setTipo_pessoa(resultSet.getString("tipo_pessoa"));
+				pessoa.setEndereco(resultSet.getInt("seque_end"));
+				pessoa.setId_usuario(resultSet.getInt("id_usuario"));
 
 				pessoas.add(pessoa);
 			}
@@ -169,11 +169,11 @@ public class PessoaFisicaDAO {
 			stmt.setString(3, pessoa.getMedio_nome());
 			stmt.setString(4, pessoa.getUltimo_nome());
 			stmt.setInt(5, pessoa.getAnonimato());
-			stmt.setDate(6, pessoa.getNascimento());
+			stmt.setDate(6,java.sql.Date.valueOf(pessoa.getNascimento()) );
 			stmt.setString(7, pessoa.getTelefone1());
 			stmt.setString(8, pessoa.getTelefone2());
-			stmt.setInt(9, pessoa.getTipoPessoa());
-			stmt.setLong(10, pessoa.getCodigoEndereco());
+			stmt.setString(9, pessoa.getTipo_pessoa());
+			stmt.setLong(10, pessoa.getEndereco());
 			stmt.setLong(11, pessoa.getCodigo());
 
 			stmt.executeUpdate();

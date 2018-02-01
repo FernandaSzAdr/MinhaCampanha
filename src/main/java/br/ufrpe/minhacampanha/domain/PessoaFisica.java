@@ -1,3 +1,4 @@
+
 package br.ufrpe.minhacampanha.domain;
 
 import java.time.LocalDate;
@@ -119,5 +120,18 @@ public class PessoaFisica extends GenericDomain{
 
 	public void setNasc(String nasc) {
 		this.nasc = nasc;
+	}
+
+	public int getId_endereco() {
+		return id_endereco;
+	}
+
+	public void setId_endereco(int id_endereco) {
+		this.id_endereco = id_endereco;
+	}
+
+	public int getAnonimato() {
+		return anonimato;
 	} 
+	
 }
