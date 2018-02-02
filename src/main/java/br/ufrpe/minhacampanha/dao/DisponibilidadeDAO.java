@@ -11,6 +11,12 @@ import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class DisponibilidadeDAO {
+	/**
+	 * Terminar de salvar no banco
+	 * 
+	 * @param disponibilidade
+	 * @throws SQLException
+	 */
 	public void criar(DisponibilidadePessoaFisica disponibilidade) throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
