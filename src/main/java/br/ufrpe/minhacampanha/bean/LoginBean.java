@@ -12,6 +12,7 @@ import org.omg.CORBA.PERSIST_STORE;
 import org.omnifaces.util.Messages;
 
 import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
+import br.ufrpe.minhacampanha.dao.Instituicao_receptoraDAO;
 import br.ufrpe.minhacampanha.dao.LoginDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaDAO;
 import br.ufrpe.minhacampanha.domain.Instituicao;
@@ -49,18 +50,25 @@ public class LoginBean implements Serializable{
 			LoginDAO loginDAO = new LoginDAO();
 			Usuario verificado = loginDAO.pegaUser(login);
 			
+			
 			FacesContext context = FacesContext.getCurrentInstance();
 			
 			if (verificado != null) {
 				context.getExternalContext().getSessionMap().put("usuario", verificado);
 				
-				if (verificado.getInstituicao_vinculada() != 0L) {
+				if (verificado.getInstituicao_vinculada() != 0) {
+					Instituicao_receptoraDAO instituicao_receDAO = new Instituicao_receptoraDAO();
 					InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
 					Instituicao instituicao = instituicaoDAO.buscar(verificado.getInstituicao_vinculada());
 					
 					context.getExternalContext().getApplicationMap().put("instituicao", instituicao);
-					return "/pages/menuInstituicao?faces-redirect=true";
-				} else {
+					if (instituicao_receDAO.buscar(instituicao)) {
+						return "/pages/menuInstituicaoRece?faces-refirect=true";
+					} else {
+						return "/pages/menuInstituicao?faces-redirect=true";
+					}
+				} 
+				else {
 					PessoaFisicaDAO pessoaDAO = new PessoaFisicaDAO();
 					PessoaFisica pessoa = pessoaDAO.buscar(verificado.getCodigo());
 					

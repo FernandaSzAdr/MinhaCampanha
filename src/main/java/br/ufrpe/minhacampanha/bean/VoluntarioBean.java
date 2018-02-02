@@ -163,8 +163,11 @@ public class VoluntarioBean implements Serializable{
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
 			disponibilidade.setCod_pf_voluntaria(pessoa.getCodigo());
+			
 			DisponibilidadeDAO disponibilidadeDAO = new DisponibilidadeDAO();
 			disponibilidadeDAO.criar(disponibilidade);
+			
+			Messages.addGlobalInfo("Cadastro realizado com sucesso");
 		} catch (SQLException e) {
 			Messages.addGlobalError("Erro ao tentar cadastrar disponibilidade!");
 		}

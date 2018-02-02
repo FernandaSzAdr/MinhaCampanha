@@ -8,18 +8,20 @@
 	template="/templates/modeloInstituicao.xhtml">
 
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="formListagem">
 			<p:panel header="Campanha">
-				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="campanhaTable"
-					paginator="true" value="#{campanhaBean.campanhas}" var="campanha" rows="5">
-					
+				<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado." 
+					widgetVar="campanhaTable" paginator="true" 
+					value="#{campanhaBean.campanhas}" var="campanha" rows="5">
+				
 					<p:column headerText="Nome" sortBy="#{campanha.nome}"
 						filterBy="#{campanha.nome}">
 						<h:outputText value="#{campanha.nome}" />
 					</p:column>
 					
-					<p:column headerText="Status" sortBy="#{campanha.status}"
-						filterBy="#{campanha.status}">
+					<p:column headerText="Status" sortBy="#{campanha.status_campanha_enum}"
+						filterBy="#{campanha.status_campanha_enum}">
+						<h:outputText value="#{campanha.status_campanha_enum}" />
 					</p:column>
 					
 					<p:column headerText="Data começo" sortBy="#{campanha.data_inicio}"
@@ -44,15 +46,12 @@
 					
 					<p:column headerText="Publico Alvo" sortBy="#{campanha.publico_alvo}"
 						filterBy="#{campanha.publico_alvo}">
-						<h:outputText value="#{campanha.qtd_valor_necessario}">
-							<f:convertNumber currencySymbol="R$" type="currency"/>
-						</h:outputText>
+						<h:outputText value="#{campanha.publico_alvo}"/>
 					</p:column>
 					
 					<p:column headerText="Quantidade de produtos atual" sortBy="#{campanha.qtd_donativo_atual}"
 						filterBy="#{campanha.qtd_donativo_atual}">
 						<h:outputText value="#{campanha.qtd_donativo_atual}">
-							<f:convertNumber currencySymbol="R$" type="currency"/>
 						</h:outputText>
 					</p:column>
 					
@@ -63,28 +62,49 @@
 					
 					<p:column headerText="Quantidade de doações monetárias atual" sortBy="#{campanha.qtd_valor_atual}"
 						filterBy="#{campanha.qtd_valor_atual}">
-						<h:outputText value="#{campanha.qtd_valor_atual}" />
+						<h:outputText value="#{campanha.qtd_valor_atual}" >
+							<f:convertNumber currencySymbol="R$" type="currency"/>
+						</h:outputText>
 					</p:column>
 					
 					<p:column headerText="Quantidade de doações monetárias necessárias" sortBy="#{campanha.qtd_valor_necessario}"
 						filterBy="#{campanha.qtd_valor_necessario}">
-						<h:outputText value="#{campanha.qtd_valor_necessario}" />
+						<h:outputText value="#{campanha.qtd_valor_necessario}">
+							<f:convertNumber currencySymbol="R$" type="currency"/>
+						</h:outputText>
 					</p:column>
 					
-					<!-- ESSA COLUNA TA ERRADA!!! -->
-					<p:column headerText="Ativo" sortBy="#{campanha.ativo}" filterMatchMode="equals">
-						<f:facet name="filter">
-							<p:selectOneButton onchange="PF('campanhaTable').filter()">
-								<f:converter converterId="javax.faces.Boolean"/>
-								<f:selectItem itemLabel="Todos" itemValue=""/>
-								<f:selectItem itemLabel="Ativo" itemValue="true"/>
-								<f:selectItem itemLabel="Encerrado" itemValue="false"/>
-							</p:selectOneButton>
-						</f:facet>		
-						<h:outputText value="#{campanha.ativo ? 'Ativo': 'Encerrado'}" />				
+					<p:column headerText="Opções">
+						<p:commandButton icon="ui-icon-circle-plus"	update=":mensagem :formListagem" 
+						oncomplete="PF('dialogoDoar').show();" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
+		
+		<p:dialog header="Doar" widgetVar="dialogoDoar"
+			draggable="false" resizable="false" modal="true">
+			<h:form id="formDoar">
+				<h:panelGrid columns="1">
+					<p:commandButton value="Doar Produto" actionListener="#{campanhaBean.novaDoacaoP()}"
+					update=":mensagem" oncomplete="PF('dialogoProduto').show();"/>
+					<p:commandButton value="Doação Monetária" actionListener="#{campanhaBean.doacaoF}"
+					update=":mensagem" oncomplete="PF('dialogoFinanceiro').show();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog header="Doação Produto" widgetVar="dialogoProduto"
+			draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formProduto">
+				<h:panelGrid columns="2" id="painelProduto">
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" >
+					<p:commandButton value="Salvar" actionListener="#{campanhaBean.doacaoP}"/>
+					<p:commandButton value="Voltar" oncomplete="PF('dialogoProduto').hide();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
