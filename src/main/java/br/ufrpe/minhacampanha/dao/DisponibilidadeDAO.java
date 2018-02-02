@@ -8,7 +8,6 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
-import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class DisponibilidadeDAO {

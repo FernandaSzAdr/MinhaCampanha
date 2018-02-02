@@ -11,6 +11,8 @@ import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
 
+import com.mysql.jdbc.Connection;
+
 import br.ufrpe.minhacampanha.dao.AtividadeAtribuidaPessoaDAO;
 import br.ufrpe.minhacampanha.dao.AtividadeDAO;
 import br.ufrpe.minhacampanha.dao.CampanhaDAO;
@@ -22,6 +24,7 @@ import br.ufrpe.minhacampanha.domain.Carro;
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
+import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -128,10 +131,12 @@ public class VoluntarioBean implements Serializable{
 	}
 	
 	public void cadastrar(){
+		Connection connection = ConnectionFactory.getConnection();
 		try {
 			/**
 			 * TODO acho que precisa fazer uma transaction aqui
 			 */
+			connection.setAutoCommit(false);
 			FacesContext context = FacesContext.getCurrentInstance();
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
@@ -149,10 +154,14 @@ public class VoluntarioBean implements Serializable{
 			/**
 			 * TODO fazer o cadastro!!!
 			 */
+			
+			
 			AtividadeAtribuidaPessoaDAO atividadepessoaDAO = new AtividadeAtribuidaPessoaDAO();
 			atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo());
+			connection.commit();
 			
 		} catch (RuntimeException|SQLException e) {
+			connection.rollback();
 			Messages.addGlobalError("Erro ao tentar se voluntariar!");
 		}
 	}
