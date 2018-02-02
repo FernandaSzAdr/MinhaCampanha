@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @SuppressWarnings("serial")
-public class PessoaFisicaVoluntario extends GenericDomain{
+public class PessoaFisicaVoluntario extends PessoaFisica{
 	private int id_ps;
 	private LocalDate data_inicio;
 	private LocalDate data_fim;
@@ -12,13 +12,7 @@ public class PessoaFisicaVoluntario extends GenericDomain{
 	private boolean tem_veiculo;
 	
 	public PessoaFisicaVoluntario(){
-		data_inicio = LocalDate.now();
-		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String text = data_inicio.format(formatters);
-	    data_inicio = LocalDate.parse(text, formatters);
 	}
-	
-	
 	
 	public int getId_ps() {
 		return id_ps;

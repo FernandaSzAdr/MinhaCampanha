@@ -1,6 +1,5 @@
 package br.ufrpe.minhacampanha.dao;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,8 +52,8 @@ public class AtividadeDAO {
 			while (resultSet.next()){
 				
 				Atividade atividade = new Atividade();
-				atividade.setCodigo(resultSet.getLong("id"));
-				atividade.setCodigoCampanha(resultSet.getLong("id_campanha"));
+				atividade.setCodigo(resultSet.getInt("id"));
+				atividade.setCodigoCampanha(resultSet.getInt("id_campanha"));
 				atividade.setDescricao(resultSet.getString("descricao"));
 				atividade.setTipo(resultSet.getString("tipo"));
 				atividade.setDuracaoMedia(resultSet.getTime("duracao_media"));
@@ -64,7 +63,7 @@ public class AtividadeDAO {
 			 }
 			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
+			throw ex;
 		}finally{
 			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}

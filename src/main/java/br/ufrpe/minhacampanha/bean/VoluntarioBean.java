@@ -11,9 +11,13 @@ import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
 
+import br.ufrpe.minhacampanha.dao.AtividadeDAO;
 import br.ufrpe.minhacampanha.dao.CampanhaDAO;
+import br.ufrpe.minhacampanha.dao.DisponibilidadeDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaVoluntarioDAO;
+import br.ufrpe.minhacampanha.domain.Atividade;
 import br.ufrpe.minhacampanha.domain.Campanha;
+import br.ufrpe.minhacampanha.domain.Carro;
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
@@ -23,15 +27,52 @@ import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
 @ViewScoped
 public class VoluntarioBean implements Serializable{
 	private List<Campanha> campanhas;
+	private List<Atividade> atividades;
+	private List<DisponibilidadePessoaFisica> disponiblidades;
 	private PessoaFisicaVoluntario voluntario;
 	private DisponibilidadePessoaFisica disponibilidade;
+	private Carro carro;
+	private Campanha campanhaVoluntario;
+	private Atividade atividade;
 
 	public List<Campanha> getCampanhas() {
 		return campanhas;
 	}
-
+	
+	public List<DisponibilidadePessoaFisica> getDisponiblidades() {
+		return disponiblidades;
+	}
+	
+	public Carro getCarro() {
+		return carro;
+	}
+	
+	public Atividade getAtividade() {
+		return atividade;
+	}
+	
+	public Campanha getCampanhaVoluntario() {
+		return campanhaVoluntario;
+	}
+	
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
+	}
+	
+	public void setCampanhaVoluntario(Campanha campanhaVoluntario) {
+		this.campanhaVoluntario = campanhaVoluntario;
+	}
+	
+	public void setCarro(Carro carro) {
+		this.carro = carro;
+	}
+	
 	public void setCampanhas(List<Campanha> campanhas) {
 		this.campanhas = campanhas;
+	}
+	
+	public void setDisponiblidades(List<DisponibilidadePessoaFisica> disponiblidades) {
+		this.disponiblidades = disponiblidades;
 	}
 	
 	public PessoaFisicaVoluntario getVoluntario() {
@@ -50,23 +91,50 @@ public class VoluntarioBean implements Serializable{
 		this.disponibilidade = disponibilidade;
 	}
 
+	public List<Atividade> getAtividades() {
+		return atividades;
+	}
+
+	public void setAtividades(List<Atividade> atividades) {
+		this.atividades = atividades;
+	}
+
 	public void novoVoluntario(){
 		voluntario = new PessoaFisicaVoluntario();
+		campanhaVoluntario = new Campanha();
+		atividade = new Atividade();
+	}
+	
+	public void novaDisponibilidade(){
 		disponibilidade = new DisponibilidadePessoaFisica();
 	}
 	
-	/**
-	 * TODO listar também informações do voluntario, precisa de uma DAO pra isso
-	 */
+	public void novoCarro(){
+		carro = new Carro();
+	}
+	
 	@PostConstruct
 	public void listar(){
 		try {
 			CampanhaDAO campanhaDAO = new CampanhaDAO();
 			campanhas = campanhaDAO.listar();
+			
+			AtividadeDAO atividadeDAO = new AtividadeDAO();
+			atividades = atividadeDAO.listar();
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
+			
+			DisponibilidadeDAO disponibilidaDAO = new DisponibilidadeDAO();
+			disponiblidades = disponibilidaDAO.listar(pessoa.getCodigo());
 		} catch (RuntimeException|SQLException erro) {
-			Messages.addGlobalError("Ocorreu um erro ao listar as campanhas existentes no sistema.");
+			Messages.addGlobalError("Ocorreu um erro ao listar os dados do sistema.");
 			erro.printStackTrace();
 		}
+	}
+	
+	public void cadastrarCarro(){
+		
 	}
 	
 	public void cadastrar(){
@@ -74,12 +142,32 @@ public class VoluntarioBean implements Serializable{
 			FacesContext context = FacesContext.getCurrentInstance();
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
-			voluntario.setPessoa(pessoa.getCodigo());
+			voluntario.setCodigo(pessoa.getCodigo());
+			
+			if (carro != null) {
+				voluntario.setCarro(carro);
+				voluntario.setTem_veiculo(true);
+			}else {
+				voluntario.setTem_veiculo(false);
+			}
 			
 			PessoaFisicaVoluntarioDAO voluntarioDAO = new PessoaFisicaVoluntarioDAO();
 			voluntarioDAO.criar(voluntario);
 		} catch (RuntimeException|SQLException e) {
 			Messages.addGlobalError("Erro ao tentar se voluntariar!");
+		}
+	}
+	
+	public void cadastrarDisponibilidade(){
+		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
+			
+			disponibilidade.setCod_pf_voluntaria(pessoa.getCodigo());
+			DisponibilidadeDAO disponibilidadeDAO = new DisponibilidadeDAO();
+			disponibilidadeDAO.criar(disponibilidade);
+		} catch (SQLException e) {
+			Messages.addGlobalError("Erro ao tentar cadastrar disponibilidade!");
 		}
 	}
 }

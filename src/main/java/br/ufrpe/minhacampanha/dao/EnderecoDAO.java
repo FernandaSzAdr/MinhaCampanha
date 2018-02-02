@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Endereco;
-import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class EnderecoDAO {
@@ -74,6 +73,13 @@ public class EnderecoDAO {
 		return endereco;
 	}
 	
+	/**
+	 * Buscar endereço de pessoa
+	 * 
+	 * @param codigo
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Endereco> buscar(int codigo) throws SQLException{
 		List<Endereco> enderecos = new ArrayList<Endereco>();
 		
@@ -106,6 +112,10 @@ public class EnderecoDAO {
 		return enderecos;
 	}
 	
+	/**
+	 * Listar endereços de instituição
+	 * @return
+	 */
 	public List<Endereco> listar(){
 		Connection connection = ConnectionFactory.getConnection();
 		List<Endereco> enderecos = new ArrayList<Endereco>();

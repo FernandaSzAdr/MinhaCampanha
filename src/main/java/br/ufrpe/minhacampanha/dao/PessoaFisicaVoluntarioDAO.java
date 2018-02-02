@@ -101,12 +101,9 @@ public class PessoaFisicaVoluntarioDAO {
 			stmt.setBoolean(5, true);		
 			
 			stmt.executeUpdate();
-			
-			//JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso");
-			
+		
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
-			
+			throw ex;
 		}finally{
 			ConnectionFactory.closeConnection(connection, stmt);
 		}
@@ -131,11 +128,8 @@ public class PessoaFisicaVoluntarioDAO {
 			
 			stmt.executeUpdate();
 			
-			//JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso");
-			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
-			
+			throw ex;
 		}finally{
 			ConnectionFactory.closeConnection(connection, stmt);
 		}
@@ -196,10 +190,6 @@ public class PessoaFisicaVoluntarioDAO {
 				}
 					
 			}
-						
-			
-			
-			//JOptionPane.showMessageDialog(null, "Cliente deletado com sucesso");
 			
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);

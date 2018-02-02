@@ -15,7 +15,7 @@
 					value="#{voluntarioBean.campanhas}" var="campanha" rows="5">
 					
 					<f:facet name="header">
-						<p:commandButton value="Voluntariar" actionListener="#{voluntarioDAO.novoVoluntario()}" 
+						<p:commandButton value="Voluntariar" actionListener="#{voluntarioBean.novoVoluntario()}" 
 						oncomplete="PF('dialogo').show();" update=":mensagem :formCadastro:painel" />
 					</f:facet>
 					
@@ -85,23 +85,155 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
+			
+			<p:panel header="Atividades">
+				<p:dataTable id="tabelaAtiv" emptyMessage="Nenhum registro encontrado." 
+					widgetVar="atividadeTable" paginator="true" 
+					value="#{voluntarioBean.atividades}" var="atividade" rows="5">
+					
+					<p:column headerText="Id Atividade" sortBy="#{atividade.codigo}" filterBy="#{atividade.codigo}">
+						<h:outputText value="#{atividade.codigo}" />
+					</p:column>	
+					
+					<p:column headerText="Id Campanha" sortBy="#{atividade.codigoCampanha}" filterBy="#{atividade.codigoCampanha}">
+						<h:outputText value="#{atividade.codigoCampanha}" />
+					</p:column>
+					
+					<p:column headerText="Descrição" sortBy="#{atividade.descricao}" filterBy="#{atividade.descricao}">
+						<h:outputText value="#{atividade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Duração Media" sortBy="#{atividade.duracaoMedia}" filterBy="#{atividade.duracaoMedia}">
+						<h:outputText value="#{atividade.duracaoMedia}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo de atividade" sortBy="#{atividade.tipo}" filterBy="#{atividade.tipo}">
+						<h:outputText value="#{atividade.tipo}" />
+					</p:column>
+					
+					<p:column headerText="Pessoa responsavel" sortBy="#{atividade.pessoa}">
+						<h:outputText value="#{atividade.pessoa}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+			
+			<p:panel header="Disponilidades">
+				<p:dataTable id="tabelaDisp" emptyMessage="Nenhum registro encontrado." 
+					widgetVar="dispTable" paginator="true" 
+					value="#{voluntarioBean.disponiblidades}" var="disponibilidade" rows="5">
+					<f:facet name="header">
+						<p:commandButton value="Adicionar" actionListener="#{voluntarioBean.novaDisponibilidade()}" 
+						oncomplete="PF('dialogoDisponibilidade').show();" update=":mensagem :formCadastro:painel" />
+					</f:facet>
+					
+					<p:column headerText="ID de disponibilidade" sortBy="#{disponibilidade.codigo}" filterBy="#{disponibilidade.codigo}">
+						<h:outputText value="#{disponibilidade.codigo}" />
+					</p:column>
+					
+					<p:column headerText="Hora inicio" sortBy="#{disponibilidade.hora_inicio}" filterBy="#{disponibilidade.hora_inicio}">
+						<h:outputText value="#{disponibilidade.hora_inicio}" />
+					</p:column>
+					
+					<p:column headerText="Hora fim" sortBy="#{disponibilidade.hora_fim}" filterBy="#{disponibilidade.hora_fim}">
+						<h:outputText value="#{disponibilidade.hora_fim}" />
+					</p:column>
+					
+					<p:column headerText="Data" sortBy="#{disponibilidade.dia}" filterBy="#{disponibilidade.dia}">
+						<h:outputText value="#{disponibilidade.dia}"/>
+					</p:column>
+					
+					<p:column headerText="Opções">
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		</h:form>
 	
-	<p:dialog header="Voluntario - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
+		<p:dialog header="Voluntario - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true">
 			<h:form id="formCadastro">
 				<h:panelGrid id="painel" columns="2">
-					<h:outputLabel for="cep" value="CEP:"/>
-					<p:inputMask id="cep" label="cep" value="#{enderecoPessoaBean.editado.cep}" maxlength="10"
-						mask="999.99-999" size="10" required="true" requiredMessage="Campo 'cep' é obrigatorio."/>
+					<p:outputLabel for="data_comeco" value="Data começo:"/>
+					<p:inputMask id="data_comeco" value="#{voluntarioBean.voluntario.data_inicio}" 
+					maxlength="8" size="10" mask="9999-99-99" required="true" requiredMessage="O campo 'Data começo' é obrigatório."/>
+					
+					<p:outputLabel for="data_fim" value="Data fim:"/>
+					<p:inputMask id="data_fim" mask="9999-99-99" value="#{voluntarioBean.voluntario.data_fim}" maxlength="8" size="10" 
+					required="true" requiredMessage="O campo 'Data fim' é obrigatorio."/>
+					
+					<p:outputLabel for="cam" value="ID da campanha:"/>
+					<p:inputMask id="cam" maxlength="2" value="#{voluntarioBean.campanhaVoluntario.codigo}" mask="99"
+					size="10" required="true" requiredMessage="O campo 'id campanha' é obrigatorio."/>
+					
+					<p:outputLabel for="ativ" value="ID da atividade:"/>
+					<p:inputMask id="ativ" mask="99" maxlength="2" value="#{voluntarioBean.atividade.codigo}" 
+					size="10" required="true" requiredMessage="O campo 'atividade' é obrigatorio."/>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">
+					<p:commandButton value="Cadastrar carro" actionListener="#{voluntarioBean.novoCarro()}" 
+							oncomplete="PF('dialogoCarro').show();"  />
 					<p:commandButton value="Salvar"
-						actionListener="#{voluntarioDAO.cadastrar()}"
+						actionListener="#{voluntarioBean.cadastrar()}"
 						update=":mensagem :formCadastro:painel" />
-					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		
+		<p:dialog header="Carro" widgetVar="dialogoCarro"
+					draggable="false" resizable="false" modal="true">
+			<h:form id="formCarro">
+				<h:panelGrid columns="2" id="panelCarro">
+					<p:outputLabel for="placa" value="Placa:"/>
+					<p:inputMask id="placa" value="#{voluntarioBean.carro.placa}" maxlength="8" mask="a**-9999" 
+					required="true" requiredMessage="O campo 'placa' é obrigatorio."/>
+					
+					<p:outputLabel for="marca" value="Marca:"/>
+					<p:inputText id="marca" value="#{voluntarioBean.carro.marca}" maxlength="40" 
+					required="true" requiredMessage="O campo 'marca' é obrigatorio."/>
+					
+					<p:outputLabel for="cidade" value="Cidade:"/>
+					<p:inputText id="cidade" value="#{voluntarioBean.carro.cidade}" maxlength="50"
+					required="true" requiredMessage="O campo 'cidade' é obrigatorio."/>
+					
+					<p:outputLabel for="estado" value="Estado:"/>
+					<p:inputText id="estado" value="#{voluntarioBean.carro.estado}" maxlength="2"
+					required="true" requiredMessage="O campo 'Estado' é obrigatorio."/>
+				</h:panelGrid>
+				
+				<h:panelGrid>
+					<p:commandButton value="Salvar" actionListener="#{voluntarioBean.cadastrarCarro()}"
+					update=":mensagem :formCarro:panelCarro"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog header="Disponibilidade - Cadastro" widgetVar="dialogoDisponibilidade" draggable="false" 
+				resizable="false" modal="true">
+			<h:form id="formDis">
+				<h:panelGrid columns="2" id="panelDis">
+					<p:outputLabel for="ho_i" value="Hora de inicio:"/>
+					<p:inputMask mask="99:99:99" id="ho_i" maxlength="6" size="10" required="true" 
+					requiredMessage="Campo 'Hora de inicio' obrigatorio." value="#{voluntarioBean.disponibilidade.hora_inicio}"/>
+					
+					<p:outputLabel for="ho_f" value="Hora de fim:"/>
+					<p:inputMask mask="99:99:99" id="ho_f" maxlength="6" size="10" required="true"
+					requiredMessage="Campo 'Hora de fim' é obrigatorio." value="#{voluntarioBean.disponibilidade.hora_fim}"/>
+					
+					<p:outputLabel for="dia" value="Data:"/>
+					<p:inputMask mask="9999-99-99" id="dia" maxlength="8" size="10" required="true"
+					requiredMessage="O campo 'data' é obrigatorio." value="#{voluntarioBean.disponibilidade.dia_aux}"/>
+					
+					<p:outputLabel for="periodo" value="Periodo Dia:"/>
+					<p:inputText id="periodo" maxlength="20" size="10" required="true" value="#{voluntarioBean.disponibilidade.periodo_dia}"
+					requiredMessage="O campo 'periodo dia' é obrigatorio."/>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar" actionListener="#{voluntarioBean.cadastrarDisponibilidade()}"
+					update=":mensagem :formDis:panelDis"/>
+				</h:panelGrid>				
 			</h:form>
 		</p:dialog>
 	</ui:define>
