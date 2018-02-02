@@ -113,17 +113,34 @@ public class EnderecoDAO {
 	}
 	
 	/**
+	 * TODO
 	 * Listar endereços de instituição
 	 * @return
 	 */
-	public List<Endereco> listar(){
+	public List<Endereco> listar()throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		List<Endereco> enderecos = new ArrayList<Endereco>();
 		
 		try {
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM instituicao_tem_endereco ");
 			ResultSet resultSet = stmt.executeQuery();
-		} catch (Exception e) {
+			
+			while(resultSet.next()) {
+				Endereco end = new Endereco();
+				end.setBairro(resultSet.getString("bairro"));
+				end.setCep(resultSet.getString("cep"));
+				end.setCidade(resultSet.getString("cidade"));
+				end.setCodigo(resultSet.getInt("codigo"));
+				end.setEstado(resultSet.getString("estado"));
+				end.setNome(resultSet.getString("nome"));
+				end.setNumero(resultSet.getString("numero"));
+				end.setPonto_ref(resultSet.getString("ponto_ref"));
+				end.setTipo_logradoro(resultSet.getString("tipo_logradoro"));
+				
+				enderecos.add(end);
+				
+			}
+		} catch (SQLException e) {
 			// TODO: handle exception
 		}
 		

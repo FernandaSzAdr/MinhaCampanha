@@ -3,7 +3,11 @@ package br.ufrpe.minhacampanha.domain;
 
 import java.sql.Time;
 import java.time.LocalDate;
-
+/**
+ * 
+ * @author raiss
+ *
+ */
 @SuppressWarnings("serial")
 public class Atividade extends GenericDomain {
 	private String descricao, tipo;
