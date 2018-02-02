@@ -130,12 +130,9 @@ public class VoluntarioBean implements Serializable{
 		voluntario.setCarro(carro);
 	}
 	
-	public void cadastrar(){
+	public void cadastrar() throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		try {
-			/**
-			 * TODO acho que precisa fazer uma transaction aqui
-			 */
 			connection.setAutoCommit(false);
 			FacesContext context = FacesContext.getCurrentInstance();
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
@@ -150,12 +147,7 @@ public class VoluntarioBean implements Serializable{
 			
 			PessoaFisicaVoluntarioDAO voluntarioDAO = new PessoaFisicaVoluntarioDAO();
 			voluntarioDAO.criar(voluntario);
-			
-			/**
-			 * TODO fazer o cadastro!!!
-			 */
-			
-			
+		
 			AtividadeAtribuidaPessoaDAO atividadepessoaDAO = new AtividadeAtribuidaPessoaDAO();
 			atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo());
 			connection.commit();

@@ -162,7 +162,7 @@
 					required="true" requiredMessage="O campo 'Data fim' é obrigatorio."/>
 			
 					<p:outputLabel for="ativ" value="ID da atividade:"/>
-					<p:inputMask id="ativ" mask="99" maxlength="2" value="#{voluntarioBean.atividade.codigo}" 
+					<p:inputText id="ativ" maxlength="2" value="#{voluntarioBean.atividade.codigo}" 
 					size="10" required="true" requiredMessage="O campo 'atividade' é obrigatorio."/>
 				</h:panelGrid>
 				
@@ -222,7 +222,8 @@
 					requiredMessage="O campo 'data' é obrigatorio." value="#{voluntarioBean.disponibilidade.dia}"/>
 					
 					<p:outputLabel for="periodo" value="Periodo Dia:"/>
-					<p:inputText id="periodo" maxlength="20" size="10" required="true" value="#{voluntarioBean.disponibilidade.periodo_dia}"
+					<p:inputText id="periodo" maxlength="20" size="10" required="true" 
+					value="#{voluntarioBean.disponibilidade.periodo_dia}"
 					requiredMessage="O campo 'periodo dia' é obrigatorio."/>
 				</h:panelGrid>
 				

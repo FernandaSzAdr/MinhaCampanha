@@ -18,12 +18,12 @@ public class PessoaFisicaVoluntarioDAO {
 		
 		try {
 			String SQL;
-			if (pessoa.getTem_veiculo()) {
+			if (pessoa.isTem_veiculo()) {
 				SQL = "INSERT INTO pf_voluntario (id_ps, data_inicio, placa, marca, cidade, estado, tem_veiculo)"
 						+ " values (?,?,?,?,?,?,?)";
 				stmt = connection.prepareStatement(SQL);
 				
-				stmt.setInt(1, pessoa.getId_ps());
+				stmt.setInt(1, pessoa.getCodigo());
 				stmt.setDate(2, java.sql.Date.valueOf(pessoa.getData_inicio()));
 				stmt.setString(3, pessoa.getCarro().getPlaca());
 				stmt.setString(4, pessoa.getCarro().getMarca());
@@ -35,14 +35,15 @@ public class PessoaFisicaVoluntarioDAO {
 						+ " values (?,?,?)";
 				stmt = connection.prepareStatement(SQL);
 				
-				stmt.setInt(1, pessoa.getId_ps());
+				stmt.setInt(1, pessoa.getCodigo());
 				stmt.setDate(2, java.sql.Date.valueOf(pessoa.getData_inicio()));
-				stmt.setInt(3, 1);
+				stmt.setInt(3, 0);
 			}
 			
 			stmt.executeUpdate();
 			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -69,9 +70,9 @@ public class PessoaFisicaVoluntarioDAO {
 				car.setPlaca(resultSet.getString("placa"));
 				pessoa.setCarro(car);
 				pessoa.setCodigo(resultSet.getInt("codigo"));;
-				pessoa.setData_fim(resultSet.getDate("data_fim").toLocalDate());
-				pessoa.setData_inicio(resultSet.getDate("data_inicio").toLocalDate());
-				pessoa.setId_ps(resultSet.getInt("id_ps"));
+				pessoa.setData_fim(resultSet.getDate("data_fim").toString());
+				pessoa.setData_inicio(resultSet.getDate("data_inicio").toString());
+				pessoa.setCodigo(resultSet.getInt("id_ps"));
 				
 				
 				pessoas.add(pessoa);
@@ -176,11 +177,11 @@ public class PessoaFisicaVoluntarioDAO {
 			
 			
 			while (resultSet.next()){
-				pessoa.setData_fim(resultSet.getDate("data_fim").toLocalDate());
-				pessoa.setData_inicio(resultSet.getDate("data_inicio").toLocalDate());
-				pessoa.setId_ps(resultSet.getInt("cod"));
+				pessoa.setData_fim(resultSet.getDate("data_fim").toString());
+				pessoa.setData_inicio(resultSet.getDate("data_inicio").toString());
+				pessoa.setCodigo(resultSet.getInt("cod"));
 				pessoa.setTem_veiculo(resultSet.getBoolean("tem_veiculo"));
-				if(pessoa.getTem_veiculo()) {
+				if(pessoa.isTem_veiculo()) {
 					Carro carro = new Carro();
 					carro.setCidade(resultSet.getString("cidade"));
 					carro.setEstado(resultSet.getString("estado"));

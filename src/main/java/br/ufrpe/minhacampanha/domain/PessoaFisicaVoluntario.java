@@ -1,38 +1,22 @@
 package br.ufrpe.minhacampanha.domain;
 
-import java.time.LocalDate;
-
 @SuppressWarnings("serial")
 public class PessoaFisicaVoluntario extends PessoaFisica{
-	private int id_ps;
-	private LocalDate data_inicio;
-	private LocalDate data_fim;
+	private String data_inicio;
+	private String data_fim;
 	private Carro carro;
 	private boolean tem_veiculo;
 	
-	public PessoaFisicaVoluntario(){
-	}
-	
-	public int getId_ps() {
-		return id_ps;
-	}
-
-
-	public void setId_ps(int id_ps) {
-		this.id_ps = id_ps;
-	}
-
-
-	public LocalDate getData_inicio() {
+	public String getData_inicio() {
 		return data_inicio;
 	}
-	public void setData_inicio(LocalDate data_inicio) {
+	public void setData_inicio(String data_inicio) {
 		this.data_inicio = data_inicio;
 	}
-	public LocalDate getData_fim() {
+	public String getData_fim() {
 		return data_fim;
 	}
-	public void setData_fim(LocalDate data_fim) {
+	public void setData_fim(String data_fim) {
 		this.data_fim = data_fim;
 	}
 	public Carro getCarro() {
@@ -41,18 +25,10 @@ public class PessoaFisicaVoluntario extends PessoaFisica{
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
-
-
-
-	public boolean getTem_veiculo() {
+	public boolean isTem_veiculo() {
 		return tem_veiculo;
 	}
-
-
-
 	public void setTem_veiculo(boolean tem_veiculo) {
 		this.tem_veiculo = tem_veiculo;
-	}
-	
-	
+	}	
 }

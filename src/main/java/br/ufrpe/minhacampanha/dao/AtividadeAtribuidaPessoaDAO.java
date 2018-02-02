@@ -16,14 +16,11 @@ public class AtividadeAtribuidaPessoaDAO {
 	 * Recebe os IDs para vincular a tabela,
 	 * preencher a data com a data atual (tem um atributo data).
 	 */
-	public void criar(int pessoa, int atividade)throws SQLException{
-	
-		
+	public void criar(int pessoa, int atividade)throws SQLException{		
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
 		ResultSet resultSet = null;
-
-		
+	
 		try {
 			connection.setAutoCommit(false);
 			stmt = connection.prepareStatement("SELECT data_atividade FROM atividade where id = ?");
@@ -31,7 +28,7 @@ public class AtividadeAtribuidaPessoaDAO {
 			resultSet =stmt.executeQuery();
 			Date data_atividade = null;
 			
-			while(resultSet.next()) {
+			if(resultSet.next()) {
 				data_atividade = resultSet.getDate("data_atividade");
 			}
 				
@@ -41,18 +38,14 @@ public class AtividadeAtribuidaPessoaDAO {
 				stmt.setInt(1, pessoa);
 				stmt.setInt(2, atividade);
 				stmt.setDate(3,data_atividade);
-			}
-			else {
-				connection.rollback();
-			}
-				connection.commit();
-			} catch (SQLException e) {
-				connection.rollback();
-				throw e;
-				
-			}
+			} 
+			
+			connection.commit();
+		} catch (SQLException e) {
+			connection.rollback();
+			e.printStackTrace();
+			throw e;				
 		}
-	
-		
+	}
 }	
 
