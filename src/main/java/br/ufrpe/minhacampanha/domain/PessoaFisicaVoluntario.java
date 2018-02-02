@@ -1,7 +1,6 @@
 package br.ufrpe.minhacampanha.domain;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @SuppressWarnings("serial")
 public class PessoaFisicaVoluntario extends PessoaFisica{

@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +36,7 @@ public class InstituicaoMenuPessoaBean implements Serializable{
 		try {
 			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
 			instituicoes = instituicaoDAO.listar();
-		} catch (RuntimeException erro) {
+		} catch (RuntimeException|SQLException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar listar as instituições.");
 			erro.printStackTrace();
 		}

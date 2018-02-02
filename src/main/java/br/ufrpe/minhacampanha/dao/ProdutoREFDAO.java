@@ -33,7 +33,7 @@ public class ProdutoREFDAO {
 		}
 	}
 	
-	public List<ProdutoREF> listar() throws SQLException{
+	/*public List<ProdutoREF> listar() throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -64,7 +64,7 @@ public class ProdutoREFDAO {
 		
 		return produtos;
 		
-	}
+	}*/
 	
 	public void update(ProdutoREF produto) throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();

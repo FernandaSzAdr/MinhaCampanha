@@ -119,12 +119,11 @@ public class InstituicaoDAO {
 		} 
 	}
 
-	public List<Instituicao> listar(){
+	public List<Instituicao> listar() throws SQLException{
 		Connection connection = ConnectionFactory.getConnection();
 		List<Instituicao> instituicoes = new ArrayList<Instituicao>();
 
 		try {
-
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Instituicao");
 			ResultSet resultSet = stmt.executeQuery();
 
@@ -132,9 +131,9 @@ public class InstituicaoDAO {
 
 				Instituicao instituicao = new Instituicao();
 
-				instituicao.setCodigo(resultSet.getLong("id"));
+				instituicao.setCodigo(resultSet.getInt("id"));
 				instituicao.setCnpj(resultSet.getString("cnpj"));
-				instituicao.setData_entrada(resultSet.getDate("data_entrada"));
+				instituicao.setData_entrada(resultSet.getDate("data_entrada").toLocalDate());
 				instituicao.setRamo_atuacao(resultSet.getString("ramo_atuacao"));
 				instituicao.setRazao_social(resultSet.getString("razao_social"));
 				instituicao.setNome_fantasia(resultSet.getString("nome_fantasia"));
@@ -145,13 +144,11 @@ public class InstituicaoDAO {
 
 				instituicoes.add(instituicao);
 			}
-
+			
+			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {
-			System.out.println(ex);
-			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		}
-		
-		ConnectionFactory.closeConnection(connection, stmt);
+			throw ex;
+		}		
 		return instituicoes;
 	}
 

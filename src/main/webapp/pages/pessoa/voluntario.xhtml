@@ -160,11 +160,7 @@
 					<p:outputLabel for="data_fim" value="Data fim:"/>
 					<p:inputMask id="data_fim" mask="9999-99-99" value="#{voluntarioBean.voluntario.data_fim}" maxlength="8" size="10" 
 					required="true" requiredMessage="O campo 'Data fim' é obrigatorio."/>
-					
-					<p:outputLabel for="cam" value="ID da campanha:"/>
-					<p:inputMask id="cam" maxlength="2" value="#{voluntarioBean.campanhaVoluntario.codigo}" mask="99"
-					size="10" required="true" requiredMessage="O campo 'id campanha' é obrigatorio."/>
-					
+			
 					<p:outputLabel for="ativ" value="ID da atividade:"/>
 					<p:inputMask id="ativ" mask="99" maxlength="2" value="#{voluntarioBean.atividade.codigo}" 
 					size="10" required="true" requiredMessage="O campo 'atividade' é obrigatorio."/>

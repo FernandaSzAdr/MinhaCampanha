@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
 
+import br.ufrpe.minhacampanha.dao.AtividadeAtribuidaPessoaDAO;
 import br.ufrpe.minhacampanha.dao.AtividadeDAO;
 import br.ufrpe.minhacampanha.dao.CampanhaDAO;
 import br.ufrpe.minhacampanha.dao.DisponibilidadeDAO;
@@ -32,7 +33,6 @@ public class VoluntarioBean implements Serializable{
 	private PessoaFisicaVoluntario voluntario;
 	private DisponibilidadePessoaFisica disponibilidade;
 	private Carro carro;
-	private Campanha campanhaVoluntario;
 	private Atividade atividade;
 
 	public List<Campanha> getCampanhas() {
@@ -51,18 +51,9 @@ public class VoluntarioBean implements Serializable{
 		return atividade;
 	}
 	
-	public Campanha getCampanhaVoluntario() {
-		return campanhaVoluntario;
-	}
-	
 	public void setAtividade(Atividade atividade) {
 		this.atividade = atividade;
 	}
-	
-	public void setCampanhaVoluntario(Campanha campanhaVoluntario) {
-		this.campanhaVoluntario = campanhaVoluntario;
-	}
-	
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
@@ -101,7 +92,6 @@ public class VoluntarioBean implements Serializable{
 
 	public void novoVoluntario(){
 		voluntario = new PessoaFisicaVoluntario();
-		campanhaVoluntario = new Campanha();
 		atividade = new Atividade();
 	}
 	
@@ -134,18 +124,20 @@ public class VoluntarioBean implements Serializable{
 	}
 	
 	public void cadastrarCarro(){
-		
+		voluntario.setCarro(carro);
 	}
 	
 	public void cadastrar(){
 		try {
+			/**
+			 * TODO acho que precisa fazer uma transaction aqui
+			 */
 			FacesContext context = FacesContext.getCurrentInstance();
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
 			voluntario.setCodigo(pessoa.getCodigo());
 			
-			if (carro != null) {
-				voluntario.setCarro(carro);
+			if (voluntario.getCarro() != null) {
 				voluntario.setTem_veiculo(true);
 			}else {
 				voluntario.setTem_veiculo(false);
@@ -153,6 +145,13 @@ public class VoluntarioBean implements Serializable{
 			
 			PessoaFisicaVoluntarioDAO voluntarioDAO = new PessoaFisicaVoluntarioDAO();
 			voluntarioDAO.criar(voluntario);
+			
+			/**
+			 * TODO fazer o cadastro!!!
+			 */
+			AtividadeAtribuidaPessoaDAO atividadepessoaDAO = new AtividadeAtribuidaPessoaDAO();
+			atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo());
+			
 		} catch (RuntimeException|SQLException e) {
 			Messages.addGlobalError("Erro ao tentar se voluntariar!");
 		}

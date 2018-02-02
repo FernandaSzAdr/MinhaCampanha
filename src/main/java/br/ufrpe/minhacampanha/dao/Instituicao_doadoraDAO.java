@@ -53,8 +53,8 @@ public class Instituicao_doadoraDAO {
 				
 				
 				Instituicao_doadora instituicao = new Instituicao_doadora();
-				instituicao.setId_doador(resultSet.getInt("id_doador"));
-				instituicao.setDt_ultima_doacao(resultSet.getDate("dt_ultima_doacao"));
+				instituicao.setCodigo(resultSet.getInt("id_doador"));
+				instituicao.setDt_ultima_doacao(resultSet.getDate("dt_ultima_doacao").toLocalDate());
 				instituicao.setNum_doacoes_prod(resultSet.getInt("num_doacoes_prod"));
 				instituicao.setNum_doacoes_fin(resultSet.getInt("num_doacoes_fin"));
 			
@@ -80,7 +80,7 @@ public class Instituicao_doadoraDAO {
 		try{
 			stmt = connection.prepareStatement("UPDATE Instituicao_doadora SET   dt_ultima_doacao= ?,  num_doacoes_prod= ?, "
 					+ "num_doacoes_fin  = ? WHERE cod = ?");
-			stmt.setDate(1, instituicao.getDt_ultima_doacao());
+			stmt.setDate(1, java.sql.Date.valueOf(instituicao.getDt_ultima_doacao()));
 			stmt.setInt(2, instituicao.getNum_doacoes_prod());
 			stmt.setInt(3,instituicao.getNum_doacoes_fin());
 			stmt.setLong(4, instituicao.getCodigo());	

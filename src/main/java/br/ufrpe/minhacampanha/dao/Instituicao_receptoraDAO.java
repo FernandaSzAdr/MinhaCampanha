@@ -66,8 +66,8 @@ public class Instituicao_receptoraDAO {
 				
 			
 				Instituicao_receptora instituicao = new Instituicao_receptora();
-				instituicao.setId_recep(resultSet.getInt("id_recep"));
-				instituicao.setDt_ultima_recep(resultSet.getDate("dt_ultima_recep"));
+				instituicao.setCodigo(resultSet.getInt("id_recep"));
+				instituicao.setDt_ultima_recep(resultSet.getDate("dt_ultima_recep").toLocalDate());
 				instituicao.setNum_doacoes_recebi(resultSet.getInt("num_doacoes_recebi"));
 			
 				
@@ -94,7 +94,7 @@ public class Instituicao_receptoraDAO {
 					+ "num_doacoes_recebi = ? WHERE cod = ?");
 		
 			
-			stmt.setDate(1, instituicao.getDt_ultima_recep());
+			stmt.setDate(1, java.sql.Date.valueOf(instituicao.getDt_ultima_recep()));
 			stmt.setInt(2, instituicao.getNum_doacoes_recebi());
 			stmt.setLong(3, instituicao.getCodigo());	
 			stmt.executeUpdate();
