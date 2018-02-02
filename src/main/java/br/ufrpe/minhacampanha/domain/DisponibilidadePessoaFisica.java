@@ -9,7 +9,7 @@ public class DisponibilidadePessoaFisica extends GenericDomain{
 	private String dia_aux;
 	private Time hora_inicio, hora_fim;
 	private int cod_pf_voluntaria;
-	private int confirmacao_dia, dia_de_semana, ind_feriado;
+	private boolean confirmacao_dia, dia_de_semana, ind_feriado;
 	private String periodo_dia;
 	
 	public LocalDate getDia() {
@@ -36,22 +36,23 @@ public class DisponibilidadePessoaFisica extends GenericDomain{
 	public void setCod_pf_voluntaria(int cod_pf_voluntaria) {
 		this.cod_pf_voluntaria = cod_pf_voluntaria;
 	}
-	public int getConfirmacao_dia() {
+	
+	public boolean isConfirmacao_dia() {
 		return confirmacao_dia;
 	}
-	public void setConfirmacao_dia(int confirmacao_dia) {
+	public void setConfirmacao_dia(boolean confirmacao_dia) {
 		this.confirmacao_dia = confirmacao_dia;
 	}
-	public int getDia_de_semana() {
+	public boolean isDia_de_semana() {
 		return dia_de_semana;
 	}
-	public void setDia_de_semana(int dia_de_semana) {
+	public void setDia_de_semana(boolean dia_de_semana) {
 		this.dia_de_semana = dia_de_semana;
 	}
-	public int getInd_feriado() {
+	public boolean isInd_feriado() {
 		return ind_feriado;
 	}
-	public void setInd_feriado(int ind_feriado) {
+	public void setInd_feriado(boolean ind_feriado) {
 		this.ind_feriado = ind_feriado;
 	}
 	public String getPeriodo_dia() {

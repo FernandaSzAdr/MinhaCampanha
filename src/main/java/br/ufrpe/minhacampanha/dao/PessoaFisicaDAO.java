@@ -196,7 +196,7 @@ public class PessoaFisicaDAO {
 		java.sql.PreparedStatement stmt = null;
 
 		try {
-			stmt = connection.prepareStatement("DELETE FROM cliente WHERE id = ?");
+			stmt = connection.prepareStatement("DELETE FROM pessoa_fisica WHERE id = ?");
 			stmt.setLong(1, pessoa.getCodigo());
 
 			stmt.executeUpdate();
