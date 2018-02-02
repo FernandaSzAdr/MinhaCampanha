@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 
+import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Instituicao_receptora;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 /**
@@ -50,35 +51,41 @@ public class Instituicao_receptoraDAO {
 		}
 	}
 	
-	public List<Instituicao_receptora> listar() {
+	public List<Instituicao_receptora> listar() throws SQLException {
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
-		ResultSet resultSet = null;
+		ResultSet rs = null;
 		
 		List<Instituicao_receptora> instituicaos = new ArrayList<Instituicao_receptora>();
 		
 		try{
 		
-			stmt = connection.prepareStatement("SELECT * FROM Instituicao_receptora");
-			resultSet =stmt.executeQuery();
+			stmt = connection.prepareStatement("SELECT * FROM Instituicao_receptora JOIN Instituicao "
+					+ "ON Instituicao_receptora.id_recep = Instituicao.id");
+			rs =stmt.executeQuery();
 		
-			while (resultSet.next()){
-				
-			
+			while (rs.next()){
 				Instituicao_receptora instituicao = new Instituicao_receptora();
-				instituicao.setCodigo(resultSet.getInt("id_recep"));
-				instituicao.setDt_ultima_recep(resultSet.getDate("dt_ultima_recep").toLocalDate());
-				instituicao.setNum_doacoes_recebi(resultSet.getInt("num_doacoes_recebi"));
+				instituicao.setCodigo(rs.getInt("id_recep"));
+				instituicao.setDt_ultima_recep(rs.getDate("dt_ultima_recep").toLocalDate());
+				instituicao.setNum_doacoes_recebi(rs.getInt("num_doacoes_recebi"));
+				instituicao.setCnpj(rs.getString("cnpj"));
+				instituicao.setData_entrada(rs.getDate("data_entrada").toLocalDate());
+				instituicao.setRamo_atuacao(rs.getString("ramo_atuacao"));
+				instituicao.setRazao_social(rs.getString("razao_social"));
+				instituicao.setNome_fantasia(rs.getString("nome_fantasia"));
+				instituicao.setEmail_geral_instituicao(rs.getString("email"));
+				instituicao.setTelefone1(rs.getString("tele1"));
+				instituicao.setTelefone2(rs.getString("tele2"));
+				instituicao.setNome_contato(rs.getString("nome_contato"));
 			
-				
-				
 				instituicaos.add(instituicao);
 			 }
 			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
+			throw ex;
 		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
+			ConnectionFactory.closeConnection(connection, stmt, rs);
 		}
 		
 		return instituicaos;
@@ -96,7 +103,7 @@ public class Instituicao_receptoraDAO {
 			
 			stmt.setDate(1, java.sql.Date.valueOf(instituicao.getDt_ultima_recep()));
 			stmt.setInt(2, instituicao.getNum_doacoes_recebi());
-			stmt.setLong(3, instituicao.getCodigo());	
+			stmt.setInt(3, instituicao.getCodigo());	
 			stmt.executeUpdate();
 			
 			//JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso");
@@ -115,7 +122,7 @@ public class Instituicao_receptoraDAO {
 		
 		try{
 			stmt = connection.prepareStatement("DELETE FROM Instituicao_receptora WHERE id = ?");
-			stmt.setLong(1, instituicao.getCodigo());
+			stmt.setInt(1, instituicao.getCodigo());
 						
 			stmt.executeUpdate();
 			
@@ -128,5 +135,25 @@ public class Instituicao_receptoraDAO {
 			ConnectionFactory.closeConnection(connection, stmt);
 		}
 		
+	}
+	
+	public boolean buscar(Instituicao instituicao) throws SQLException{
+		Connection connection = ConnectionFactory.getConnection();
+		java.sql.PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		boolean retorno = false;
+		try {
+			stmt = connection.prepareStatement("SELECT * FROM instituicao_receptora WHERE id_recep = ?");
+			stmt.setInt(1, instituicao.getCodigo());
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) retorno = true;
+			ConnectionFactory.closeConnection(connection, stmt);
+			
+		} catch (SQLException e) {
+			throw e;
+		}
+		return retorno;
 	}
 }

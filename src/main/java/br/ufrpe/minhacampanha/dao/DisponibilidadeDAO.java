@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.Track;
+
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
@@ -25,28 +27,29 @@ public class DisponibilidadeDAO {
 			String SQL;
 			SQL = "INSERT INTO pf_disponibilidade (hora_inicio, hora_fim, dia, dia_semana, ind_feriado, "
 					+ "confirmacao_dia, periodo_dia, cod_pf_voluntaria) values (?,?,?,?,?,?,?,?)";
-		
 			stmt = connection.prepareStatement(SQL);
-			stmt.setTime(1, disponibilidade.getHora_inicio());
-			stmt.setTime(2, disponibilidade.getHora_fim());
-			stmt.setDate(3, java.sql.Date.valueOf(disponibilidade.getDia()));
 			
+			stmt.setTime(1, java.sql.Time.valueOf(disponibilidade.getHora_inicio()));
+			stmt.setTime(2, java.sql.Time.valueOf(disponibilidade.getHora_fim()));
+			stmt.setDate(3, java.sql.Date.valueOf(disponibilidade.getDia()));
 			stmt.setBoolean(4,disponibilidade.isDia_de_semana());
 			stmt.setBoolean(5,disponibilidade.isInd_feriado());
 			stmt.setBoolean(6, disponibilidade.isConfirmacao_dia());
 			stmt.setString(7, disponibilidade.getPeriodo_dia());
+			System.out.println(disponibilidade.getCod_pf_voluntaria());
 			stmt.setInt(8, disponibilidade.getCod_pf_voluntaria());
-			// converter a string para local date e pegar as informações e depois passar pra date
-			//wstmt.setDate(3, x);
 			
-			stmt.executeUpdate();
+			stmt.execute();
+			System.out.println("atualizou");
 			ConnectionFactory.closeConnection(connection, stmt);
+			System.out.println("fechou");
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw e;
 		}
 	}
 	
-	public List<DisponibilidadePessoaFisica> listar() {
+	public List<DisponibilidadePessoaFisica> listar(int pessoa) {
 
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
@@ -56,19 +59,21 @@ public class DisponibilidadeDAO {
 
 		try {
 
-			stmt = connection.prepareStatement("SELECT * pf_disponibilidade");
+			stmt = connection.prepareStatement("SELECT * from pf_disponibilidade "
+					+ "where cod_pf_voluntaria = ?");
 			resultSet = stmt.executeQuery();
+			stmt.setInt(1, pessoa);
 
 			while (resultSet.next()) {
-
 				DisponibilidadePessoaFisica disponibilidade = new DisponibilidadePessoaFisica();
+				
 				disponibilidade.setCodigo(resultSet.getInt("id"));
 				disponibilidade.setConfirmacao_dia(resultSet.getBoolean("confirmacao_dia"));
 				disponibilidade.setCod_pf_voluntaria(resultSet.getInt("cod_pf_voluntaria"));
-				disponibilidade.setDia(resultSet.getDate("dia").toLocalDate());
+				disponibilidade.setDia(resultSet.getDate("dia").toString());
 				disponibilidade.setDia_de_semana(resultSet.getBoolean("dia_de_semana"));
-				disponibilidade.setHora_fim(resultSet.getTime("hora_fim"));
-				disponibilidade.setHora_inicio(resultSet.getTime("hora_inicio"));
+				disponibilidade.setHora_fim(resultSet.getTime("hora_fim").toString());
+				disponibilidade.setHora_inicio(resultSet.getTime("hora_inicio").toString());
 				disponibilidade.setInd_feriado(resultSet.getBoolean("ind_feriado"));
 				disponibilidade.setPeriodo_dia(resultSet.getString("periodo_dia"));
 
@@ -98,8 +103,8 @@ public class DisponibilidadeDAO {
 					" periodo_dia = ?,\r\n" + 
 					" cod_pf_voluntaria = ?  WHERE id = ?");
 			
-			stmt.setTime(1, disponibilidade.getHora_inicio());
-			stmt.setTime(2, disponibilidade.getHora_fim());
+			stmt.setTime(1, java.sql.Time.valueOf(disponibilidade.getHora_inicio()));
+			stmt.setTime(2, java.sql.Time.valueOf(disponibilidade.getHora_fim()));
 			stmt.setDate(3, java.sql.Date.valueOf(disponibilidade.getDia()));
 			stmt.setBoolean(4,disponibilidade.isDia_de_semana());
 			stmt.setBoolean(5,disponibilidade.isInd_feriado());

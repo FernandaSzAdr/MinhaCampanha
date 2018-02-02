@@ -28,10 +28,6 @@
 						<h:outputText value="#{instituicao.nome_fantasia}" />
 					</p:column>				
 					
-					<!-- Por as campanhas aqui... -->
-					<p:column headerText="Campanhas">
-					</p:column>
-					
 					<p:column headerText="Responsável" sortBy="#{instituicao.nome_contato}"
 						filterBy="#{instituicao.nome_contato}">
 						<h:outputText value="#{instituicao.nome_contato}" />
@@ -51,7 +47,16 @@
 						filterBy="#{instituicao.telefone2}">
 						<h:outputText value="#{instituicao.telefone2}" />
 					</p:column>
-			
+					
+					<p:column headerText="Data da ultima doação" sortBy="#{instituicao.dt_ultima_recep}"
+						filterBy="#{instituicao.dt_ultima_recep}">
+						<h:outputText value="#{instituicao.dt_ultima_recep}" />
+					</p:column>
+					
+					<p:column headerText="Qtd de doações" sortBy="#{instituicao.num_doacoes_recebi}"
+						filterBy="#{instituicao.num_doacoes_recebi}">
+						<h:outputText value="#{instituicao.num_doacoes_recebi}" />
+					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>

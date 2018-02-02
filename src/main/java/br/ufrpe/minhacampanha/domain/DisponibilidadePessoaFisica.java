@@ -1,33 +1,30 @@
 package br.ufrpe.minhacampanha.domain;
 
-import java.sql.Time;
-import java.time.LocalDate;
 
 @SuppressWarnings("serial")
 public class DisponibilidadePessoaFisica extends GenericDomain{
-	private LocalDate dia;
-	private String dia_aux;
-	private Time hora_inicio, hora_fim;
+	private String dia;
+	private String hora_inicio, hora_fim;
 	private int cod_pf_voluntaria;
 	private boolean confirmacao_dia, dia_de_semana, ind_feriado;
 	private String periodo_dia;
 	
-	public LocalDate getDia() {
+	public String getDia() {
 		return dia;
 	}
-	public void setDia(LocalDate dia) {
+	public void setDia(String dia) {
 		this.dia = dia;
 	}
-	public Time getHora_inicio() {
+	public String getHora_inicio() {
 		return hora_inicio;
 	}
-	public void setHora_inicio(Time hora_inicio) {
+	public void setHora_inicio(String hora_inicio) {
 		this.hora_inicio = hora_inicio;
 	}
-	public Time getHora_fim() {
+	public String getHora_fim() {
 		return hora_fim;
 	}
-	public void setHora_fim(Time hora_fim) {
+	public void setHora_fim(String hora_fim) {
 		this.hora_fim = hora_fim;
 	}
 	public int getCod_pf_voluntaria() {
@@ -36,7 +33,6 @@ public class DisponibilidadePessoaFisica extends GenericDomain{
 	public void setCod_pf_voluntaria(int cod_pf_voluntaria) {
 		this.cod_pf_voluntaria = cod_pf_voluntaria;
 	}
-	
 	public boolean isConfirmacao_dia() {
 		return confirmacao_dia;
 	}
@@ -60,11 +56,5 @@ public class DisponibilidadePessoaFisica extends GenericDomain{
 	}
 	public void setPeriodo_dia(String periodo_dia) {
 		this.periodo_dia = periodo_dia;
-	}
-	public String getDia_aux() {
-		return dia_aux;
-	}
-	public void setDia_aux(String dia_aux) {
-		this.dia_aux = dia_aux;
-	}
+	}	
 }
