@@ -1,7 +1,8 @@
 package br.ufrpe.minhacampanha.domain;
 
-import java.sql.Date;
+
 import java.sql.Time;
+import java.time.LocalDate;
 
 @SuppressWarnings("serial")
 public class Atividade extends GenericDomain {
@@ -9,7 +10,7 @@ public class Atividade extends GenericDomain {
 	private Time duracaoMedia;
 	private int codigoCampanha;
 	private int pessoa;
-	private Date pessoa_atividade;
+	private String data_atividade;
 	
 	public String getDescricao() {
 		return descricao;
@@ -41,11 +42,14 @@ public class Atividade extends GenericDomain {
 	public void setPessoa(int pessoa) {
 		this.pessoa = pessoa;
 	}
-	public Date getPessoa_atividade() {
-		return pessoa_atividade;
+	public String getData_atividade() {
+		return data_atividade;
 	}
-	public void setPessoa_atividade(Date pessoa_atividade) {
-		this.pessoa_atividade = pessoa_atividade;
+	public void setData_atividade(String data_atividade) {
+		this.data_atividade = data_atividade;
 	}
+
+	
+	
 	
 }

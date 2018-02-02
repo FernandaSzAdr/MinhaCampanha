@@ -74,7 +74,7 @@ public class NovoUsuarioDAO {
 			
 			connection.commit();
 			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			connection.rollback();
 			throw e; 
 		} finally {
