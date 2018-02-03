@@ -10,10 +10,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.omnifaces.util.Messages;
 
-import br.ufrpe.minhacampanha.dao.LoginDAO;
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaDAO;
-import br.ufrpe.minhacampanha.dao.UsuarioDAO;
 import br.ufrpe.minhacampanha.domain.Endereco;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
@@ -93,17 +91,26 @@ public class UsuarioPessoaBean implements Serializable{
 	
 	public String criarUsuario(){
 		try {
-			DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate nascimento;
-		    nascimento = LocalDate.parse(pessoa.getNasc(), formatters);
-			pessoa.setNascimento(nascimento);
+			PessoaFisicaDAO pessoaDAO = new PessoaFisicaDAO();
+			PessoaFisica pessoaBuscar = pessoaDAO.buscar(pessoa.getCpf());
 			
-			NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
-			cadastroDAO.novoPessoa(usuario, pessoa, login, endereco);
-			
-			Messages.addGlobalInfo("Cadastro realizado com Sucesso");
-			
-			return "/pages/login?faces-redirect=true";
+			if (pessoaBuscar != null) {
+				Messages.addGlobalError("CPF já cadastrado no sistema!");
+				return "/pages/cadastroUsuarioPessoa?faces-redirect=true";
+				
+			} else {
+				DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate nascimento;
+			    nascimento = LocalDate.parse(pessoa.getNasc(), formatters);
+				pessoa.setNascimento(nascimento);
+				
+				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
+				cadastroDAO.novoPessoa(usuario, pessoa, login, endereco);
+				
+				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
+				
+				return "/pages/login?faces-redirect=true";
+			}
 		} catch (Exception erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuario.");
 			erro.printStackTrace();

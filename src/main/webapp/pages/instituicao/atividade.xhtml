@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloInstituicao.xhtml">
+	<!-- Editar essa ultima linha para por o modelo do template que vai usar -->
+	<ui:define name="conteudo">
+		<h:form id="formListaggem">
+			<p:panel header="Atividade">
+				<p:dataTable id="tabelaAtiv" emptyMessage="Nenhum registro encontrado." 
+					widgetVar="atividadeTable" paginator="true" 
+					value="#{atividadeBean.atividades}" var="atividade" rows="5">
+					
+					<f:facet name="header">
+						<p:commandButton value="Novo" actionListener="#{atividadeBean.novaAtividade()}"
+							oncomplete="PF('dialogo').show();"
+							update=":mensagem :formCadastro:painel">
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</f:facet>
+					
+					<p:column headerText="Id Atividade" sortBy="#{atividade.codigo}" filterBy="#{atividade.codigo}">
+						<h:outputText value="#{atividade.codigo}" />
+					</p:column>	
+					
+					<p:column headerText="Id Campanha" sortBy="#{atividade.codigoCampanha}" filterBy="#{atividade.codigoCampanha}">
+						<h:outputText value="#{atividade.codigoCampanha}" />
+					</p:column>
+					
+					<p:column headerText="Descrição" sortBy="#{atividade.descricao}" filterBy="#{atividade.descricao}">
+						<h:outputText value="#{atividade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Duração Media" sortBy="#{atividade.duracaoMedia}" filterBy="#{atividade.duracaoMedia}">
+						<h:outputText value="#{atividade.duracaoMedia}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo de atividade" sortBy="#{atividade.tipo}" filterBy="#{atividade.tipo}">
+						<h:outputText value="#{atividade.tipo}" />
+					</p:column>
+					
+					<p:column headerText="Pessoa responsavel" sortBy="#{atividade.pessoa}">
+						<h:outputText value="#{atividade.pessoa}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog header="Atividade - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+					
+				</h:panelGrid>
+					
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{campanhaInstituicaoBean.salvar()}"
+						update=":mensagem :formCadastro:painel" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

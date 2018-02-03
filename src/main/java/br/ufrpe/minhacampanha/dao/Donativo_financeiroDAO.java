@@ -57,7 +57,7 @@ public class Donativo_financeiroDAO {
 			while (resultSet.next()){
 				
 				Donativo_financeiro produto = new Donativo_financeiro();
-				produto.setCodigo(resultSet.getLong("id"));
+				produto.setCodigo(resultSet.getInt("id"));
 				//produto.setDataDoacao(resultSet.getDate("data_doacao"));
 				produto.setId_campanha(resultSet.getInt("id_campanha"));
 				produto.setId_inst_doadora(resultSet.getInt("id_inst_doadora"));

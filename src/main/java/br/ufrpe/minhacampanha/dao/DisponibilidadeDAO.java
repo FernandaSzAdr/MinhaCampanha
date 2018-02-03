@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.midi.Track;
-
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
@@ -25,7 +23,7 @@ public class DisponibilidadeDAO {
 		
 		try {
 			String SQL;
-			SQL = "INSERT INTO pf_disponibilidade (hora_inicio, hora_fim, dia, dia_semana, ind_feriado, "
+			SQL = "INSERT INTO pf_disponibilidade(hora_inicio, hora_fim, dia, dia_semana, ind_feriado, "
 					+ "confirmacao_dia, periodo_dia, cod_pf_voluntaria) values (?,?,?,?,?,?,?,?)";
 			stmt = connection.prepareStatement(SQL);
 			
@@ -36,9 +34,8 @@ public class DisponibilidadeDAO {
 			stmt.setBoolean(5,disponibilidade.isInd_feriado());
 			stmt.setBoolean(6, disponibilidade.isConfirmacao_dia());
 			stmt.setString(7, disponibilidade.getPeriodo_dia());
-			System.out.println(disponibilidade.getCod_pf_voluntaria());
 			stmt.setInt(8, disponibilidade.getCod_pf_voluntaria());
-			
+			System.out.println("passou");
 			stmt.execute();
 			System.out.println("atualizou");
 			ConnectionFactory.closeConnection(connection, stmt);

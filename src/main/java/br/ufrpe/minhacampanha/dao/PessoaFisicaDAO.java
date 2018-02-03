@@ -90,8 +90,10 @@ public class PessoaFisicaDAO {
 
 		Connection connection = ConnectionFactory.getConnection();
 		java.sql.PreparedStatement stmt = null;
-
+		
 		try {
+			
+			
 			stmt = connection.prepareStatement("INSERT INTO pessoa_fisica (cpf, p_nome, m_nome, u_nome, "
 					+ "anonimato, dt_nasc, num1, num, tipo_pessoa, seque_end, id_usuario)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)");

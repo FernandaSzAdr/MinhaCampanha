@@ -3,11 +3,8 @@ package br.ufrpe.minhacampanha.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.omnifaces.util.Messages;
-
 import com.mysql.jdbc.Connection;
 
-import br.ufrpe.minhacampanha.domain.Atividade;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 import java.sql.Date;
 
@@ -35,10 +32,12 @@ public class AtividadeAtribuidaPessoaDAO {
 			if(data_atividade != null) {
 				stmt = connection.prepareStatement("INSERT INTO atividade_atribuido_pessoa (id, id_pf, data_atividade)"
 					+ "VALUES (?,?,?)");
-				stmt.setInt(1, pessoa);
-				stmt.setInt(2, atividade);
+				stmt.setInt(1, atividade);
+				stmt.setInt(2, pessoa);
 				stmt.setDate(3,data_atividade);
-			} 
+			} else{
+				connection.rollback();
+			}
 			
 			connection.commit();
 		} catch (SQLException e) {

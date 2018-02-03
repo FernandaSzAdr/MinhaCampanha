@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.omnifaces.util.Messages;
 
+import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
@@ -67,12 +68,18 @@ public class UsuarioInstituicaoBean implements Serializable{
 	
 	public String criarUsuarioInstituicao(){
 		try {
-			NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
-			
-			cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao);
-			Messages.addGlobalInfo("Cadastro realizado com Sucesso");
-			
-			return "/pages/login?faces-redirect=true";
+			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
+			if (instituicaoDAO.buscar(instituicao.getCnpj()) != null) {
+				Messages.addGlobalError("Já existe no sistema esse CNPJ.");
+				return "/pages/cadastroUsuarioInstituicao?faces-redirect=true";
+			}else {
+				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
+				
+				cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao);
+				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
+				
+				return "/pages/login?faces-redirect=true";
+			}		
 		} catch (Exception erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuário.");
 			erro.printStackTrace();
