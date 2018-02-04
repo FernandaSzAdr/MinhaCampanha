@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.Connection;
 
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 import java.sql.Date;
 
 public class AtividadeAtribuidaPessoaDAO {
@@ -13,9 +12,8 @@ public class AtividadeAtribuidaPessoaDAO {
 	 * Recebe os IDs para vincular a tabela,
 	 * preencher a data com a data atual (tem um atributo data).
 	 */
-	public void criar(int pessoa, int atividade)throws SQLException{		
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void criar(int pessoa, int atividade, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{		
 		ResultSet resultSet = null;
 	
 		try {

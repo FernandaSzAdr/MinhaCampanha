@@ -9,14 +9,12 @@ import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Login;
 import br.ufrpe.minhacampanha.domain.Usuario;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class UsuarioDAO {
 	
-	public void criar(Usuario user) throws SQLException{		
+	public void criar(Usuario user, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{		
 		try{
-			Connection connection = ConnectionFactory.getConnection();
-			java.sql.PreparedStatement stmt = null;
 			if (user.getData_vl_inicio() == null && user.getData_vl_fim() == null) {
 				if (user.getInstituicao_vinculada() == 0) {
 					String SQL = "INSERT INTO USUARIO (senha, login, email, dtcriacao, "
@@ -69,19 +67,18 @@ public class UsuarioDAO {
 			}
 			stmt.executeUpdate();
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		}catch (SQLException ex){
 			ex.printStackTrace();
 			throw ex;
 		}
 	}
 	
-	public Usuario buscar(String login, String senha) throws SQLException{		
+	public Usuario buscar(String login, String senha, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{		
 		Usuario usuario = new Usuario();
 		try {			
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * from usuario where login = ? and senha = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setString(1, login);
 			stmt.setString(2, senha);
 			
@@ -98,8 +95,6 @@ public class UsuarioDAO {
 				usuario.setAtivo(rs.getInt("bool_ativado"));
 				usuario.setInstituicao_vinculada(rs.getInt("id_inst"));
 			}
-			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
 			throw erro;
 		}
@@ -107,9 +102,8 @@ public class UsuarioDAO {
 		return usuario;
 	}
 	
-	public List<Usuario> listar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<Usuario> listar(Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Usuario> users = new ArrayList<Usuario>();
@@ -135,18 +129,14 @@ public class UsuarioDAO {
 			
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		
 		return users;
 		
 	}
 	
-	public void update(Usuario user) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void update(Usuario user, Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException{
 		try{
 			stmt = connection.prepareStatement("UPDATE 	USUARIO SET login = ?, email = ? WHERE cod = ?");
 			stmt.setString(1, user.getLogin().getLogin());
@@ -160,15 +150,10 @@ public class UsuarioDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public void excluir(Usuario user) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void excluir(Usuario user, Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try{
 			stmt = connection.prepareStatement("DELETE FROM USUARIO WHERE cod = ?");
 			stmt.setLong(1, user.getCodigo());
@@ -180,10 +165,7 @@ public class UsuarioDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
-		
 	}
 	
 }

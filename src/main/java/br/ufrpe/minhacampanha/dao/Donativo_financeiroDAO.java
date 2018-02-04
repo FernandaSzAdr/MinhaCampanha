@@ -8,7 +8,6 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Donativo_financeiro;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 /**
  * 
  * @author raiss
@@ -16,10 +15,8 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
  */
 public class Donativo_financeiroDAO {
 
-	public void criar(Donativo_financeiro produto) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void criar(Donativo_financeiro produto,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try{
 			stmt = connection.prepareStatement("INSERT INTO Donativo_financeiro (data_doacao, id_inst_doadora,"
 					+ " id_pessoa_doadora, id_campanha, qtd_valor_doado)VALUES(?,?,?,?,?)");
@@ -37,14 +34,11 @@ public class Donativo_financeiroDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public List<Donativo_financeiro> listar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<Donativo_financeiro> listar(Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Donativo_financeiro> produtos = new ArrayList<Donativo_financeiro>();
@@ -63,26 +57,20 @@ public class Donativo_financeiroDAO {
 				produto.setId_inst_doadora(resultSet.getInt("id_inst_doadora"));
 				produto.setId_pessoa_doadora(resultSet.getInt("id_pessoa_doadora"));
 				produto.setQtd_valor_doado(resultSet.getFloat("qtd_valor_doado"));
-			
-				
 				
 				produtos.add(produto);
 			 }
 			
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		
 		return produtos;
 		
 	}
 	
-	public void update(Donativo_financeiro produto) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void update(Donativo_financeiro produto,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try{
 			stmt = connection.prepareStatement("UPDATE donativo_financeiro SET   id_campanha = ? WHERE cod = ?");
 			stmt.setInt(1, produto.getId_campanha());	
@@ -93,15 +81,11 @@ public class Donativo_financeiroDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public void excluir(Donativo_financeiro produto) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void excluir(Donativo_financeiro produto,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try{
 			stmt = connection.prepareStatement("DELETE FROM Donativo_produto WHERE id = ?");
 			stmt.setLong(1, produto.getCodigo());
@@ -113,9 +97,6 @@ public class Donativo_financeiroDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
-		
 	}
 }

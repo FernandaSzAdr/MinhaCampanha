@@ -9,13 +9,11 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Atividade;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class AtividadeDAO {
 
-	public void criar(Atividade atividade) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void criar(Atividade atividade, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		try{
 			stmt = connection.prepareStatement("INSERT INTO atividade (id, id_campanha, descricao, tipo,duracao_media)VALUES(?,?,?,?)");
 			stmt.setLong(1, atividade.getCodigo());
@@ -29,17 +27,13 @@ public class AtividadeDAO {
 			//JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso");
 			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao salvar - "+ex);
-			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
+			ex.printStackTrace();
+			throw ex;
 		}
 	}
 	
-	public List<Atividade> listar() throws SQLException{
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<Atividade> listar(Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Atividade> atividades = new ArrayList<Atividade>();
@@ -63,18 +57,15 @@ public class AtividadeDAO {
 			 }
 			
 		}catch (SQLException ex){
+			ex.printStackTrace();
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		
 		return atividades;
 	}
 	
-	public List<Atividade> listar(int instituicao) throws SQLException{
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<Atividade> listar(int instituicao, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Atividade> atividades = new ArrayList<Atividade>();
@@ -103,17 +94,13 @@ public class AtividadeDAO {
 		}catch (SQLException ex){
 			ex.printStackTrace();
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		
 		return atividades;
 	}
 	
-	public void update(Atividade atividade) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void update(Atividade atividade, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		try{
 			stmt = connection.prepareStatement("UPDATE atividade SET descricao =  ?, tipo = ?, duracao_media = ? WHERE id = ?");
 			
@@ -124,15 +111,11 @@ public class AtividadeDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public void excluir(Atividade atividade) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void excluir(Atividade atividade, Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException{
 		try{
 			stmt = connection.prepareStatement("DELETE FROM atividade WHERE cpf = ?");
 			stmt.setLong(1, atividade.getCodigo());
@@ -144,10 +127,6 @@ public class AtividadeDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
-		}
-		
-		
+		}	
 	}
 }

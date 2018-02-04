@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
+
+import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.EnderecoDAO;
 import br.ufrpe.minhacampanha.domain.Endereco;
@@ -60,10 +63,14 @@ public class EnderecoPessoaBean implements Serializable{
 	public void listar(){
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
+			
+			Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
+			java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
+
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
 			EnderecoDAO enderecoDAO = new EnderecoDAO();
-			enderecos = enderecoDAO.buscar(pessoa.getEndereco());
+			enderecos = enderecoDAO.buscar(pessoa.getEndereco(), connection, stmt);
 		} catch (SQLException e) {
 			Messages.addGlobalError("Erro ao tentar mostrar o endereço!");
 		}

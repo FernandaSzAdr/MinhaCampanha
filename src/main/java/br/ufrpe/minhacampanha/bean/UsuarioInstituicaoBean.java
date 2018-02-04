@@ -1,13 +1,17 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
+
+import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
@@ -68,14 +72,19 @@ public class UsuarioInstituicaoBean implements Serializable{
 	
 	public String criarUsuarioInstituicao(){
 		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+			
+			Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
+			java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
+
 			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
-			if (instituicaoDAO.buscar(instituicao.getCnpj()) != null) {
+			if (instituicaoDAO.buscar(instituicao.getCnpj(), connection, stmt) != null) {
 				Messages.addGlobalError("Já existe no sistema esse CNPJ.");
 				return "/pages/cadastroUsuarioInstituicao?faces-redirect=true";
 			}else {
 				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
 				
-				cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao);
+				cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao, connection, stmt);
 				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
 				
 				return "/pages/login?faces-redirect=true";

@@ -8,7 +8,6 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class DisponibilidadeDAO {
 	/**
@@ -17,10 +16,8 @@ public class DisponibilidadeDAO {
 	 * @param disponibilidade
 	 * @throws SQLException
 	 */
-	public void criar(DisponibilidadePessoaFisica disponibilidade) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void criar(DisponibilidadePessoaFisica disponibilidade, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		try {
 			String SQL;
 			SQL = "INSERT INTO pf_disponibilidade(hora_inicio, hora_fim, dia, dia_semana, ind_feriado, "
@@ -38,18 +35,14 @@ public class DisponibilidadeDAO {
 			System.out.println("passou");
 			stmt.execute();
 			System.out.println("atualizou");
-			ConnectionFactory.closeConnection(connection, stmt);
-			System.out.println("fechou");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 	
-	public List<DisponibilidadePessoaFisica> listar(int pessoa) {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<DisponibilidadePessoaFisica> listar(int pessoa, Connection connection,  
+			java.sql.PreparedStatement stmt) {
 		ResultSet resultSet = null;
 
 		List<DisponibilidadePessoaFisica> disponibilidades = new ArrayList<DisponibilidadePessoaFisica>();
@@ -79,17 +72,12 @@ public class DisponibilidadeDAO {
 
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		} finally {
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
 		return disponibilidades;
 }
 	
-	public void atualizar(DisponibilidadePessoaFisica disponibilidade) {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-
+	public void atualizar(DisponibilidadePessoaFisica disponibilidade, Connection connection,
+			java.sql.PreparedStatement stmt) {
 		try {
 			stmt = connection.prepareStatement("UPDATE  pf_disponibilidade SET \r\n" + 
 					"    hora_inicio	=?,\r\n" + 
@@ -116,17 +104,11 @@ public class DisponibilidadeDAO {
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao atualizar - " + ex);
 
-		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
-		}
-
+		}	
 	}
 
-	public void excluir(DisponibilidadePessoaFisica disponibilidade) {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-
+	public void excluir(DisponibilidadePessoaFisica disponibilidade,
+			Connection connection,  java.sql.PreparedStatement stmt) {
 		try {
 			stmt = connection.prepareStatement("DELETE FROM pf_disponibilidade WHERE id = ?");
 			stmt.setLong(1, disponibilidade.getCodigo());
@@ -138,8 +120,6 @@ public class DisponibilidadeDAO {
 		} catch (SQLException ex) {
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - " + ex);
 
-		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
-		}
+		} 
 	}
 }

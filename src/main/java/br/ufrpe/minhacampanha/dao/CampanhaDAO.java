@@ -1,6 +1,5 @@
 package br.ufrpe.minhacampanha.dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,16 +8,14 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Campanha;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
-
 
 public class CampanhaDAO {
-	public List<Campanha> listar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
+	public List<Campanha> listar(Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		List<Campanha> campanhas = new ArrayList<Campanha>();
 		
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM campanha");
+			stmt = connection.prepareStatement("SELECT * FROM campanha");
 			ResultSet resultSet = stmt.executeQuery();
 			
 			while (resultSet.next()) {
@@ -37,9 +34,8 @@ public class CampanhaDAO {
 				
 				campanhas.add(campanha);
 			}
-			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw e;
 		}
 		return campanhas;

@@ -9,13 +9,9 @@ import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Carro;
 import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
-
 public class PessoaFisicaVoluntarioDAO {
-	public void criar(PessoaFisicaVoluntario pessoa) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void criar(PessoaFisicaVoluntario pessoa,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try {
 			String SQL;
 			if (pessoa.isTem_veiculo()) {
@@ -41,16 +37,14 @@ public class PessoaFisicaVoluntarioDAO {
 			}
 			
 			stmt.executeUpdate();
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 	
-	public List<PessoaFisicaVoluntario> listar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<PessoaFisicaVoluntario> listar(Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<PessoaFisicaVoluntario> pessoas = new ArrayList<PessoaFisicaVoluntario>();
@@ -79,21 +73,19 @@ public class PessoaFisicaVoluntarioDAO {
 			 }
 			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
+			ex.printStackTrace();
+			throw ex;
 		}
 		
 		return pessoas;
 		
 	}
 	
-	public void updateCarro(PessoaFisicaVoluntario pessoa) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void updateCarro(PessoaFisicaVoluntario pessoa, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		try{
-			stmt = connection.prepareStatement("UPDATE pf_voluntario SET cidade = ?, estado = ?, placa = ?,marca = ?"
+			stmt = connection.prepareStatement("UPDATE pf_voluntario SET cidade = ?, estado = ?, placa = ?,"
+					+ "marca = ?"
 					+ ", tem_veiculo = ? WHERE cod = ?");
 			stmt.setString(1, pessoa.getCarro().getCidade());
 			stmt.setString(2, pessoa.getCarro().getEstado());
@@ -105,8 +97,6 @@ public class PessoaFisicaVoluntarioDAO {
 		
 		}catch (SQLException ex){
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	/**
@@ -114,12 +104,11 @@ public class PessoaFisicaVoluntarioDAO {
 	 * @param pessoa
 	 * @throws SQLException
 	 */
-	public void removeCarro(PessoaFisicaVoluntario pessoa) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void removeCarro(PessoaFisicaVoluntario pessoa, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		try{
-			stmt = connection.prepareStatement("UPDATE pf_voluntario SET cidade = ?, estado = ?, placa = ?,marca = ?"
+			stmt = connection.prepareStatement("UPDATE pf_voluntario SET cidade = ?, estado = ?, placa = ?,"
+					+ "marca = ?"
 					+ ", tem_veiculo = ? WHERE cod = ?");
 			stmt.setString(1, null);
 			stmt.setString(2, null);
@@ -131,15 +120,11 @@ public class PessoaFisicaVoluntarioDAO {
 			
 		}catch (SQLException ex){
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public void excluir(PessoaFisicaVoluntario pessoa) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void excluir(PessoaFisicaVoluntario pessoa, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		try{
 			stmt = connection.prepareStatement("DELETE FROM pf_voluntario WHERE cod = ?");
 			stmt.setLong(1, pessoa.getCodigo());
@@ -149,12 +134,9 @@ public class PessoaFisicaVoluntarioDAO {
 			//JOptionPane.showMessageDialog(null, "Cliente deletado com sucesso");
 			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
-			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
+			ex.printStackTrace();
+			throw ex;
 		}
-		
 	}
 	/**
 	 * Cata a pessoa no banco, dado seu codigo (REF pessoa fisica)
@@ -162,9 +144,8 @@ public class PessoaFisicaVoluntarioDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public PessoaFisicaVoluntario catar(int cod ) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public PessoaFisicaVoluntario catar(int cod, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		ResultSet resultSet = null;
 		PessoaFisicaVoluntario pessoa = new PessoaFisicaVoluntario();
 		
@@ -193,10 +174,8 @@ public class PessoaFisicaVoluntarioDAO {
 			}
 			
 		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
-			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
+			ex.printStackTrace();
+			throw ex;
 		}
 		return pessoa;
 	}

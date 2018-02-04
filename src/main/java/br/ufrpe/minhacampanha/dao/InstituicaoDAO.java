@@ -1,6 +1,5 @@
 package br.ufrpe.minhacampanha.dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,19 +8,18 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 /**
  * 
  * @author raiss
  *
  */
 public class InstituicaoDAO {
-	public Instituicao buscar(int codigo) throws SQLException{
+	public Instituicao buscar(int codigo,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		Instituicao instituicao = new Instituicao();
 		try {			
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * FROM instituicao WHERE id = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -37,8 +35,6 @@ public class InstituicaoDAO {
 				instituicao.setTelefone2(rs.getString("tele2"));
 				instituicao.setNome_contato(rs.getString("nome_contato"));
 			}
-			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
 			throw erro;
 		}
@@ -47,12 +43,12 @@ public class InstituicaoDAO {
 	}
 	
 	
-	public Instituicao buscar(String cnpj) throws SQLException{
+	public Instituicao buscar(String cnpj,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		Instituicao instituicao = new Instituicao();
 		try {			
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * FROM instituicao WHERE cnpj = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setString(1, cnpj);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -69,7 +65,6 @@ public class InstituicaoDAO {
 				instituicao.setNome_contato(rs.getString("nome_contato"));
 			}
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
 			throw erro;
 		}
@@ -77,10 +72,9 @@ public class InstituicaoDAO {
 		return instituicao;
 	}
 	
-	public void criar(Instituicao instituicao) throws SQLException {
+	public void criar(Instituicao instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException {
 		try {
-			Connection connection = ConnectionFactory.getConnection();
-			java.sql.PreparedStatement stmt = null;
 			
 			if (!instituicao.getTelefone2().isEmpty()) {
 				stmt = connection.prepareStatement("INSERT INTO Instituicao (cnpj, data_entrada, "
@@ -111,7 +105,6 @@ public class InstituicaoDAO {
 
 			stmt.executeUpdate();
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			throw ex;
@@ -119,12 +112,12 @@ public class InstituicaoDAO {
 		} 
 	}
 
-	public List<Instituicao> listar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
+	public List<Instituicao> listar(Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException{
 		List<Instituicao> instituicoes = new ArrayList<Instituicao>();
 
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Instituicao");
+			stmt = connection.prepareStatement("SELECT * FROM Instituicao");
 			ResultSet resultSet = stmt.executeQuery();
 
 			while (resultSet.next()) {
@@ -145,17 +138,14 @@ public class InstituicaoDAO {
 				instituicoes.add(instituicao);
 			}
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {
 			throw ex;
 		}		
 		return instituicoes;
 	}
 
-	public void atualizar(Instituicao Instituicao) throws SQLException {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void atualizar(Instituicao Instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException {
 
 		try {
 			stmt = connection
@@ -169,16 +159,12 @@ public class InstituicaoDAO {
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 
-		} finally {
-			//ConnectionFactory.closeConnection(connection, stmt);
 		}
 
 	}
 
-	public void excluir(Instituicao instituicao) throws SQLException {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void excluir(Instituicao instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException {
 
 		try {
 			stmt = connection.prepareStatement("DELETE FROM instituicao WHERE id = ?");
@@ -186,9 +172,6 @@ public class InstituicaoDAO {
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 
-		} finally {
-			//ConnectionFactory.closeConnection(connection, stmt);
 		}
-
 	}
 }

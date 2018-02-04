@@ -2,19 +2,16 @@ package br.ufrpe.minhacampanha.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Endereco;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class EnderecoDAO {
-	public void salvar(Endereco endereco) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void salvar(Endereco endereco, 
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		
 		try {
 			String SQL;
@@ -46,18 +43,17 @@ public class EnderecoDAO {
 			}
 			
 			stmt.executeUpdate();
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException e) {
 			throw e;
 		}
 	}
 	
-	public Endereco buscar(String cep) throws SQLException{
+	public Endereco buscar(String cep,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		Endereco endereco = new Endereco();
 		try {
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * from endereco where cep = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setString(1, cep);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -65,7 +61,6 @@ public class EnderecoDAO {
 				endereco.setCodigo(rs.getInt("sequencial"));
 			}
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
 			throw erro;
 		}
@@ -80,14 +75,14 @@ public class EnderecoDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Endereco> buscar(int codigo) throws SQLException{
+	public List<Endereco> buscar(int codigo,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		List<Endereco> enderecos = new ArrayList<Endereco>();
 		
 		Endereco endereco = new Endereco();
 		try {
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * from endereco where sequencial = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -104,7 +99,6 @@ public class EnderecoDAO {
 			}
 			
 			enderecos.add(endereco);
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
 			throw erro;
 		}
@@ -117,12 +111,12 @@ public class EnderecoDAO {
 	 * Listar endereços de instituição
 	 * @return
 	 */
-	public List<Endereco> listar()throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
+	public List<Endereco> listar(Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{
 		List<Endereco> enderecos = new ArrayList<Endereco>();
 		
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM instituicao_tem_endereco ");
+			stmt = connection.prepareStatement("SELECT * FROM instituicao_tem_endereco ");
 			ResultSet resultSet = stmt.executeQuery();
 			
 			while(resultSet.next()) {

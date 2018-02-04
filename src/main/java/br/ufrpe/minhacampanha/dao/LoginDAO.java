@@ -1,13 +1,10 @@
 package br.ufrpe.minhacampanha.dao;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import com.mysql.jdbc.Connection;
 
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 import  br.ufrpe.minhacampanha.domain.*;
 /**
  * 
@@ -17,12 +14,10 @@ import  br.ufrpe.minhacampanha.domain.*;
 public class LoginDAO {
 	
 	//Pega os dados do usuario caso exista (Depois do login)
-	@SuppressWarnings("deprecation")
-	public Usuario pegaUser(Login tentativa) throws SQLException {
+	public Usuario pegaUser(Login tentativa, Connection connection, java.sql.PreparedStatement stmt) 
+			throws SQLException {
 		Usuario logado = new Usuario();
 		try{
-			Connection connection = ConnectionFactory.getConnection();
-			java.sql.PreparedStatement stmt = null;
 			ResultSet resultSet = null;
 			
 			stmt = connection.prepareStatement("SELECT * FROM USUARIO WHERE login = ? and senha = ?");
@@ -47,27 +42,24 @@ public class LoginDAO {
 				logado.setInstituicao_vinculada(resultSet.getInt("id_inst"));
 			} else {
 				logado = null;
-			}
-			ConnectionFactory.closeConnection(connection, stmt);
-			
+			}			
 		}catch(SQLException ex) {
 			throw ex;
 		}
 		return logado;
 	}
 	//Funcao checa o usuario e a senha para Logar no sistema
-	public boolean efetuarLogin(Login tentativa) {
+	public boolean efetuarLogin(Login tentativa, Connection connection, java.sql.PreparedStatement stmt) {
 		Login sistema = new Login();
 		boolean logado = false;
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+		
 		ResultSet resultSet = null;
 		
 		try {
 			stmt = connection.prepareStatement("SELECT login, senha FROM USUARIO WHERE login = ?");
 			resultSet =stmt.executeQuery();
 		
-			while(resultSet.next()) { //Isso � necessario?
+			while(resultSet.next()) {
 				sistema.setLogin(resultSet.getString("login"));
 				sistema.setSenha(resultSet.getString("senha"));
 			}

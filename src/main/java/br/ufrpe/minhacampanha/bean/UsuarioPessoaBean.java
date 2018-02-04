@@ -1,14 +1,18 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
+
+import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaDAO;
@@ -91,8 +95,13 @@ public class UsuarioPessoaBean implements Serializable{
 	
 	public String criarUsuario(){
 		try {
+			FacesContext context = FacesContext.getCurrentInstance();
+			
+			Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
+			java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
+
 			PessoaFisicaDAO pessoaDAO = new PessoaFisicaDAO();
-			PessoaFisica pessoaBuscar = pessoaDAO.buscar(pessoa.getCpf());
+			PessoaFisica pessoaBuscar = pessoaDAO.buscar(pessoa.getCpf(), connection, stmt);
 			
 			if (pessoaBuscar != null) {
 				Messages.addGlobalError("CPF já cadastrado no sistema!");
@@ -105,7 +114,7 @@ public class UsuarioPessoaBean implements Serializable{
 				pessoa.setNascimento(nascimento);
 				
 				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
-				cadastroDAO.novoPessoa(usuario, pessoa, login, endereco);
+				cadastroDAO.novoPessoa(usuario, pessoa, login, endereco, connection, stmt);
 				
 				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
 				

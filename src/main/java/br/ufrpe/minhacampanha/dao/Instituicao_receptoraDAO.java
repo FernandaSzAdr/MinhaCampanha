@@ -9,7 +9,6 @@ import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Instituicao_receptora;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 /**
  * 
  * @author raiss
@@ -17,9 +16,8 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
  */
 public class Instituicao_receptoraDAO {
 	
-	public void criar(Instituicao_receptora instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void criar(Instituicao_receptora instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		
 		try{
 			String SQL;
@@ -46,14 +44,11 @@ public class Instituicao_receptoraDAO {
 			stmt.executeUpdate();
 		}catch (SQLException ex){
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public List<Instituicao_receptora> listar() throws SQLException {
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<Instituicao_receptora> listar(Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException {
 		ResultSet rs = null;
 		
 		List<Instituicao_receptora> instituicaos = new ArrayList<Instituicao_receptora>();
@@ -84,17 +79,13 @@ public class Instituicao_receptoraDAO {
 			
 		}catch (SQLException ex){
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, rs);
 		}
-		
 		return instituicaos;
 		
 	}
 	
-	public void update(Instituicao_receptora instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void update(Instituicao_receptora instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		
 		try{
 			stmt = connection.prepareStatement("UPDATE Instituicao_receptora SET   dt_ultima_recep = ?	,"
@@ -111,14 +102,11 @@ public class Instituicao_receptoraDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public void excluir(Instituicao_receptora instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void excluir(Instituicao_receptora instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		
 		try{
 			stmt = connection.prepareStatement("DELETE FROM Instituicao_receptora WHERE id = ?");
@@ -131,15 +119,11 @@ public class Instituicao_receptoraDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
-		
 	}
 	
-	public boolean buscar(Instituicao instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public boolean buscar(Instituicao instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		ResultSet rs = null;
 		
 		boolean retorno = false;
@@ -149,7 +133,6 @@ public class Instituicao_receptoraDAO {
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) retorno = true;
-			ConnectionFactory.closeConnection(connection, stmt);
 			
 		} catch (SQLException e) {
 			throw e;

@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 import br.ufrpe.minhacampanha.domain.Instituicao_doadora;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 /**
  * 
  * @author raiss
@@ -15,10 +14,8 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
  */
 public class Instituicao_doadoraDAO {
 	
-	public void criar(Instituicao_doadora instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void criar(Instituicao_doadora instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try{
 			String SQL;
 			if (instituicao.getDt_ultima_doacao() == null && instituicao.getNum_doacoes_fin() == 0
@@ -32,14 +29,11 @@ public class Instituicao_doadoraDAO {
 			stmt.executeUpdate();
 		}catch (SQLException ex){
 			throw ex;
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public List<Instituicao_doadora> listar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<Instituicao_doadora> listar(Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Instituicao_doadora> instituicaos = new ArrayList<Instituicao_doadora>();
@@ -65,18 +59,12 @@ public class Instituicao_doadoraDAO {
 			
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
-		
 		return instituicaos;
-		
 	}
 	
-	public void update(Instituicao_doadora instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void update(Instituicao_doadora instituicao, 
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		try{
 			stmt = connection.prepareStatement("UPDATE Instituicao_doadora SET   dt_ultima_doacao= ?,  num_doacoes_prod= ?, "
 					+ "num_doacoes_fin  = ? WHERE cod = ?");
@@ -91,14 +79,11 @@ public class Instituicao_doadoraDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao atualizar - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 	}
 	
-	public void excluir(Instituicao_doadora instituicao) throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public void excluir(Instituicao_doadora instituicao,
+			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
 		
 		try{
 			stmt = connection.prepareStatement("DELETE FROM Instituicao_doadora WHERE id = ?");
@@ -111,9 +96,6 @@ public class Instituicao_doadoraDAO {
 		}catch (SQLException ex){
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
 			
-		}finally{
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
-		
 	}
 }

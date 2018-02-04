@@ -2,25 +2,21 @@ package br.ufrpe.minhacampanha.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 public class PessoaFisicaDAO {
 	
-	public PessoaFisica buscar(int codigo) throws SQLException{		
+	public PessoaFisica buscar(int codigo, Connection connection,  java.sql.PreparedStatement stmt)
+			throws SQLException{		
 		PessoaFisica pessoa = new PessoaFisica();
 		try {			
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * from pessoa_fisica where id = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -39,8 +35,8 @@ public class PessoaFisicaDAO {
 				pessoa.setCpf(rs.getString("cpf"));
 			}
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
+			erro.printStackTrace();
 			throw erro;
 		}
 		
@@ -54,12 +50,12 @@ public class PessoaFisicaDAO {
 	 * @param idUsuario
 	 * @throws SQLException 
 	 */
-	public PessoaFisica buscar(String cpf) throws SQLException{		
+	public PessoaFisica buscar(String cpf, Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException{		
 		PessoaFisica pessoa = new PessoaFisica();
 		try {			
-			Connection connection = ConnectionFactory.getConnection();
 			String SQL = "SELECT * from pessoa_fisica where cpf = ?";
-			java.sql.PreparedStatement stmt = connection.prepareStatement(SQL);
+			stmt = connection.prepareStatement(SQL);
 			stmt.setString(1, cpf);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -78,22 +74,17 @@ public class PessoaFisicaDAO {
 				pessoa.setCpf(rs.getString("cpf"));
 			}
 			
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException erro) {
+			erro.printStackTrace();
 			throw erro;
 		}
 		
 		return pessoa;
 	}
 	
-	public void criar(PessoaFisica pessoa) throws SQLException {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-		
+	public void criar(PessoaFisica pessoa, Connection connection,  java.sql.PreparedStatement stmt) 
+			throws SQLException {
 		try {
-			
-			
 			stmt = connection.prepareStatement("INSERT INTO pessoa_fisica (cpf, p_nome, m_nome, u_nome, "
 					+ "anonimato, dt_nasc, num1, num, tipo_pessoa, seque_end, id_usuario)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
@@ -110,22 +101,18 @@ public class PessoaFisicaDAO {
 			stmt.setInt(11, pessoa.getId_usuario());
 			
 			stmt.executeUpdate();
-			ConnectionFactory.closeConnection(connection, stmt);
 		} catch (SQLException ex) {
+			ex.printStackTrace();
 			throw ex;
 		}
 	}
 
-	public List<PessoaFisica> listar() {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
+	public List<PessoaFisica> listar(Connection connection,  java.sql.PreparedStatement stmt) {
 		ResultSet resultSet = null;
 
 		List<PessoaFisica> pessoas = new ArrayList<PessoaFisica>();
 
 		try {
-
 			stmt = connection.prepareStatement("SELECT * FROM pessoa_fisica");
 			resultSet = stmt.executeQuery();
 
@@ -150,20 +137,13 @@ public class PessoaFisicaDAO {
 
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao listar - "+ex);
-		} finally {
-			ConnectionFactory.closeConnection(connection, stmt, resultSet);
 		}
-
 		return pessoas;
 
 	}
 
-	public void atualizar(PessoaFisica pessoa) {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-
-		try {
+	public void atualizar(PessoaFisica pessoa, Connection connection,  java.sql.PreparedStatement stmt) {
+	try {
 			stmt = connection.prepareStatement("UPDATE pessoa_fisica SET cpf = ?, p_nome = ?,m_nome = ?,u_nome = ?,"
 					+ "anonimato = ?,dt_nasc = ?,num1 = ?,num = ?,tipo_pessoa = ?, seque_end = ?  WHERE id = ?");
 			stmt.setString(1, pessoa.getCpf());
@@ -179,24 +159,14 @@ public class PessoaFisicaDAO {
 			stmt.setLong(11, pessoa.getCodigo());
 
 			stmt.executeUpdate();
-
-			// JOptionPane.showMessageDialog(null, "Cliente atualizado com
-			// sucesso");
-
 		} catch (SQLException ex) {
 			// JOptionPane.showMessageDialog(null, "Erro ao atualizar - " + ex);
 
-		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
 		}
 
 	}
 
-	public void excluir(PessoaFisica pessoa) {
-
-		Connection connection = ConnectionFactory.getConnection();
-		java.sql.PreparedStatement stmt = null;
-
+	public void excluir(PessoaFisica pessoa, Connection connection,  java.sql.PreparedStatement stmt) {
 		try {
 			stmt = connection.prepareStatement("DELETE FROM pessoa_fisica WHERE id = ?");
 			stmt.setLong(1, pessoa.getCodigo());
@@ -208,8 +178,6 @@ public class PessoaFisicaDAO {
 		} catch (SQLException ex) {
 			//JOptionPane.showMessageDialog(null, "Erro ao excluir - " + ex);
 
-		} finally {
-			ConnectionFactory.closeConnection(connection, stmt);
-		}
+		} 
 	}
 }

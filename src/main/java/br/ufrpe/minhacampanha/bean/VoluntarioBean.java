@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,7 +25,6 @@ import br.ufrpe.minhacampanha.domain.Carro;
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
-import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -37,6 +37,10 @@ public class VoluntarioBean implements Serializable{
 	private DisponibilidadePessoaFisica disponibilidade;
 	private Carro carro;
 	private Atividade atividade;
+	private FacesContext context = FacesContext.getCurrentInstance();
+	private Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
+	private java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
+
 
 	public List<Campanha> getCampanhas() {
 		return campanhas;
@@ -108,18 +112,18 @@ public class VoluntarioBean implements Serializable{
 	
 	@PostConstruct
 	public void listar(){
-		try {
+		try {			
 			CampanhaDAO campanhaDAO = new CampanhaDAO();
-			campanhas = campanhaDAO.listar();
+			campanhas = campanhaDAO.listar(connection, stmt);
 			
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
-			atividades = atividadeDAO.listar();
+			atividades = atividadeDAO.listar(connection, stmt);
 			
 			FacesContext context = FacesContext.getCurrentInstance();
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
 			DisponibilidadeDAO disponibilidaDAO = new DisponibilidadeDAO();
-			disponiblidades = disponibilidaDAO.listar(pessoa.getCodigo());
+			disponiblidades = disponibilidaDAO.listar(pessoa.getCodigo(), connection, stmt);
 		} catch (RuntimeException|SQLException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao listar os dados do sistema.");
 			erro.printStackTrace();
@@ -131,7 +135,6 @@ public class VoluntarioBean implements Serializable{
 	}
 	
 	public void cadastrar() throws SQLException{
-		Connection connection = ConnectionFactory.getConnection();
 		try {
 			connection.setAutoCommit(false);
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -146,10 +149,10 @@ public class VoluntarioBean implements Serializable{
 			}
 			
 			PessoaFisicaVoluntarioDAO voluntarioDAO = new PessoaFisicaVoluntarioDAO();
-			voluntarioDAO.criar(voluntario);
+			voluntarioDAO.criar(voluntario, connection, stmt);
 		
 			AtividadeAtribuidaPessoaDAO atividadepessoaDAO = new AtividadeAtribuidaPessoaDAO();
-			atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo());
+			atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo(), connection, stmt);
 			connection.commit();
 			
 		} catch (RuntimeException|SQLException e) {
@@ -166,7 +169,7 @@ public class VoluntarioBean implements Serializable{
 			disponibilidade.setCod_pf_voluntaria(pessoa.getCodigo());
 			
 			DisponibilidadeDAO disponibilidadeDAO = new DisponibilidadeDAO();
-			disponibilidadeDAO.criar(disponibilidade);
+			disponibilidadeDAO.criar(disponibilidade, connection, stmt);
 			
 			Messages.addGlobalInfo("Cadastro realizado com sucesso");
 		} catch (SQLException e) {
