@@ -37,8 +37,10 @@
 				</p:submenu>
 				
 				<p:submenu label="Ajuda">
-					<p:menuitem value="Sobre" url="/pages/pessoa/sobre.xhtml"/>
+					<p:menuitem value="Sobre"  url="/pages/pessoa/sobre.xhtml"/>
 				</p:submenu>
+				
+				<p:menuitem value="Quit" action="#{logoutBean.logout()}" icon="ui-icon-close" />
 			</p:menubar>
 			</h:form>
 		</div>

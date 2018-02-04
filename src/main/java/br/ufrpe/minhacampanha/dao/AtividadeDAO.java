@@ -1,57 +1,61 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.mysql.jdbc.Connection;
-
 import br.ufrpe.minhacampanha.domain.Atividade;
 
 public class AtividadeDAO {
 
-	public void criar(Atividade atividade, Connection connection,  java.sql.PreparedStatement stmt)
+	public void criar(Atividade atividade, Connection connection)
 			throws SQLException{
+		PreparedStatement stmt;
 		try{
-			stmt = connection.prepareStatement("INSERT INTO atividade (id, id_campanha, descricao, tipo,duracao_media)VALUES(?,?,?,?)");
-			stmt.setLong(1, atividade.getCodigo());
-			stmt.setLong(2, atividade.getCodigoCampanha());
+			stmt = connection.prepareStatement("INSERT INTO atividade (id_campanha, descricao, "
+					+ "tipo,duracao_media)VALUES(?,?,?,?)");
+			stmt.setInt(1, atividade.getCodigoCampanha());
+			stmt.setString(2, atividade.getDescricao());
 			stmt.setString(3, atividade.getTipo());
-			stmt.setString(4, atividade.getDescricao());
-			stmt.setTime(5, atividade.getDuracaoMedia());
-			
-			stmt.executeUpdate();
-			
-			//JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso");
-			
+			stmt.setTime(4, java.sql.Time.valueOf(atividade.getDuracaoMedia()));
+			stmt.executeUpdate();			
 		}catch (SQLException ex){
 			ex.printStackTrace();
 			throw ex;
 		}
 	}
 	
-	public List<Atividade> listar(Connection connection,  java.sql.PreparedStatement stmt)
+	/**
+	 * Lista todas as atividades do sistema
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Atividade> listar(Connection connection)
 			throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Atividade> atividades = new ArrayList<Atividade>();
-		
+		PreparedStatement stmt;
 		try{
-		
-			stmt = connection.prepareStatement("SELECT * FROM atividade");
+			stmt = connection.prepareStatement("SELECT * FROM atividade JOIN "
+					+ "atividade_atribuido_pessoa "
+					+ "ON atividade.id = atividade_atribuido_pessoa.id");
 			resultSet = stmt.executeQuery();
 		
 			while (resultSet.next()){
-				
 				Atividade atividade = new Atividade();
 				atividade.setCodigo(resultSet.getInt("id"));
 				atividade.setCodigoCampanha(resultSet.getInt("id_campanha"));
 				atividade.setDescricao(resultSet.getString("descricao"));
 				atividade.setTipo(resultSet.getString("tipo"));
-				atividade.setDuracaoMedia(resultSet.getTime("duracao_media"));
-				
+				atividade.setDuracaoMedia(resultSet.getTime("duracao_media").toString());
+				atividade.setPessoa(resultSet.getInt("atividade_atribuido_pessoa.id_pf"));
+				atividade.setData_atividade(resultSet.getDate("atividade_atribuido_pessoa.data_atividade").toString());
 				
 				atividades.add(atividade);
 			 }
@@ -64,21 +68,30 @@ public class AtividadeDAO {
 		return atividades;
 	}
 	
-	public List<Atividade> listar(int instituicao, Connection connection,  java.sql.PreparedStatement stmt)
+	
+	/**
+	 * Lista todas as atividades de uma instituicao
+	 * 
+	 * @param instituicao
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Atividade> listar(int instituicao, Connection connection)
 			throws SQLException{
 		ResultSet resultSet = null;
-		
+		PreparedStatement stmt;
 		List<Atividade> atividades = new ArrayList<Atividade>();
 		
 		try{
-			stmt = connection.prepareStatement("SELECT * FROM atividade JOIN campanha "
+			stmt = connection.prepareStatement("select * from atividade JOIN campanha "
 					+ "ON atividade.id_campanha = campanha.idCampanha "
 					+ "JOIN instituicao_promove_campanha "
 					+ "ON instituicao_promove_campanha.idCampanha = campanha.idCampanha "
 					+ "WHERE instituicao_promove_campanha.id_inst = ?");
 			stmt.setInt(1, instituicao);
 			resultSet = stmt.executeQuery();
-		
+			
 			while (resultSet.next()){
 				Atividade atividade = new Atividade();
 				
@@ -86,8 +99,7 @@ public class AtividadeDAO {
 				atividade.setCodigoCampanha(resultSet.getInt("id_campanha"));
 				atividade.setDescricao(resultSet.getString("descricao"));
 				atividade.setTipo(resultSet.getString("tipo"));
-				atividade.setDuracaoMedia(resultSet.getTime("duracao_media"));
-				
+				atividade.setDuracaoMedia(resultSet.getTime("duracao_media").toString());
 				atividades.add(atividade);
 			 }
 			
@@ -99,9 +111,10 @@ public class AtividadeDAO {
 		return atividades;
 	}
 	
-	public void update(Atividade atividade, Connection connection,  java.sql.PreparedStatement stmt)
+	public void update(Atividade atividade, Connection connection)
 			throws SQLException{
 		try{
+			PreparedStatement stmt;
 			stmt = connection.prepareStatement("UPDATE atividade SET descricao =  ?, tipo = ?, duracao_media = ? WHERE id = ?");
 			
 			stmt.executeUpdate();
@@ -114,9 +127,10 @@ public class AtividadeDAO {
 		}
 	}
 	
-	public void excluir(Atividade atividade, Connection connection,  java.sql.PreparedStatement stmt) 
+	public void excluir(Atividade atividade, Connection connection) 
 			throws SQLException{
 		try{
+			PreparedStatement stmt;
 			stmt = connection.prepareStatement("DELETE FROM atividade WHERE cpf = ?");
 			stmt.setLong(1, atividade.getCodigo());
 						

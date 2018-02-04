@@ -1,18 +1,16 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.AtividadeAtribuidaPessoaDAO;
 import br.ufrpe.minhacampanha.dao.AtividadeDAO;
@@ -25,68 +23,30 @@ import br.ufrpe.minhacampanha.domain.Carro;
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
+import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class VoluntarioBean implements Serializable{
 	private List<Campanha> campanhas;
 	private List<Atividade> atividades;
+	private List<Atividade> selectAtividades;
 	private List<DisponibilidadePessoaFisica> disponiblidades;
 	private PessoaFisicaVoluntario voluntario;
 	private DisponibilidadePessoaFisica disponibilidade;
 	private Carro carro;
 	private Atividade atividade;
 	private FacesContext context = FacesContext.getCurrentInstance();
-	private Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
-	private java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
-
+	private PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
+	private Connection connection = null;
 
 	public List<Campanha> getCampanhas() {
 		return campanhas;
 	}
-	
-	public List<DisponibilidadePessoaFisica> getDisponiblidades() {
-		return disponiblidades;
-	}
-	
-	public Carro getCarro() {
-		return carro;
-	}
-	
-	public Atividade getAtividade() {
-		return atividade;
-	}
-	
-	public void setAtividade(Atividade atividade) {
-		this.atividade = atividade;
-	}
-	public void setCarro(Carro carro) {
-		this.carro = carro;
-	}
-	
+
 	public void setCampanhas(List<Campanha> campanhas) {
 		this.campanhas = campanhas;
-	}
-	
-	public void setDisponiblidades(List<DisponibilidadePessoaFisica> disponiblidades) {
-		this.disponiblidades = disponiblidades;
-	}
-	
-	public PessoaFisicaVoluntario getVoluntario() {
-		return voluntario;
-	}
-
-	public void setVoluntario(PessoaFisicaVoluntario voluntario) {
-		this.voluntario = voluntario;
-	}
-	
-	public DisponibilidadePessoaFisica getDisponibilidade() {
-		return disponibilidade;
-	}
-
-	public void setDisponibilidade(DisponibilidadePessoaFisica disponibilidade) {
-		this.disponibilidade = disponibilidade;
 	}
 
 	public List<Atividade> getAtividades() {
@@ -97,9 +57,69 @@ public class VoluntarioBean implements Serializable{
 		this.atividades = atividades;
 	}
 
+	public List<Atividade> getSelectAtividades() {
+		return selectAtividades;
+	}
+
+	public void setSelectAtividades(List<Atividade> selectAtividades) {
+		this.selectAtividades = selectAtividades;
+	}
+
+	public List<DisponibilidadePessoaFisica> getDisponiblidades() {
+		return disponiblidades;
+	}
+
+	public void setDisponiblidades(List<DisponibilidadePessoaFisica> disponiblidades) {
+		this.disponiblidades = disponiblidades;
+	}
+
+	public PessoaFisicaVoluntario getVoluntario() {
+		return voluntario;
+	}
+
+	public void setVoluntario(PessoaFisicaVoluntario voluntario) {
+		this.voluntario = voluntario;
+	}
+
+	public DisponibilidadePessoaFisica getDisponibilidade() {
+		return disponibilidade;
+	}
+
+	public void setDisponibilidade(DisponibilidadePessoaFisica disponibilidade) {
+		this.disponibilidade = disponibilidade;
+	}
+
+	public Carro getCarro() {
+		return carro;
+	}
+
+	public void setCarro(Carro carro) {
+		this.carro = carro;
+	}
+
+	public Atividade getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
+	}
+
 	public void novoVoluntario(){
-		voluntario = new PessoaFisicaVoluntario();
-		atividade = new Atividade();
+		try {
+			connection = ConnectionFactory.getConnection();
+			voluntario = new PessoaFisicaVoluntario();
+			atividade = new Atividade();
+			
+			AtividadeDAO atividadeDAO = new AtividadeDAO();
+			selectAtividades = atividadeDAO.listar(connection);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Messages.addGlobalError("Ocorreu um erro ao tentar criar um novo voluntario.");
+		}finally {
+			ConnectionFactory.closeConnection(connection);
+		}
+		
 	}
 	
 	public void novaDisponibilidade(){
@@ -113,20 +133,23 @@ public class VoluntarioBean implements Serializable{
 	@PostConstruct
 	public void listar(){
 		try {			
+			connection = ConnectionFactory.getConnection();
+			
 			CampanhaDAO campanhaDAO = new CampanhaDAO();
-			campanhas = campanhaDAO.listar(connection, stmt);
+			campanhas = campanhaDAO.listar(connection);
 			
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
-			atividades = atividadeDAO.listar(connection, stmt);
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
+			atividades = atividadeDAO.listar(connection);
 			
 			DisponibilidadeDAO disponibilidaDAO = new DisponibilidadeDAO();
-			disponiblidades = disponibilidaDAO.listar(pessoa.getCodigo(), connection, stmt);
+			if (disponibilidaDAO.listar(pessoa.getCodigo(), connection) != null) {
+				disponiblidades = disponibilidaDAO.listar(pessoa.getCodigo(), connection);
+			}
 		} catch (RuntimeException|SQLException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao listar os dados do sistema.");
 			erro.printStackTrace();
+		}finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 	}
 	
@@ -136,11 +159,11 @@ public class VoluntarioBean implements Serializable{
 	
 	public void cadastrar() throws SQLException{
 		try {
+			connection = ConnectionFactory.getConnection();
 			connection.setAutoCommit(false);
-			FacesContext context = FacesContext.getCurrentInstance();
-			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
 			voluntario.setCodigo(pessoa.getCodigo());
+			atividade.setCodigo(Integer.parseInt(atividade.getCodigoS()));
 			
 			if (voluntario.getCarro() != null) {
 				voluntario.setTem_veiculo(true);
@@ -148,32 +171,43 @@ public class VoluntarioBean implements Serializable{
 				voluntario.setTem_veiculo(false);
 			}
 			
-			PessoaFisicaVoluntarioDAO voluntarioDAO = new PessoaFisicaVoluntarioDAO();
-			voluntarioDAO.criar(voluntario, connection, stmt);
-		
 			AtividadeAtribuidaPessoaDAO atividadepessoaDAO = new AtividadeAtribuidaPessoaDAO();
-			atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo(), connection, stmt);
-			connection.commit();
+			PessoaFisicaVoluntarioDAO voluntarioDAO = new PessoaFisicaVoluntarioDAO();
+			if(atividadepessoaDAO.existe(atividade.getCodigo(), connection)){
+				Messages.addGlobalError("Atividade já esta sendo realizada, escolha outra!");
+			}else{
+				voluntarioDAO.criar(voluntario, connection);
+				atividadepessoaDAO.criar(pessoa.getCodigo(), atividade.getCodigo(), connection);
+			}
 			
-		} catch (RuntimeException|SQLException e) {
+			connection.commit();
+		} catch (SQLException e) {
 			connection.rollback();
 			Messages.addGlobalError("Erro ao tentar se voluntariar!");
+		}catch (RuntimeException e) {
+			Messages.addGlobalError("Já existe pessoas nessa atividade.");
+		}finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 	}
 	
 	public void cadastrarDisponibilidade(){
 		try {
+			connection = ConnectionFactory.getConnection();
+			
 			FacesContext context = FacesContext.getCurrentInstance();
 			PessoaFisica pessoa = (PessoaFisica) context.getExternalContext().getApplicationMap().get("pessoa");
 			
 			disponibilidade.setCod_pf_voluntaria(pessoa.getCodigo());
 			
 			DisponibilidadeDAO disponibilidadeDAO = new DisponibilidadeDAO();
-			disponibilidadeDAO.criar(disponibilidade, connection, stmt);
+			disponibilidadeDAO.criar(disponibilidade, connection);
 			
 			Messages.addGlobalInfo("Cadastro realizado com sucesso");
 		} catch (SQLException e) {
 			Messages.addGlobalError("Erro ao tentar cadastrar disponibilidade!");
+		}finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 	}
 }

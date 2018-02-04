@@ -1,11 +1,11 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.DisponibilidadePessoaFisica;
 
@@ -16,24 +16,23 @@ public class DisponibilidadeDAO {
 	 * @param disponibilidade
 	 * @throws SQLException
 	 */
-	public void criar(DisponibilidadePessoaFisica disponibilidade, Connection connection,  java.sql.PreparedStatement stmt)
+	public void criar(DisponibilidadePessoaFisica disponibilidade, Connection connection)
 			throws SQLException{
 		try {
+			PreparedStatement stmt;
+			
 			String SQL;
-			SQL = "INSERT INTO pf_disponibilidade(hora_inicio, hora_fim, dia, dia_semana, ind_feriado, "
-					+ "confirmacao_dia, periodo_dia, cod_pf_voluntaria) values (?,?,?,?,?,?,?,?)";
+			SQL = "INSERT INTO pf_disponibilidade(hora_inicio, hora_fim, dia, periodo_dia, "
+					+ "cod_pf_voluntaria) values (?,?,?,?,?)";
 			stmt = connection.prepareStatement(SQL);
 			
 			stmt.setTime(1, java.sql.Time.valueOf(disponibilidade.getHora_inicio()));
 			stmt.setTime(2, java.sql.Time.valueOf(disponibilidade.getHora_fim()));
 			stmt.setDate(3, java.sql.Date.valueOf(disponibilidade.getDia()));
-			stmt.setBoolean(4,disponibilidade.isDia_de_semana());
-			stmt.setBoolean(5,disponibilidade.isInd_feriado());
-			stmt.setBoolean(6, disponibilidade.isConfirmacao_dia());
-			stmt.setString(7, disponibilidade.getPeriodo_dia());
-			stmt.setInt(8, disponibilidade.getCod_pf_voluntaria());
+			stmt.setString(4, disponibilidade.getPeriodo_dia());
+			stmt.setInt(5, disponibilidade.getCod_pf_voluntaria());
 			System.out.println("passou");
-			stmt.execute();
+			stmt.executeUpdate();
 			System.out.println("atualizou");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -41,9 +40,9 @@ public class DisponibilidadeDAO {
 		}
 	}
 	
-	public List<DisponibilidadePessoaFisica> listar(int pessoa, Connection connection,  
-			java.sql.PreparedStatement stmt) {
+	public List<DisponibilidadePessoaFisica> listar(int pessoa, Connection connection) {
 		ResultSet resultSet = null;
+		PreparedStatement stmt;
 
 		List<DisponibilidadePessoaFisica> disponibilidades = new ArrayList<DisponibilidadePessoaFisica>();
 
@@ -76,9 +75,10 @@ public class DisponibilidadeDAO {
 		return disponibilidades;
 }
 	
-	public void atualizar(DisponibilidadePessoaFisica disponibilidade, Connection connection,
-			java.sql.PreparedStatement stmt) {
+	public void atualizar(DisponibilidadePessoaFisica disponibilidade, Connection connection) {
 		try {
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("UPDATE  pf_disponibilidade SET \r\n" + 
 					"    hora_inicio	=?,\r\n" + 
 					"  hora_fim = ?,\r\n" + 
@@ -108,8 +108,10 @@ public class DisponibilidadeDAO {
 	}
 
 	public void excluir(DisponibilidadePessoaFisica disponibilidade,
-			Connection connection,  java.sql.PreparedStatement stmt) {
+			Connection connection) {
 		try {
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("DELETE FROM pf_disponibilidade WHERE id = ?");
 			stmt.setLong(1, disponibilidade.getCodigo());
 

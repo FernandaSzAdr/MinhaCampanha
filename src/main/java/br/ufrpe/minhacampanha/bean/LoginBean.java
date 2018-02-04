@@ -1,6 +1,7 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
@@ -9,8 +10,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
 import br.ufrpe.minhacampanha.dao.Instituicao_receptoraDAO;
@@ -22,11 +21,13 @@ import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
 import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
-@SuppressWarnings("serial")
 @ManagedBean 
 @SessionScoped
 public class LoginBean implements Serializable{
-	private Login login;
+	private static final long serialVersionUID = 1L;
+	
+	private transient Login login;
+	private FacesContext context;
 	
 	public Login getLogin() {
 		return login;
@@ -44,19 +45,13 @@ public class LoginBean implements Serializable{
 	
 	
 	public String logar(){
-		/**
-		 * TODO quando clicar nesse botao vai levar para a tela referente
-		 * ao tipo de usuario:
-		 */		
-		try {		
-			FacesContext context = FacesContext.getCurrentInstance();
-			Connection connection = ConnectionFactory.getConnection();
-			java.sql.PreparedStatement stmt = null;
-			context.getExternalContext().getSessionMap().put("connection", connection);
-			context.getExternalContext().getSessionMap().put("stmt", stmt);
+		Connection connection = null;
+		try {	
+			connection = ConnectionFactory.getConnection();
+			context = FacesContext.getCurrentInstance();
 			
 			LoginDAO loginDAO = new LoginDAO();
-			Usuario verificado = loginDAO.pegaUser(login, connection, stmt);
+			Usuario verificado = loginDAO.pegaUser(login, connection);
 
 			
 			if (verificado != null) {
@@ -65,10 +60,10 @@ public class LoginBean implements Serializable{
 				if (verificado.getInstituicao_vinculada() != 0) {
 					Instituicao_receptoraDAO instituicao_receDAO = new Instituicao_receptoraDAO();
 					InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
-					Instituicao instituicao = instituicaoDAO.buscar(verificado.getInstituicao_vinculada(), connection, stmt);
+					Instituicao instituicao = instituicaoDAO.buscar(verificado.getInstituicao_vinculada(), connection);
 					
 					context.getExternalContext().getApplicationMap().put("instituicao", instituicao);
-					if (instituicao_receDAO.buscar(instituicao, connection, stmt)) {
+					if (instituicao_receDAO.buscar(instituicao, connection)) {
 						return "/pages/menuInstituicaoRece?faces-refirect=true";
 					} else {
 						return "/pages/menuInstituicao?faces-redirect=true";
@@ -76,7 +71,7 @@ public class LoginBean implements Serializable{
 				} 
 				else {
 					PessoaFisicaDAO pessoaDAO = new PessoaFisicaDAO();
-					PessoaFisica pessoa = pessoaDAO.buscar(verificado.getCodigo(), connection, stmt);
+					PessoaFisica pessoa = pessoaDAO.buscar(verificado.getCodigo(), connection);
 					
 					context.getExternalContext().getApplicationMap().put("pessoa", pessoa);
 					return "/pages/menuPessoa?faces-redirect=true";
@@ -87,6 +82,8 @@ public class LoginBean implements Serializable{
 		} catch (RuntimeException|SQLException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar logar no sistema.");
 			erro.printStackTrace();
+		}finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 		return null;
 	}	

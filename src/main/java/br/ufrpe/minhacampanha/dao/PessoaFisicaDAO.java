@@ -1,18 +1,20 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Connection;
-
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 
 public class PessoaFisicaDAO {
 	
-	public PessoaFisica buscar(int codigo, Connection connection,  java.sql.PreparedStatement stmt)
+	public PessoaFisica buscar(int codigo, Connection connection)
 			throws SQLException{		
+		PreparedStatement stmt;
+
 		PessoaFisica pessoa = new PessoaFisica();
 		try {			
 			String SQL = "SELECT * from pessoa_fisica where id = ?";
@@ -50,8 +52,9 @@ public class PessoaFisicaDAO {
 	 * @param idUsuario
 	 * @throws SQLException 
 	 */
-	public PessoaFisica buscar(String cpf, Connection connection,  java.sql.PreparedStatement stmt) 
+	public PessoaFisica buscar(String cpf, Connection connection) 
 			throws SQLException{		
+		PreparedStatement stmt;
 		PessoaFisica pessoa = new PessoaFisica();
 		try {			
 			String SQL = "SELECT * from pessoa_fisica where cpf = ?";
@@ -82,8 +85,10 @@ public class PessoaFisicaDAO {
 		return pessoa;
 	}
 	
-	public void criar(PessoaFisica pessoa, Connection connection,  java.sql.PreparedStatement stmt) 
+	public void criar(PessoaFisica pessoa, Connection connection) 
 			throws SQLException {
+		PreparedStatement stmt;
+
 		try {
 			stmt = connection.prepareStatement("INSERT INTO pessoa_fisica (cpf, p_nome, m_nome, u_nome, "
 					+ "anonimato, dt_nasc, num1, num, tipo_pessoa, seque_end, id_usuario)"
@@ -107,8 +112,9 @@ public class PessoaFisicaDAO {
 		}
 	}
 
-	public List<PessoaFisica> listar(Connection connection,  java.sql.PreparedStatement stmt) {
+	public List<PessoaFisica> listar(Connection connection) {
 		ResultSet resultSet = null;
+		PreparedStatement stmt;
 
 		List<PessoaFisica> pessoas = new ArrayList<PessoaFisica>();
 
@@ -142,8 +148,10 @@ public class PessoaFisicaDAO {
 
 	}
 
-	public void atualizar(PessoaFisica pessoa, Connection connection,  java.sql.PreparedStatement stmt) {
-	try {
+	public void atualizar(PessoaFisica pessoa, Connection connection) {
+		try {
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("UPDATE pessoa_fisica SET cpf = ?, p_nome = ?,m_nome = ?,u_nome = ?,"
 					+ "anonimato = ?,dt_nasc = ?,num1 = ?,num = ?,tipo_pessoa = ?, seque_end = ?  WHERE id = ?");
 			stmt.setString(1, pessoa.getCpf());
@@ -166,8 +174,10 @@ public class PessoaFisicaDAO {
 
 	}
 
-	public void excluir(PessoaFisica pessoa, Connection connection,  java.sql.PreparedStatement stmt) {
+	public void excluir(PessoaFisica pessoa, Connection connection) {
 		try {
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("DELETE FROM pessoa_fisica WHERE id = ?");
 			stmt.setLong(1, pessoa.getCodigo());
 

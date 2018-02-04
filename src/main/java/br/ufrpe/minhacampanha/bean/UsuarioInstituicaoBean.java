@@ -1,29 +1,26 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.InstituicaoDAO;
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
 import br.ufrpe.minhacampanha.domain.Usuario;
+import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class UsuarioInstituicaoBean implements Serializable{
-	
 	private Login loginInstituicao;
 	private Usuario usuarioInst;
 	private Instituicao instituicao;
@@ -71,22 +68,23 @@ public class UsuarioInstituicaoBean implements Serializable{
 	 */
 	
 	public String criarUsuarioInstituicao(){
+		Connection connection = null;
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			
-			Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
-			java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
-
+			connection = ConnectionFactory.getConnection();
 			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
-			if (instituicaoDAO.buscar(instituicao.getCnpj(), connection, stmt) != null) {
+			
+			if (instituicaoDAO.buscar(instituicao.getCnpj(), connection) != null) {
 				Messages.addGlobalError("Já existe no sistema esse CNPJ.");
+				
+				ConnectionFactory.closeConnection(connection);
 				return "/pages/cadastroUsuarioInstituicao?faces-redirect=true";
 			}else {
 				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
 				
-				cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao, connection, stmt);
+				cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao, connection);
 				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
 				
+				ConnectionFactory.closeConnection(connection);
 				return "/pages/login?faces-redirect=true";
 			}		
 		} catch (Exception erro) {
@@ -94,6 +92,7 @@ public class UsuarioInstituicaoBean implements Serializable{
 			erro.printStackTrace();
 			
 		}
+		ConnectionFactory.closeConnection(connection);
 		return "/pages/cadastroUsuarioInstituicao?faces-redirect=true";
 	}	
 }

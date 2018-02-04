@@ -7,6 +7,7 @@ public class Campanha extends GenericDomain{
 	private LocalDate data_inicio, data_fim;
 	private String publico_alvo, nome;
 	private String status_campanha_enum;
+	private String id_S;
 	private float qtd_valor_necessario, qtd_valor_atual;
 	private int qtd_donativo_necessario, qtd_donativo_atual;
 	
@@ -52,6 +53,14 @@ public class Campanha extends GenericDomain{
 		return status_campanha_enum;
 	}
 	
+	public String getId_S() {
+		return id_S;
+	}
+
+	public void setId_S(String id_S) {
+		this.id_S = id_S;
+	}
+
 	public void setData_fim(LocalDate data_fim) {
 		this.data_fim = data_fim;
 	}

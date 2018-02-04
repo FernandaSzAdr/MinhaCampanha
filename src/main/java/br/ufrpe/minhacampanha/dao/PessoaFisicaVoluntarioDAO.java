@@ -1,18 +1,21 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Connection;
-
 import br.ufrpe.minhacampanha.domain.Carro;
 import br.ufrpe.minhacampanha.domain.PessoaFisicaVoluntario;
+
 public class PessoaFisicaVoluntarioDAO {
 	public void criar(PessoaFisicaVoluntario pessoa,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
 		try {
+			PreparedStatement stmt;
+
 			String SQL;
 			if (pessoa.isTem_veiculo()) {
 				SQL = "INSERT INTO pf_voluntario (id_ps, data_inicio, placa, marca, cidade, estado, tem_veiculo)"
@@ -43,10 +46,11 @@ public class PessoaFisicaVoluntarioDAO {
 		}
 	}
 	
-	public List<PessoaFisicaVoluntario> listar(Connection connection,  java.sql.PreparedStatement stmt)
+	public List<PessoaFisicaVoluntario> listar(Connection connection)
 			throws SQLException{
 		ResultSet resultSet = null;
-		
+		PreparedStatement stmt;
+
 		List<PessoaFisicaVoluntario> pessoas = new ArrayList<PessoaFisicaVoluntario>();
 		
 		try{
@@ -81,9 +85,11 @@ public class PessoaFisicaVoluntarioDAO {
 		
 	}
 	
-	public void updateCarro(PessoaFisicaVoluntario pessoa, Connection connection,  java.sql.PreparedStatement stmt)
+	public void updateCarro(PessoaFisicaVoluntario pessoa, Connection connection)
 			throws SQLException{
 		try{
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("UPDATE pf_voluntario SET cidade = ?, estado = ?, placa = ?,"
 					+ "marca = ?"
 					+ ", tem_veiculo = ? WHERE cod = ?");
@@ -104,9 +110,11 @@ public class PessoaFisicaVoluntarioDAO {
 	 * @param pessoa
 	 * @throws SQLException
 	 */
-	public void removeCarro(PessoaFisicaVoluntario pessoa, Connection connection,  java.sql.PreparedStatement stmt)
+	public void removeCarro(PessoaFisicaVoluntario pessoa, Connection connection)
 			throws SQLException{
 		try{
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("UPDATE pf_voluntario SET cidade = ?, estado = ?, placa = ?,"
 					+ "marca = ?"
 					+ ", tem_veiculo = ? WHERE cod = ?");
@@ -123,9 +131,11 @@ public class PessoaFisicaVoluntarioDAO {
 		}
 	}
 	
-	public void excluir(PessoaFisicaVoluntario pessoa, Connection connection,  java.sql.PreparedStatement stmt)
+	public void excluir(PessoaFisicaVoluntario pessoa, Connection connection)
 			throws SQLException{
 		try{
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("DELETE FROM pf_voluntario WHERE cod = ?");
 			stmt.setLong(1, pessoa.getCodigo());
 						
@@ -144,8 +154,10 @@ public class PessoaFisicaVoluntarioDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public PessoaFisicaVoluntario catar(int cod, Connection connection,  java.sql.PreparedStatement stmt)
+	public PessoaFisicaVoluntario catar(int cod, Connection connection)
 			throws SQLException{
+		PreparedStatement stmt;
+
 		ResultSet resultSet = null;
 		PessoaFisicaVoluntario pessoa = new PessoaFisicaVoluntario();
 		

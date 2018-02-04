@@ -2,18 +2,20 @@ package br.ufrpe.minhacampanha.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Endereco;
 
 public class EnderecoDAO {
 	public void salvar(Endereco endereco, 
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
 		
 		try {
+			PreparedStatement stmt;
+
 			String SQL;
 			if (endereco.getPonto_ref().isEmpty()) {
 				SQL = "INSERT INTO endereco (cep, nome, numero, estado, cidade, "
@@ -49,9 +51,11 @@ public class EnderecoDAO {
 	}
 	
 	public Endereco buscar(String cep,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
 		Endereco endereco = new Endereco();
 		try {
+			PreparedStatement stmt;
+
 			String SQL = "SELECT * from endereco where cep = ?";
 			stmt = connection.prepareStatement(SQL);
 			stmt.setString(1, cep);
@@ -76,11 +80,13 @@ public class EnderecoDAO {
 	 * @throws SQLException
 	 */
 	public List<Endereco> buscar(int codigo,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
 		List<Endereco> enderecos = new ArrayList<Endereco>();
 		
 		Endereco endereco = new Endereco();
 		try {
+			PreparedStatement stmt;
+
 			String SQL = "SELECT * from endereco where sequencial = ?";
 			stmt = connection.prepareStatement(SQL);
 			stmt.setInt(1, codigo);
@@ -111,10 +117,11 @@ public class EnderecoDAO {
 	 * Listar endereços de instituição
 	 * @return
 	 */
-	public List<Endereco> listar(Connection connection,  java.sql.PreparedStatement stmt)
+	public List<Endereco> listar(Connection connection)
 			throws SQLException{
 		List<Endereco> enderecos = new ArrayList<Endereco>();
-		
+		PreparedStatement stmt;
+
 		try {
 			stmt = connection.prepareStatement("SELECT * FROM instituicao_tem_endereco ");
 			ResultSet resultSet = stmt.executeQuery();

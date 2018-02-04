@@ -1,11 +1,11 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
 /**
@@ -14,9 +14,9 @@ import br.ufrpe.minhacampanha.domain.Instituicao;
  *
  */
 public class InstituicaoDAO {
-	public Instituicao buscar(int codigo,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+	public Instituicao buscar(int codigo,Connection connection) throws SQLException{
 		Instituicao instituicao = new Instituicao();
+		PreparedStatement stmt;
 		try {			
 			String SQL = "SELECT * FROM instituicao WHERE id = ?";
 			stmt = connection.prepareStatement(SQL);
@@ -44,7 +44,8 @@ public class InstituicaoDAO {
 	
 	
 	public Instituicao buscar(String cnpj,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
+		PreparedStatement stmt;
 		Instituicao instituicao = new Instituicao();
 		try {			
 			String SQL = "SELECT * FROM instituicao WHERE cnpj = ?";
@@ -73,9 +74,9 @@ public class InstituicaoDAO {
 	}
 	
 	public void criar(Instituicao instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException {
+			Connection connection) throws SQLException {
 		try {
-			
+			PreparedStatement stmt;
 			if (!instituicao.getTelefone2().isEmpty()) {
 				stmt = connection.prepareStatement("INSERT INTO Instituicao (cnpj, data_entrada, "
 						+ "ramo_atuacao, razao_social, nome_fantasia, email, tele1, tele2, nome_contato)"
@@ -112,10 +113,10 @@ public class InstituicaoDAO {
 		} 
 	}
 
-	public List<Instituicao> listar(Connection connection,  java.sql.PreparedStatement stmt) 
+	public List<Instituicao> listar(Connection connection) 
 			throws SQLException{
 		List<Instituicao> instituicoes = new ArrayList<Instituicao>();
-
+		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement("SELECT * FROM Instituicao");
 			ResultSet resultSet = stmt.executeQuery();
@@ -145,8 +146,8 @@ public class InstituicaoDAO {
 	}
 
 	public void atualizar(Instituicao Instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException {
-
+			Connection connection) throws SQLException {
+		PreparedStatement stmt;
 		try {
 			stmt = connection
 					.prepareStatement("UPDATE Instituicao SET telefone = ?, nomeCli = ?, email = ? WHERE cpf = ?");
@@ -164,8 +165,8 @@ public class InstituicaoDAO {
 	}
 
 	public void excluir(Instituicao instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException {
-
+			Connection connection) throws SQLException {
+		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement("DELETE FROM instituicao WHERE id = ?");
 

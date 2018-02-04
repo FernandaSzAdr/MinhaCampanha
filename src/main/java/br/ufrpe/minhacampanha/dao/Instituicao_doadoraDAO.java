@@ -1,11 +1,12 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Connection;
 import br.ufrpe.minhacampanha.domain.Instituicao_doadora;
 /**
  * 
@@ -15,8 +16,9 @@ import br.ufrpe.minhacampanha.domain.Instituicao_doadora;
 public class Instituicao_doadoraDAO {
 	
 	public void criar(Instituicao_doadora instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
 		try{
+			PreparedStatement stmt = null;
 			String SQL;
 			if (instituicao.getDt_ultima_doacao() == null && instituicao.getNum_doacoes_fin() == 0
 				&& instituicao.getNum_doacoes_prod() == 0){
@@ -32,10 +34,11 @@ public class Instituicao_doadoraDAO {
 		}
 	}
 	
-	public List<Instituicao_doadora> listar(Connection connection,  java.sql.PreparedStatement stmt) 
+	public List<Instituicao_doadora> listar(Connection connection) 
 			throws SQLException{
 		ResultSet resultSet = null;
-		
+		PreparedStatement stmt;
+
 		List<Instituicao_doadora> instituicaos = new ArrayList<Instituicao_doadora>();
 		
 		try{
@@ -64,7 +67,8 @@ public class Instituicao_doadoraDAO {
 	}
 	
 	public void update(Instituicao_doadora instituicao, 
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
+		PreparedStatement stmt;
 		try{
 			stmt = connection.prepareStatement("UPDATE Instituicao_doadora SET   dt_ultima_doacao= ?,  num_doacoes_prod= ?, "
 					+ "num_doacoes_fin  = ? WHERE cod = ?");
@@ -83,8 +87,9 @@ public class Instituicao_doadoraDAO {
 	}
 	
 	public void excluir(Instituicao_doadora instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
-		
+			Connection connection) throws SQLException{
+		PreparedStatement stmt;
+
 		try{
 			stmt = connection.prepareStatement("DELETE FROM Instituicao_doadora WHERE id = ?");
 			stmt.setLong(1, instituicao.getCodigo());

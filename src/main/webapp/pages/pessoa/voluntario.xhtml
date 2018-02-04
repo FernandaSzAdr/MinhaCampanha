@@ -161,9 +161,14 @@
 					<p:inputMask id="data_fim" mask="9999-99-99" value="#{voluntarioBean.voluntario.data_fim}" maxlength="8" size="10" 
 					required="true" requiredMessage="O campo 'Data fim' é obrigatorio."/>
 			
-					<p:outputLabel for="ativ" value="ID da atividade:"/>
-					<p:inputText id="ativ" maxlength="2" value="#{voluntarioBean.atividade.codigo}" 
-					size="10" required="true" requiredMessage="O campo 'atividade' é obrigatorio."/>
+					<p:outputLabel for="ativ" value="Atividade:"/>
+					<p:selectOneMenu id="ativ" value="#{voluntarioBean.atividade.codigoS}" 
+						converter="omnifaces.SelectItemsConverter" required="true" 
+						requiredMessage="O campo 'atividade' é obrigatorio.">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um ID de atividade"/>
+						<f:selectItems value="#{voluntarioBean.selectAtividades}" var="atividadeSelect"
+							itemValue="#{atividadeSelect.codigoS}" itemLabel="#{atividadeSelect.codigo} - #{atividadeSelect.descricao}"/>
+					</p:selectOneMenu>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2">

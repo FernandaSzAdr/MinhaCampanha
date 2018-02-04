@@ -1,20 +1,22 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Login;
 import br.ufrpe.minhacampanha.domain.Usuario;
 
 public class UsuarioDAO {
 	
-	public void criar(Usuario user, Connection connection,  java.sql.PreparedStatement stmt)
+	public void criar(Usuario user, Connection connection)
 			throws SQLException{		
 		try{
+			PreparedStatement stmt = null;
+
 			if (user.getData_vl_inicio() == null && user.getData_vl_fim() == null) {
 				if (user.getInstituicao_vinculada() == 0) {
 					String SQL = "INSERT INTO USUARIO (senha, login, email, dtcriacao, "
@@ -73,8 +75,10 @@ public class UsuarioDAO {
 		}
 	}
 	
-	public Usuario buscar(String login, String senha, Connection connection,  java.sql.PreparedStatement stmt)
+	public Usuario buscar(String login, String senha, Connection connection)
 			throws SQLException{		
+		PreparedStatement stmt;
+
 		Usuario usuario = new Usuario();
 		try {			
 			String SQL = "SELECT * from usuario where login = ? and senha = ?";
@@ -102,10 +106,11 @@ public class UsuarioDAO {
 		return usuario;
 	}
 	
-	public List<Usuario> listar(Connection connection,  java.sql.PreparedStatement stmt)
+	public List<Usuario> listar(Connection connection)
 			throws SQLException{
 		ResultSet resultSet = null;
-		
+		PreparedStatement stmt;
+
 		List<Usuario> users = new ArrayList<Usuario>();
 		
 		try{
@@ -135,9 +140,11 @@ public class UsuarioDAO {
 		
 	}
 	
-	public void update(Usuario user, Connection connection,  java.sql.PreparedStatement stmt) 
+	public void update(Usuario user, Connection connection) 
 			throws SQLException{
 		try{
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("UPDATE 	USUARIO SET login = ?, email = ? WHERE cod = ?");
 			stmt.setString(1, user.getLogin().getLogin());
 			stmt.setString(2, user.getEmail());
@@ -153,8 +160,10 @@ public class UsuarioDAO {
 		}
 	}
 	
-	public void excluir(Usuario user, Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+	public void excluir(Usuario user, Connection connection) throws SQLException{
 		try{
+			PreparedStatement stmt;
+
 			stmt = connection.prepareStatement("DELETE FROM USUARIO WHERE cod = ?");
 			stmt.setLong(1, user.getCodigo());
 						

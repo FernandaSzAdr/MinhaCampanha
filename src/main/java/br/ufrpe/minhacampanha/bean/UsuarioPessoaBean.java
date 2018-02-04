@@ -1,18 +1,15 @@
 package br.ufrpe.minhacampanha.bean;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.omnifaces.util.Messages;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.dao.NovoUsuarioDAO;
 import br.ufrpe.minhacampanha.dao.PessoaFisicaDAO;
@@ -21,6 +18,7 @@ import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Login;
 import br.ufrpe.minhacampanha.domain.PessoaFisica;
 import br.ufrpe.minhacampanha.domain.Usuario;
+import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -94,17 +92,16 @@ public class UsuarioPessoaBean implements Serializable{
 	}
 	
 	public String criarUsuario(){
+		Connection connection = null;
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
+			connection = ConnectionFactory.getConnection();
 			
-			Connection connection = (Connection) context.getExternalContext().getApplicationMap().get("connection");
-			java.sql.PreparedStatement stmt = (PreparedStatement) context.getExternalContext().getApplicationMap().get("stmt");
-
 			PessoaFisicaDAO pessoaDAO = new PessoaFisicaDAO();
-			PessoaFisica pessoaBuscar = pessoaDAO.buscar(pessoa.getCpf(), connection, stmt);
+			PessoaFisica pessoaBuscar = pessoaDAO.buscar(pessoa.getCpf(), connection);
 			
 			if (pessoaBuscar != null) {
 				Messages.addGlobalError("CPF já cadastrado no sistema!");
+				ConnectionFactory.closeConnection(connection);
 				return "/pages/cadastroUsuarioPessoa?faces-redirect=true";
 				
 			} else {
@@ -114,16 +111,17 @@ public class UsuarioPessoaBean implements Serializable{
 				pessoa.setNascimento(nascimento);
 				
 				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
-				cadastroDAO.novoPessoa(usuario, pessoa, login, endereco, connection, stmt);
+				cadastroDAO.novoPessoa(usuario, pessoa, login, endereco, connection);
 				
 				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
-				
+				ConnectionFactory.closeConnection(connection);
 				return "/pages/login?faces-redirect=true";
 			}
 		} catch (Exception erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuario.");
 			erro.printStackTrace();
 		}
+		ConnectionFactory.closeConnection(connection);
 		return "/pages/cadastroUsuarioPessoa?faces-redirect=true";
 	}
 }

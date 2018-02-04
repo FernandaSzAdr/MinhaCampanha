@@ -1,11 +1,11 @@
 package br.ufrpe.minhacampanha.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mysql.jdbc.Connection;
 
 import br.ufrpe.minhacampanha.domain.Instituicao;
 import br.ufrpe.minhacampanha.domain.Instituicao_receptora;
@@ -17,9 +17,10 @@ import br.ufrpe.minhacampanha.domain.Instituicao_receptora;
 public class Instituicao_receptoraDAO {
 	
 	public void criar(Instituicao_receptora instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
-		
+			Connection connection) throws SQLException{
 		try{
+			PreparedStatement stmt = null;
+
 			String SQL;
 			if (instituicao.getDt_ultima_recep() == null && instituicao.getNum_doacoes_recebi() == 0) {
 				SQL = "INSERT INTO instituicao_receptora (id_recep) values(?)";
@@ -47,10 +48,10 @@ public class Instituicao_receptoraDAO {
 		}
 	}
 	
-	public List<Instituicao_receptora> listar(Connection connection,  java.sql.PreparedStatement stmt) 
+	public List<Instituicao_receptora> listar(Connection connection) 
 			throws SQLException {
 		ResultSet rs = null;
-		
+		PreparedStatement stmt;
 		List<Instituicao_receptora> instituicaos = new ArrayList<Instituicao_receptora>();
 		
 		try{
@@ -85,8 +86,9 @@ public class Instituicao_receptoraDAO {
 	}
 	
 	public void update(Instituicao_receptora instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
-		
+			Connection connection) throws SQLException{
+		PreparedStatement stmt;
+
 		try{
 			stmt = connection.prepareStatement("UPDATE Instituicao_receptora SET   dt_ultima_recep = ?	,"
 					+ "num_doacoes_recebi = ? WHERE cod = ?");
@@ -106,8 +108,9 @@ public class Instituicao_receptoraDAO {
 	}
 	
 	public void excluir(Instituicao_receptora instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
-		
+			Connection connection) throws SQLException{
+		PreparedStatement stmt;
+
 		try{
 			stmt = connection.prepareStatement("DELETE FROM Instituicao_receptora WHERE id = ?");
 			stmt.setInt(1, instituicao.getCodigo());
@@ -123,9 +126,9 @@ public class Instituicao_receptoraDAO {
 	}
 	
 	public boolean buscar(Instituicao instituicao,
-			Connection connection,  java.sql.PreparedStatement stmt) throws SQLException{
+			Connection connection) throws SQLException{
 		ResultSet rs = null;
-		
+		PreparedStatement stmt;
 		boolean retorno = false;
 		try {
 			stmt = connection.prepareStatement("SELECT * FROM instituicao_receptora WHERE id_recep = ?");

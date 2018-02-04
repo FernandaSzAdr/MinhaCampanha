@@ -43,8 +43,7 @@
 						<h:outputText value="#{atividade.tipo}" />
 					</p:column>
 					
-					<p:column headerText="Pessoa responsavel" sortBy="#{atividade.pessoa}">
-						<h:outputText value="#{atividade.pessoa}" />
+					<p:column headerText="Opção">
 					</p:column>
 				</p:dataTable>
 			</p:panel>
@@ -54,12 +53,33 @@
 		draggable="false" resizable="false" modal="true" closable="false">
 			<h:form id="formCadastro">
 				<h:panelGrid id="painel" columns="2">
+					<p:outputLabel for="desc" value="Descrição:"/>
+					<p:inputText id="desc" value="#{atividadeBean.atividade.descricao}"
+						required="true" requiredMessage="Campo 'descricao' obrigatorio." 
+						size="20" maxlength="255"/>
 					
+					<p:outputLabel for="tipo" value="Tipo:"/>
+					<p:inputText id="tipo" value="#{atividadeBean.atividade.tipo}"
+						maxlength="255" size="20"
+						required="true" requiredMessage="Campo 'tipo' obrigatorio."/>
+						
+					<p:outputLabel for="duracao" value="Duração média de tempo:"/>
+					<p:inputMask id="duracao" value="#{atividadeBean.atividade.duracaoMedia}"
+						mask="99:99:99" required="true" requiredMessage="Campo 'duração média' obrigatório."/>
+					
+					<p:outputLabel for="camp" value="Campanha:"/>
+					<p:selectOneMenu id="camp" value="#{atividadeBean.campanha.id_S}" 
+					required="true" requiredMessage="O campo 'campanha' é obrigatorio."
+					converter="omnifaces.SelectItemsConverter">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um ID"/>
+						<f:selectItems value="#{atividadeBean.campanhas}" var="campanhaSelect"
+							itemValue="#{campanhaSelect.id_S}" itemLabel="#{campanhaSelect.codigo} - #{campanhaSelect.nome}"/>
+					</p:selectOneMenu>
 				</h:panelGrid>
 					
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar"
-						actionListener="#{campanhaInstituicaoBean.salvar()}"
+						actionListener="#{atividadeBean.salvar()}"
 						update=":mensagem :formCadastro:painel" />
 					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 				</h:panelGrid>

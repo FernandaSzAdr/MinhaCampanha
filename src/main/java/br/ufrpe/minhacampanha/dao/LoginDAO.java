@@ -2,21 +2,24 @@ package br.ufrpe.minhacampanha.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.mysql.jdbc.Connection;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import  br.ufrpe.minhacampanha.domain.*;
+import br.ufrpe.minhacampanha.util.ConnectionFactory;
 /**
  * 
  * @author raiss
  *
  */
-public class LoginDAO {
+public class LoginDAO{
 	
 	//Pega os dados do usuario caso exista (Depois do login)
-	public Usuario pegaUser(Login tentativa, Connection connection, java.sql.PreparedStatement stmt) 
+	public Usuario pegaUser(Login tentativa, Connection connection) 
 			throws SQLException {
 		Usuario logado = new Usuario();
+		PreparedStatement stmt;
 		try{
 			ResultSet resultSet = null;
 			
@@ -49,8 +52,9 @@ public class LoginDAO {
 		return logado;
 	}
 	//Funcao checa o usuario e a senha para Logar no sistema
-	public boolean efetuarLogin(Login tentativa, Connection connection, java.sql.PreparedStatement stmt) {
+	public boolean efetuarLogin(Login tentativa, Connection connection) {
 		Login sistema = new Login();
+		PreparedStatement stmt;
 		boolean logado = false;
 		
 		ResultSet resultSet = null;
