@@ -35,4 +35,12 @@ public class ProdutoREF extends GenericDomain {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void setCodigo_barras(String codigo_barras) {
+		this.codigo_barras = codigo_barras;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
 }
