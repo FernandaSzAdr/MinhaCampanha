@@ -22,9 +22,7 @@ public class ProdutoREFDAO {
 			stmt.setString(2, produto.getDescricao());
 			stmt.setString(3, produto.getCodigo_barras());
 			stmt.setString(4, produto.getMarca());
-			
-
-			
+			stmt.execute();
 			//JOptionPane.showMessageDialog(null, "ProdutoREF, regustrado");
 			
 		}catch (SQLException ex){
@@ -33,6 +31,7 @@ public class ProdutoREFDAO {
 		}
 	}
 	
+
 	public List<ProdutoREF> listar(Connection connection,  java.sql.PreparedStatement stmt) 
 			throws SQLException{
 		ResultSet resultSet = null;
@@ -40,8 +39,8 @@ public class ProdutoREFDAO {
 		List<ProdutoREF> produtos = new ArrayList<ProdutoREF>();
 		
 		try{
-		
-			stmt = connection.prepareStatement("SELECT * FROM ProdutoREF");
+			connection.setAutoCommit(false);
+			stmt = connection.prepareStatement("SELECT * FROM ProdutoREF ");
 			resultSet =stmt.executeQuery();
 		
 			while (resultSet.next()){

@@ -5,6 +5,8 @@ public class CategoriaProduto extends GenericDomain{
 	private String observacao;
 	private Long id_sub_categoria;
 	
+	
+	public CategoriaProduto() {}
 	public CategoriaProduto(String descricao, String observacao) {
 		this.descricao = descricao;
 		this.observacao = observacao;
