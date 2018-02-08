@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.omnifaces.util.Messages;
@@ -19,7 +20,7 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UsuarioInstituicaoBean implements Serializable{
 	private Login loginInstituicao;
 	private Usuario usuarioInst;
@@ -71,22 +72,13 @@ public class UsuarioInstituicaoBean implements Serializable{
 		Connection connection = null;
 		try {
 			connection = ConnectionFactory.getConnection();
-			InstituicaoDAO instituicaoDAO = new InstituicaoDAO();
 			
-			if (instituicaoDAO.buscar(instituicao.getCnpj(), connection) != null) {
-				Messages.addGlobalError("Já existe no sistema esse CNPJ.");
-				
-				ConnectionFactory.closeConnection(connection);
-				return "/pages/cadastroUsuarioInstituicao?faces-redirect=true";
-			}else {
-				NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
-				
-				cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao, connection);
-				Messages.addGlobalInfo("Cadastro realizado com Sucesso");
-				
-				ConnectionFactory.closeConnection(connection);
-				return "/pages/login?faces-redirect=true";
-			}		
+			NovoUsuarioDAO cadastroDAO = new NovoUsuarioDAO();
+			cadastroDAO.novoInst(usuarioInst, instituicao, loginInstituicao, connection);
+			Messages.addGlobalInfo("Cadastro realizado com Sucesso");
+			
+			ConnectionFactory.closeConnection(connection);
+			return "/pages/login?faces-redirect=true";		
 		} catch (Exception erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar o usuário.");
 			erro.printStackTrace();

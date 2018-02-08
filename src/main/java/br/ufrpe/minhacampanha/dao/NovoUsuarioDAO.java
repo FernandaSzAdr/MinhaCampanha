@@ -42,6 +42,7 @@ public class NovoUsuarioDAO {
 			throw e; 
 		} finally {
 			connection.commit();
+			connection.setAutoCommit(true);
 		}
 	}
 	

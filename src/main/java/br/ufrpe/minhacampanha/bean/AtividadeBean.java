@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -22,7 +22,7 @@ import br.ufrpe.minhacampanha.util.ConnectionFactory;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class AtividadeBean implements Serializable{
 	private Atividade atividade;
 	private List<Atividade> atividades;
@@ -96,11 +96,31 @@ public class AtividadeBean implements Serializable{
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
 			atividadeDAO.criar(atividade, connection);
 
+			atividades = atividadeDAO.listar(connection);
 			Messages.addGlobalInfo("Atividade cadastrada com sucesso!");
 		} catch (Exception e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar cadastrar nova atividade!");
 			e.printStackTrace();
 		} finally {
+			ConnectionFactory.closeConnection(connection);
+		}
+	}
+	
+	public void excluir(ActionEvent evento){
+		try {
+			connection = ConnectionFactory.getConnection();
+			atividade = new Atividade();
+			atividade = (Atividade) evento.getComponent().getAttributes().get("atividadeSelecionada");
+			
+			AtividadeDAO atividadeDAO = new AtividadeDAO();
+			atividadeDAO.excluir(atividade.getCodigo(), connection);
+			
+			atividades = atividadeDAO.listar(connection);
+			Messages.addGlobalInfo("Atividade excluida com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Messages.addGlobalError("Ocorreu um erro ao tentar excluir a atividade!");
+		}finally {
 			ConnectionFactory.closeConnection(connection);
 		}
 	}

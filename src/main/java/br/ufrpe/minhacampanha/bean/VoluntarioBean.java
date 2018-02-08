@@ -113,6 +113,8 @@ public class VoluntarioBean implements Serializable{
 			
 			AtividadeDAO atividadeDAO = new AtividadeDAO();
 			selectAtividades = atividadeDAO.listar(connection);
+			
+			Messages.addGlobalInfo("Voluntario cadastrado com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Messages.addGlobalError("Ocorreu um erro ao tentar criar um novo voluntario.");

@@ -17,6 +17,7 @@ public class InstituicaoDAO {
 	public Instituicao buscar(int codigo,Connection connection) throws SQLException{
 		Instituicao instituicao = new Instituicao();
 		PreparedStatement stmt;
+		
 		try {			
 			String SQL = "SELECT * FROM instituicao WHERE id = ?";
 			stmt = connection.prepareStatement(SQL);

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modeloInstituicao.xhtml">
+	<!-- Editar essa ultima linha para por o modelo do template que vai usar -->
+	<ui:define name="conteudo">
+		<h:form id="formProduto">
+			<p:panel header="Produto">
+				<p:dataTable id="tableProduto" emptyMessage="Nenhum registro encontrado."
+					widgetVar="produtoTable" paginator="true"
+					value="#{produtoBean.produtos}" var="produto" rows="5">
+					<f:facet name="header">
+						<p:commandButton value="Novo" actionListener="#{produtoBean.novoProduto()}"
+							oncomplete="PF('dialogo').show();"
+							update=":mensagem :formCadastro:painel"/>
+					</f:facet>
+					
+					<p:column headerText="Codigo" sortBy="#{produto.codigo}" 
+					filterBy="#{produto.codigo}">
+						<h:outputText value="#{produto.codigo}" />
+					</p:column>
+					
+					<p:column headerText="Descrição" sortBy="#{produto.descricao}"
+					filterBy="#{produto.descricao}">
+						<h:outputText value="#{produto.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Codigo de barras" sortBy="#{produto.codigo_barras}"
+					filterBy="#{produto.codigo_barras}">
+						<h:outputText value="#{produto.codigo_barras}" />
+					</p:column>
+					
+					<p:column headerText="Marca" sortBy="#{produto.marca}" filterBy="#{produto.marca}"> 
+						<h:outputText value="#{produto.marca}" />
+					</p:column>
+					
+					<p:column headerText="ID Categoria" sortBy="#{produto.idCategoria}"
+					filterBy="#{produto.idCategoria}">
+						<h:outputText value="#{produto.idCategoria}" />
+					</p:column>
+					
+					<p:column headerText="Opção">
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{produtoBean.excluir}" 
+							update=":mensagem :formProduto:tableProduto">
+							<p:confirm header="Confirmação" message="Você tem certeza?" icon="ui-icon-alert"/>
+							<f:attribute name="produtoSelectionado" value="#{produto}"/>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				
+				<p:confirmDialog global="true">
+					<p:commandButton value="Sim" type="buttom" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+					<p:commandButton value="Não" type="buttom" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+		
+		<p:dialog header="Produto - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">					
+					<p:outputLabel for="desc" value="Descrição"/>
+					<p:inputText id="desc" value="#{produtoBean.produto.descricao}"
+					required="true" requiredMessage="O campo 'descrição' é obrigatorio."
+					size="20" maxlength="255"/>
+					
+					<p:outputLabel for="cod_b" value="Codigo de barras:"/>
+					<p:inputText id="cod_b" value="#{produtoBean.produto.codigo_barras}"
+					required="true" requiredMessage="O campo 'codigo de barras' é obrigatorio."
+					size="10" maxlength="9"/>
+					
+					<p:outputLabel for="marc" value="Marca:"/>
+					<p:inputText id="marc" value="#{produtoBean.produto.marca}"
+					required="true" requiredMessage="O campo 'marca' é obrigatorio."
+					size="20" maxlength="30"/>
+					
+					<p:outputLabel for="cat" value="Categoria:"/>
+					<p:selectOneMenu id="cat" value="#{produtoBean.categoria.id_S}"
+						required="true" requiredMessage="O campo 'categoria' é obrigatorio."
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem noSelectionOption="true" itemLabel="Selecione um ID"/>
+						<f:selectItems value="#{produtoBean.categorias}" var="categoriaSelect"
+							itemValue="#{categoriaSelect.id_S}" itemLabel="#{categoriaSelect.codigo} - #{categoriaSelect.descricao}"/>
+					</p:selectOneMenu>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{produtoBean.salvar}"
+						update=":mensagem :formCadastro:painel :formProduto:tableProduto"/>
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+	
+</ui:composition>

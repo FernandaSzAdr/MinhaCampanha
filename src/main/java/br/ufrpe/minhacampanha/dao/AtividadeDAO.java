@@ -127,20 +127,39 @@ public class AtividadeDAO {
 		}
 	}
 	
-	public void excluir(Atividade atividade, Connection connection) 
-			throws SQLException{
-		try{
-			PreparedStatement stmt;
-			stmt = connection.prepareStatement("DELETE FROM atividade WHERE cpf = ?");
-			stmt.setLong(1, atividade.getCodigo());
-						
-			stmt.executeUpdate();
+	public void excluir(int atividade, Connection connection) throws SQLException{
+		try {
+			ResultSet resultSet = null;
 			
-			//JOptionPane.showMessageDialog(null, "Cliente deletado com sucesso");
+			PreparedStatement ps1 = connection.prepareStatement("SELECT * "
+					+ "from atividade_atribuido_pessoa WHERE id = ?");
+			ps1.setInt(1, atividade);
+			resultSet = ps1.executeQuery();
 			
-		}catch (SQLException ex){
-			//JOptionPane.showMessageDialog(null, "Erro ao excluir - "+ex);
-			
-		}	
+			if (resultSet.next()) {
+				connection.setAutoCommit(false);
+				ps1 = connection.prepareStatement("DELETE FROM ativide_atribuido_pessoa "
+						+ "WHERE id = ?");
+				ps1.setInt(1, atividade);
+				
+				String sql = "DELETE FROM atividade WHERE id = ?";
+	            PreparedStatement ps = connection.prepareStatement(sql);
+	            ps.setInt(1, atividade);
+	            
+	            ps.executeUpdate();
+	            
+	            connection.commit();
+	            connection.setAutoCommit(true);
+			}else{
+				String sql = "DELETE FROM atividade WHERE id = ?";
+	            PreparedStatement ps = connection.prepareStatement(sql);
+	            ps.setInt(1, atividade);
+	            ps.executeUpdate();
+			}
+		} catch (SQLException e) {
+			connection.rollback();
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }
