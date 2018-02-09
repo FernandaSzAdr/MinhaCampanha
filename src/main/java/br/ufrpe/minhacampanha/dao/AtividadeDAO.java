@@ -35,8 +35,7 @@ public class AtividadeDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Atividade> listar(Connection connection)
-			throws SQLException{
+	public List<Atividade> listar(Connection connection) throws SQLException{
 		ResultSet resultSet = null;
 		
 		List<Atividade> atividades = new ArrayList<Atividade>();
@@ -68,6 +67,39 @@ public class AtividadeDAO {
 		return atividades;
 	}
 	
+	public List<Atividade> listar(Connection connection, int campanha) throws SQLException{
+		ResultSet resultSet = null;
+		
+		List<Atividade> atividades = new ArrayList<Atividade>();
+		PreparedStatement stmt;
+		try{
+			stmt = connection.prepareStatement("SELECT * FROM atividade "
+					+ "JOIN atividade_atribuido_pessoa "
+					+ "ON atividade.id = atividade_atribuido_pessoa.id "
+					+ "WHERE id_campanha = ?");
+			stmt.setInt(1, campanha);
+			resultSet = stmt.executeQuery();
+			
+			while (resultSet.next()){
+				Atividade atividade = new Atividade();
+				atividade.setCodigo(resultSet.getInt("id"));
+				atividade.setCodigoCampanha(resultSet.getInt("id_campanha"));
+				atividade.setDescricao(resultSet.getString("descricao"));
+				atividade.setTipo(resultSet.getString("tipo"));
+				atividade.setDuracaoMedia(resultSet.getTime("duracao_media").toString());
+				atividade.setPessoa(resultSet.getInt("atividade_atribuido_pessoa.id_pf"));
+				atividade.setData_atividade(resultSet.getDate("atividade_atribuido_pessoa.data_atividade").toString());
+				
+				atividades.add(atividade);
+			 }
+			
+		}catch (SQLException ex){
+			ex.printStackTrace();
+			throw ex;
+		}
+		
+		return atividades;
+	}
 	
 	/**
 	 * Lista todas as atividades de uma instituicao

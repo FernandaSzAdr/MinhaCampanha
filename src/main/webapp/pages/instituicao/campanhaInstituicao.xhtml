@@ -8,20 +8,10 @@
 	template="/templates/modeloInstituicao.xhtml">
 
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="form">
 			<p:panel header="Suas Campanhas">
 				<p:dataTable emptyMessage="Nenhum registro encontrado." widgetVar="campanhaTable"
 					paginator="true" value="#{campanhaInstituicaoBean.campanhas}" var="campanha" rows="5">
-					
-					<f:facet name="header">
-						<p:commandButton value="Novo" actionListener="#{campanhaInstituicaoBean.novo()}"
-							oncomplete="PF('dialogo').show();"
-							update=":mensagem :formCadastro:painel">
-							<f:actionListener
-								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
-						</p:commandButton>
-					</f:facet>
-					
 					
 					<p:column headerText="Código" sortBy="#{campanha.codigo}"
 						filterBy="#{campanha.codigo}">
@@ -79,64 +69,41 @@
 					</p:column>
 					
 					<p:column headerText="Opções">
+						<p:commandButton value="Atividades"
+							actionListener="#{campanhaInstituicaoBean.listarAtividade}" update=":mensagem :form:tabelaAtiv" 
+							ajax="false">
+							<f:attribute name="campanhaSelecionada" value="#{campanha}"/>
+						</p:commandButton>
+						<p:commandButton value="Voltar" actionListener="#{campanhaInstituicaoBean.voltar()}" update=":form:tabelaAtiv"
+							ajax="false"/>
 					</p:column>
-			
+				</p:dataTable>
+				
+				<p:dataTable id="tabelaAtiv" rendered="#{campanhaInstituicaoBean.show}" emptyMessage="Nenhum registro encontrado." 
+					widgetVar="atividadeTable" paginator="true" 
+					value="#{campanhaInstituicaoBean.atividades}" var="atividade" rows="5">
+					
+					<p:column headerText="Id Atividade" sortBy="#{atividade.codigo}" filterBy="#{atividade.codigo}">
+						<h:outputText value="#{atividade.codigo}" />
+					</p:column>	
+					
+					<p:column headerText="Id Campanha" sortBy="#{atividade.codigoCampanha}" filterBy="#{atividade.codigoCampanha}">
+						<h:outputText value="#{atividade.codigoCampanha}" />
+					</p:column>
+					
+					<p:column headerText="Descrição" sortBy="#{atividade.descricao}" filterBy="#{atividade.descricao}">
+						<h:outputText value="#{atividade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Duração Media" sortBy="#{atividade.duracaoMedia}" filterBy="#{atividade.duracaoMedia}">
+						<h:outputText value="#{atividade.duracaoMedia}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo de atividade" sortBy="#{atividade.tipo}" filterBy="#{atividade.tipo}">
+						<h:outputText value="#{atividade.tipo}" />
+					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-		
-		<p:dialog header="Campanha - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
-			<h:form id="formCadastro">
-				<h:panelGrid id="painel" columns="2">
-					<p:outputLabel for="dataInicio" value="Data de inicio:"/>
-						<p:calendar id="dataInicio" value="#{campanhaInstituicaoBean.campanha.data_incio}"
-						required="true" requiredMessage="O campo 'Data de incio' é obrigatório."
-						pattern="dd-MM-yyyy" mask="true"/>
-						
-					<p:outputLabel for="dataFim" value="Data de fim:"/>
-						<p:calendar id="dataFim" value="#{campanhaInstituicaoBean.campanha.data_fim}"
-						pattern="dd-MM-yyyy" mask="true"/>
-						
-					<p:outputLabel for="nome" value="Nome da campanha:"/>
-						<p:inputText id="nome" maxlength="255" size="30" 
-							value="#{campanhaInstituicaoBean.campanha.nome}"
-							required="true" requiredMessage="O campo 'Nome da Campanha' é obrigatório."/>
-							
-						
-					<p:outputLabel for="publicoA" value="Publico alvo:" />
-						<p:inputText id="publicoA" maxlength="255" size="30"
-							value="#{campanhaInstituicaoBean.campanha.publico_alvo}" required="true"
-							requiredMessage="O campo 'Publico alvo' é obrigatório." />
-							
-					<p:outputLabel value="Quantidade de itens necessários:" />
-						<p:inputText maxlength="5" size="10"
-							value="#{campanhaInstituicaoBean.campanha.qtd_donativo_necessario}" 
-							required="true"
-							requiredMessage="O campo 'Quantidade de itens' é obrigatório."
-							converterMessage="Informe um valor válido para o campo 'Quantidade de itens'"
-							validatorMessage="Informe um valor entre 0 e 1000 para o campo 'Quantidade de itens'">
-							<f:validateLongRange minimum="0" maximum="1000" />
-						</p:inputText> 
-						
-					<p:outputLabel value="Quantidade de doações monetárias necessários:" />
-						<p:inputText maxlength="10" size="10"
-							value="#{campanhaInstituicaoBean.campanha.qtd_valor_necessario}" 
-							required="true"
-							requiredMessage="O campo 'Quantidade de doações monetárias' é obrigatório."
-							converterMessage="Informe um valor válido para o campo 'Quantidade de doações'."
-							validatorMessage="Informe um valor entre 0 e 10000 para o campo 'Quantidade de doações'.">
-							<f:validateLongRange minimum="0" maximum="10000" />
-						</p:inputText> 
-				</h:panelGrid>
-	
-				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
-						actionListener="#{campanhaInstituicaoBean.salvar()}"
-						update=":mensagem :formCadastro:painel" />
-					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
 	</ui:define>
 </ui:composition>
