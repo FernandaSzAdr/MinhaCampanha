@@ -1,40 +1,26 @@
 package br.ufrpe.minhacampanha.domain;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
+@SuppressWarnings("serial")
 public class PontoColeta extends GenericDomain {
 	private String descricao;
-	private String observacao;
-	private Long endereco;
-	
-	public PontoColeta(String descricao, String observacao, Long endereco) {
-		this.descricao = descricao;
-		this.observacao = observacao;
-		this.endereco = endereco;
-	}
-
+	private String id_S;
+	private int endereco;
 	public String getDescricao() {
 		return descricao;
 	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public Long getEndereco() {
-		return endereco;
-	}
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public String getId_S() {
+		return id_S;
 	}
-
-	public void setEndereco(Long endereco) {
+	public void setId_S(String id_S) {
+		this.id_S = id_S;
+	}
+	public int getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(int endereco) {
 		this.endereco = endereco;
 	}
 }

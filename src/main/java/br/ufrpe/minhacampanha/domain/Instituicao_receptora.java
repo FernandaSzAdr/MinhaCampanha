@@ -10,10 +10,14 @@ import java.time.LocalDate;
 public class Instituicao_receptora extends Instituicao{
 	private LocalDate dt_ultima_recep ;	
 	private int num_doacoes_recebi ;
+	private String id_inst_S;
 	
-	public Instituicao_receptora(){
+	public String getId_inst_S() {
+		return id_inst_S;
 	}
-	
+	public void setId_inst_S(String id_inst_S) {
+		this.id_inst_S = id_inst_S;
+	}
 	public LocalDate getDt_ultima_recep() {
 		return dt_ultima_recep;
 	}

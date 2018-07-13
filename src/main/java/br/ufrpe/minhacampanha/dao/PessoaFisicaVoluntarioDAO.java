@@ -55,11 +55,11 @@ public class PessoaFisicaVoluntarioDAO {
 		
 		try{
 			
-			stmt = connection.prepareStatement("SELECT * FROM pf_voluntario");
+			stmt = connection.prepareStatement("SELECT * FROM pf_voluntario "
+					+ "JOIN pessoa_fisica "
+					+ "ON pf_voluntario.id_ps = pessoa_fisica.id");
 			resultSet =stmt.executeQuery();
-		
 			while (resultSet.next()){
-			
 				PessoaFisicaVoluntario pessoa = new PessoaFisicaVoluntario();
 				Carro car = new Carro();
 				car.setCidade(resultSet.getString("cidade"));
@@ -67,12 +67,11 @@ public class PessoaFisicaVoluntarioDAO {
 				car.setMarca(resultSet.getString("marca"));
 				car.setPlaca(resultSet.getString("placa"));
 				pessoa.setCarro(car);
-				pessoa.setCodigo(resultSet.getInt("codigo"));;
 				pessoa.setData_fim(resultSet.getDate("data_fim").toString());
 				pessoa.setData_inicio(resultSet.getDate("data_inicio").toString());
 				pessoa.setCodigo(resultSet.getInt("id_ps"));
-				
-				
+				pessoa.setId_S(Integer.toString(resultSet.getInt("id_ps")));
+				pessoa.setCpf(resultSet.getString("pessoa_fisica.cpf"));
 				pessoas.add(pessoa);
 			 }
 			

@@ -59,7 +59,6 @@ public class Instituicao_receptoraDAO {
 			stmt = connection.prepareStatement("SELECT * FROM Instituicao_receptora JOIN Instituicao "
 					+ "ON Instituicao_receptora.id_recep = Instituicao.id");
 			rs =stmt.executeQuery();
-		
 			while (rs.next()){
 				Instituicao_receptora instituicao = new Instituicao_receptora();
 				instituicao.setCodigo(rs.getInt("id_recep"));
@@ -74,6 +73,7 @@ public class Instituicao_receptoraDAO {
 				instituicao.setTelefone1(rs.getString("tele1"));
 				instituicao.setTelefone2(rs.getString("tele2"));
 				instituicao.setNome_contato(rs.getString("nome_contato"));
+				instituicao.setId_inst_S(Integer.toString(rs.getInt("id_recep")));
 			
 				instituicaos.add(instituicao);
 			 }

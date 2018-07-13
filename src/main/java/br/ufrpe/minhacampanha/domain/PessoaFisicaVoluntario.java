@@ -6,7 +6,14 @@ public class PessoaFisicaVoluntario extends PessoaFisica{
 	private String data_fim;
 	private Carro carro;
 	private boolean tem_veiculo;
+	private String id_S;
 	
+	public String getId_S() {
+		return id_S;
+	}
+	public void setId_S(String id_S) {
+		this.id_S = id_S;
+	}
 	public String getData_inicio() {
 		return data_inicio;
 	}
